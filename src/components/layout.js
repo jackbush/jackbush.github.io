@@ -1,5 +1,6 @@
 import * as React from "react"
 import { StaticQuery, graphql } from "gatsby"
+import Helmet from 'react-helmet'
 
 const pageStyles = {
   color: "#232129",
@@ -32,6 +33,7 @@ export default function Layout({ children }) {
       `}
       render={data => (
         <>
+          <Helmet titleTemplate={`%s | ${data.site.siteMetadata.title}`} defaultTitle={data.site.siteMetadata.title} />
           <div  style={pageStyles}>
             <nav>
               <ul style={listStyles}>
