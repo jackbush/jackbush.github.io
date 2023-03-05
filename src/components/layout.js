@@ -1,5 +1,5 @@
 import * as React from "react"
-import { StaticQuery, graphql } from "gatsby"
+import { StaticQuery, graphql, Link } from "gatsby"
 import Helmet from 'react-helmet'
 
 const pageStyles = {
@@ -39,9 +39,9 @@ export default function Layout({ children }) {
               <ul style={listStyles}>
                 {data.site.siteMetadata.menuLinks.map(item => (
                   <li key={item.link}>
-                    <a href={item.link} >
+                    <Link to={item.link} >
                       {item.name}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
