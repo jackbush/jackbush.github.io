@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkjackbush_homepage=self.webpackChunkjackbush_homepage||[]).push([[853],{7219:function(e,n,t){t.r(n),t.d(n,{default:function(){return c}});var u=t(7294),a=t(6234);function c(){return u.createElement(a.Z,null,u.createElement("main",null,u.createElement("h1",null,"🐳 Projects")))}}}]);
+//# sourceMappingURL=component---src-pages-projects-js-18e63d5bbf981ace01a1.js.map
