@@ -8,12 +8,13 @@
     "gatsby"
   ],
   "scripts": {
+    "build": "gatsby build",
+    "clean": "gatsby clean",
     "deploy": "gatsby build && gh-pages -d public -b main",
     "develop": "gatsby develop",
-    "start": "gatsby develop",
-    "build": "gatsby build",
     "serve": "gatsby serve",
-    "clean": "gatsby clean"
+    "start": "gatsby develop",
+    "format": "prettier -w ."
   },
   "dependencies": {
     "@mdx-js/react": "^2.3.0",
@@ -31,6 +32,7 @@
     "react-helmet": "^6.1.0"
   },
   "devDependencies": {
-    "gh-pages": "^5.0.0"
+    "gh-pages": "^5.0.0",
+    "prettier": "^2.8.4"
   }
 }
