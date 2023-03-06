@@ -1,12 +1,24 @@
 import * as React from "react";
-import { useStaticQuery, graphql } from "gatsby";
+import { useStaticQuery, graphql, Link } from "gatsby";
 import Helmet from "react-helmet";
-import Nav from "./nav";
+// import Nav from "./nav";
+import { themeColour, typography } from "../tokens";
+
+const themeName = "lightGrey";
+
+const listStyles = {
+  listStyle: "none",
+};
+
+const linkStyles = {
+  ...typography.body,
+  color: themeColour[themeName].contrast,
+};
 
 const pageStyles = {
-  color: "#232129",
+  background: themeColour[themeName].background,
+  color: themeColour[themeName].content,
   padding: 96,
-  fontFamily: "-apple-system, Roboto, sans-serif, serif",
   margin: "0 auto",
   maxWidth: 640,
 };
@@ -26,7 +38,7 @@ export default function Layout({ children }) {
         }
       }
     `
-  )
+  );
   return (
     <>
       <Helmet
@@ -34,7 +46,17 @@ export default function Layout({ children }) {
         defaultTitle={data.site.siteMetadata.title}
       />
       <div style={pageStyles}>
-        <Nav links={data.site.siteMetadata.menuLinks} />
+        <nav>
+          <ul style={listStyles}>
+            {data.site.siteMetadata.menuLinks.map((item) => (
+              <li key={item.link}>
+                <Link to={item.link} style={linkStyles}>
+                  {item.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
         {children}
       </div>
     </>
