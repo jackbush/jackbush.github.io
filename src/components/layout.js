@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StaticQuery, graphql } from "gatsby";
+import { useStaticQuery, graphql } from "gatsby";
 import Helmet from "react-helmet";
 import Nav from "./nav";
 
@@ -12,33 +12,31 @@ const pageStyles = {
 };
 
 export default function Layout({ children }) {
-  return (
-    <StaticQuery
-      query={graphql`
-        query SiteTitleQuery {
-          site {
-            siteMetadata {
-              title
-              menuLinks {
-                name
-                link
-              }
+  const data = useStaticQuery(
+    graphql`
+      query SiteTitleQuery {
+        site {
+          siteMetadata {
+            title
+            menuLinks {
+              name
+              link
             }
           }
         }
-      `}
-      render={(data) => (
-        <>
-          <Helmet
-            titleTemplate={`%s | ${data.site.siteMetadata.title}`}
-            defaultTitle={data.site.siteMetadata.title}
-          />
-          <div style={pageStyles}>
-            <Nav links={data.site.siteMetadata.menuLinks} />
-            {children}
-          </div>
-        </>
-      )}
-    />
+      }
+    `
+  )
+  return (
+    <>
+      <Helmet
+        titleTemplate={`%s | ${data.site.siteMetadata.title}`}
+        defaultTitle={data.site.siteMetadata.title}
+      />
+      <div style={pageStyles}>
+        <Nav links={data.site.siteMetadata.menuLinks} />
+        {children}
+      </div>
+    </>
   );
 }

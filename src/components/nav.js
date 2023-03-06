@@ -10,7 +10,7 @@ const linkStyles = {
   opacity: 0.7,
 };
 
-export default function Layout({ links }) {
+export default function Nav({ links }) {
   return (
     <nav>
       <ul style={listStyles}>
