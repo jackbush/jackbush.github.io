@@ -2,9 +2,12 @@ import * as React from "react";
 import { useStaticQuery, graphql, Link } from "gatsby";
 import Helmet from "react-helmet";
 // import Nav from "./nav";
-import { themeColour, typography } from "../tokens";
+import { themeColour, typography, space } from "../tokens";
 
-const themeName = "lightGrey";
+const themes = Object.keys(themeColour)
+const themeName = "darkGrey";
+
+const borderStyles = '1px solid ' + themeColour[themeName].contrast
 
 const listStyles = {
   listStyle: "none",
@@ -15,13 +18,35 @@ const linkStyles = {
   color: themeColour[themeName].contrast,
 };
 
+const headerStyles = {
+  borderBottom: borderStyles
+}
+
 const pageStyles = {
   background: themeColour[themeName].background,
   color: themeColour[themeName].content,
-  padding: 96,
-  margin: "0 auto",
-  maxWidth: 640,
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  width: '100%',
+  height: '100%',
+  overflow: 'scroll',
 };
+
+const pageInnerStyles = {
+  padding: space[12],
+}
+
+const footerStyles = {
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  width: '100%',
+  padding: space[2],
+  paddingRight: space[4],
+  textAlign: 'right',
+  borderTop: borderStyles,
+}
 
 export default function Layout({ children }) {
   const data = useStaticQuery(
@@ -46,7 +71,7 @@ export default function Layout({ children }) {
         defaultTitle={data.site.siteMetadata.title}
       />
       <div style={pageStyles}>
-        <nav>
+        <nav style={headerStyles}>
           <ul style={listStyles}>
             {data.site.siteMetadata.menuLinks.map((item) => (
               <li key={item.link}>
@@ -55,9 +80,19 @@ export default function Layout({ children }) {
                 </Link>
               </li>
             ))}
+            <li>
+              <span style={typography.body}>Theme: </span>
+                <select>
+                  {themes.map((i) => (
+                    <option key={i} value={i}>{i}</option>
+                  ))}
+                </select>
+            </li>
           </ul>
         </nav>
-        {children}
+        <div style={pageInnerStyles}>
+          {children}
+        </div>
       </div>
     </>
   );
