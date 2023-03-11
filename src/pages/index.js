@@ -4,9 +4,9 @@ import { typography } from "../tokens";
 import { blobSketchLoader } from "../sketches/blob";
 
 const sketchContainerId = "jsSketchBlob";
-const loadSketch = () => {
-  blobSketchLoader(sketchContainerId);
-};
+// TODO: this only works on intial load
+// SHONK: the listener is never removed
+document.addEventListener("ready", blobSketchLoader(sketchContainerId));
 
 const sketchContainterStyles = {
   position: "fixed",
@@ -23,7 +23,6 @@ const IndexPage = () => {
       <div style={sketchContainterStyles} id={sketchContainerId} />
       <main>
         <h1 style={typography.title}>👋 Hi</h1>
-        <button onClick={loadSketch}>run</button>
       </main>
     </Layout>
   );
