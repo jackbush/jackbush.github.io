@@ -16,6 +16,7 @@ export const constellationsSketchLoader = (containerId) => {
 		let frame = 0;
 
 		p.setup = function () {
+			// SHONK: this takes width from window, not container
 			const linesCanvas = p.createCanvas(p.windowWidth, p.windowHeight);
 			linesCanvas.parent(containerId);
 			p.background(backgroundColour);

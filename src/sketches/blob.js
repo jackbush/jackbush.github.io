@@ -67,7 +67,8 @@ export const blobSketchLoader = (containerId) => {
 		};
 
 		// Set to re-start on window resize
-		p.windowResized = p.setup;
+		// SHONK: trying without this to get build working
+		// p.windowResized = p.setup;
 
 		p.draw = function () {
 			p.background(config.backgroundColour);
