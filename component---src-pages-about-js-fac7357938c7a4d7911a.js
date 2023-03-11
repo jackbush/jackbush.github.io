@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkjackbush_homepage=self.webpackChunkjackbush_homepage||[]).push([[682],{5465:function(e,t,n){n.r(t),n.d(t,{default:function(){return l}});var u=n(7294),a=n(6234),c=n(4769);function l(){return u.createElement(a.Z,null,u.createElement("main",null,u.createElement("h1",{style:c.cp.title},"🔮 About")))}}}]);
-//# sourceMappingURL=component---src-pages-about-js-fac7357938c7a4d7911a.js.map

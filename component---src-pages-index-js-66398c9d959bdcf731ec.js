@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkjackbush_homepage=self.webpackChunkjackbush_homepage||[]).push([[678],{6558:function(e,t,l){l.r(t);var n=l(7294),a=l(6234),c=l(3016);const h={position:"fixed",top:0,left:0,width:"100%",height:"100%",zIndex:-1};t.default=()=>n.createElement(a.Z,null,n.createElement("div",{style:h,id:"jsSketchBlob"}),n.createElement("main",null,n.createElement("h1",{style:c.cp.title},"👋 Hi")))}}]);
+//# sourceMappingURL=component---src-pages-index-js-66398c9d959bdcf731ec.js.map
