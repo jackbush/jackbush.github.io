@@ -2,29 +2,33 @@ import * as React from "react";
 import { useStaticQuery, graphql, Link } from "gatsby";
 import Helmet from "react-helmet";
 // import Nav from "./nav";
-import { themeColour, typography, space } from "../tokens";
-
-const themes = Object.keys(themeColour);
-const themeName = "darkGrey";
-
-const borderStyles = "1px solid " + themeColour[themeName].contrast;
+import { semanticColour, typography, space } from "../tokens";
 
 const listStyles = {
   listStyle: "none",
+  padding: 0,
+  paddingRight: space[4],
+  textAlign: "right",
 };
 
 const linkStyles = {
   ...typography.body,
-  color: themeColour[themeName].contrast,
+  color: semanticColour.contrast,
+  textAlign: "right",
+};
+
+const listItemStyles = {
+  display: "inline",
+  marginLeft: space[4],
 };
 
 const headerStyles = {
-  borderBottom: borderStyles,
+  // borderBottom: "1px solid " + semanticColour.contrast,
 };
 
 const pageStyles = {
-  background: themeColour[themeName].background,
-  color: themeColour[themeName].content,
+  background: semanticColour.background,
+  color: semanticColour.content,
   position: "fixed",
   top: 0,
   left: 0,
@@ -63,22 +67,12 @@ export default function Layout({ children }) {
         <nav style={headerStyles}>
           <ul style={listStyles}>
             {data.site.siteMetadata.menuLinks.map((item) => (
-              <li key={item.link}>
+              <li style={listItemStyles} key={item.link}>
                 <Link to={item.link} style={linkStyles}>
                   {item.name}
                 </Link>
               </li>
             ))}
-            <li>
-              <span style={typography.body}>Theme: </span>
-              <select>
-                {themes.map((i) => (
-                  <option key={i} value={i}>
-                    {i}
-                  </option>
-                ))}
-              </select>
-            </li>
           </ul>
         </nav>
         <div style={pageInnerStyles}>{children}</div>

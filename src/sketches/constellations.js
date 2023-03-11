@@ -1,6 +1,6 @@
 import p5 from "p5";
-import { sketchColours } from "../tokens";
-const backgroundColour = sketchColours.prussian;
+import { coreColour } from "../tokens";
+const backgroundColour = coreColour.prussian;
 
 // TODO make this respond to element size (works in ./blob)
 export const constellationsSketchLoader = (containerId) => {

@@ -9,17 +9,21 @@ const loadSketch = () => {
 };
 
 const sketchContainterStyles = {
-  width: 300,
-  height: 300,
+  position: "fixed",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  zIndex: -1,
 };
 
 const IndexPage = () => {
   return (
     <Layout>
+      <div style={sketchContainterStyles} id={sketchContainerId} />
       <main>
         <h1 style={typography.title}>👋 Hi</h1>
         <button onClick={loadSketch}>run</button>
-        <div style={sketchContainterStyles} id={sketchContainerId} />
       </main>
     </Layout>
   );
@@ -28,6 +32,3 @@ const IndexPage = () => {
 export default IndexPage;
 
 // export const Head = () => <title>Home Page</title>
-
-// jsSketchConstellations
-// jsSketchLines

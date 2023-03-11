@@ -1,5 +1,5 @@
 import p5 from "p5";
-import { sketchColours } from "../tokens";
+import { coreColour, semanticColour } from "../tokens";
 import { measureContainer, jitter } from "./_utils";
 
 export const blobSketchLoader = (containerId) => {
@@ -19,8 +19,8 @@ export const blobSketchLoader = (containerId) => {
 			speed: 20,
 			acceleration: 100,
 
-			blobColour: sketchColours.lightblue,
-			backgroundColour: sketchColours.background,
+			blobColour: coreColour.lightblue,
+			backgroundColour: semanticColour.background,
 		};
 
 		// Convert opacity to the scale p5 expects...
@@ -52,7 +52,7 @@ export const blobSketchLoader = (containerId) => {
 			brandDevice.add(config.layers);
 
 			// If it's not been done, change generic colour to the p5 format with opapcity
-			if (config.blobColour === sketchColours.lightblue) {
+			if (config.blobColour === coreColour.lightblue) {
 				config.blobColour = p.color(
 					config.blobColour.r,
 					config.blobColour.g,
@@ -70,7 +70,7 @@ export const blobSketchLoader = (containerId) => {
 		p.windowResized = p.setup;
 
 		p.draw = function () {
-			p.background(config.backgroundColour.hex);
+			p.background(config.backgroundColour);
 			brandDevice.update();
 			brandDevice.display();
 		};
