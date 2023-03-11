@@ -1,12 +1,12 @@
 import * as React from "react";
 import Layout from "../components/layout";
 import { typography } from "../tokens";
-import { blobSketchLoader } from "../sketches/blob";
+// import { blobSketchLoader } from "../sketches/blob";
 
 const sketchContainerId = "jsSketchBlob";
 // TODO: this only works on intial load
 // SHONK: the listener is never removed
-document.addEventListener("ready", blobSketchLoader(sketchContainerId));
+// document.addEventListener("ready", blobSketchLoader(sketchContainerId));
 
 const sketchContainterStyles = {
   position: "fixed",
