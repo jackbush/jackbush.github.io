@@ -1,7 +1,7 @@
-var colours = require('./__colours.js');
-var containerId = 'jsSketchBlob';
+var colours = require("./__colours.js");
+var containerId = "jsSketchBlob";
 
-function measureContainer (container) {
+function measureContainer(container) {
 	var el = document.getElementById(container);
 	var size = {};
 	size.width = el.clientWidth;
@@ -11,7 +11,7 @@ function measureContainer (container) {
 }
 
 // This is used to give numbers a variance, defaulting to 10%
-function jitter (number, factor) {
+function jitter(number, factor) {
 	factor = factor || 0.1;
 	var range = number * factor * Math.random() * 2;
 	var variance = range - range / 2;
@@ -35,7 +35,7 @@ var sketch = function (p) {
 		acceleration: 100,
 
 		blobColour: colours.lightblue,
-		backgroundColour: colours.background
+		backgroundColour: colours.background,
 	};
 
 	// Convert opacity to the scale p5 expects...
@@ -59,7 +59,10 @@ var sketch = function (p) {
 		canvas.parent(containerId);
 
 		// Get position for brand device, create and add blobs
-		var position = p.createVector(container.width * 0.5, container.height * 0.5);
+		var position = p.createVector(
+			container.width * 0.5,
+			container.height * 0.5
+		);
 		brandDevice = new Cluster(position);
 		brandDevice.add(config.layers);
 
@@ -88,7 +91,7 @@ var sketch = function (p) {
 	};
 
 	// A Cluster is a collection of Blobs, which share a center.
-	function Cluster (position) {
+	function Cluster(position) {
 		this.blobs = [];
 		this.center = p.createVector(position.x, position.y);
 	}
@@ -113,7 +116,7 @@ var sketch = function (p) {
 	};
 
 	// A Blob is an irregular, undulating shape
-	function Blob (position) {
+	function Blob(position) {
 		this.position = p.createVector(position.x, position.y);
 
 		// Hard-coded because the coordinate system only works for five!
@@ -122,7 +125,7 @@ var sketch = function (p) {
 			new Point(1),
 			new Point(2),
 			new Point(3),
-			new Point(4)
+			new Point(4),
 		];
 
 		// This is the order we must draw points to create the blob:
@@ -152,7 +155,7 @@ var sketch = function (p) {
 		p.endShape(p.CLOSE);
 	};
 
-	function Point (vertex) {
+	function Point(vertex) {
 		// Vertex is an index, going clockwise from 12 o'clock
 		// This is used by the getCoordinates function
 		this.vertex = vertex;
@@ -172,13 +175,15 @@ var sketch = function (p) {
 	Point.prototype.update = function () {
 		// Change directions if radius is out of bounds
 		// The adjustment of min and max here is because otherwise we get stuck in limits!
-		if (this.radius >= (this.maxRadius * 0.99)) this.isGrowing = false;
-		if (this.radius <= (this.minRadius * 1.01)) this.isGrowing = true;
+		if (this.radius >= this.maxRadius * 0.99) this.isGrowing = false;
+		if (this.radius <= this.minRadius * 1.01) this.isGrowing = true;
 
 		// position is the point's position between min (-spread) and max (spread);
 		var position = this.radius / this.initialRadius - 1;
 		// delta is the difference between the current radius and the next one
-		var delta = (config.acceleration * config.speed * Math.pow(position, 2)) - config.speed;
+		var delta =
+			config.acceleration * config.speed * Math.pow(position, 2) -
+			config.speed;
 
 		// Correct radius change for direction
 		if (!this.isGrowing) delta *= -1;
@@ -191,26 +196,28 @@ var sketch = function (p) {
 	Point.prototype.getCoordinates = function (vertex, radius) {
 		var result = {
 			x: 0.0,
-			y: 0.0
+			y: 0.0,
 		};
 
 		// This is sepecifically for a five-point blob
 		// This only has three options because symmetry
 		switch (vertex) {
-		case 0:
-			result.x = 0;
-			result.y = -1 * radius;
-			break;
-		case 1:
-		case 4:
-			result.x = radius * p.cos(18);
-			result.y = -1 * radius * p.sin(18);
-			break;
-		case 2:
-		case 3:
-			result.x = radius * p.cos(54);
-			result.y = radius * p.sin(54);
-			break;
+			case 0:
+				result.x = 0;
+				result.y = -1 * radius;
+				break;
+			case 1:
+			case 4:
+				result.x = radius * p.cos(18);
+				result.y = -1 * radius * p.sin(18);
+				break;
+			case 2:
+			case 3:
+				result.x = radius * p.cos(54);
+				result.y = radius * p.sin(54);
+				break;
+			default:
+				break;
 		}
 
 		// Mirrors for left-side points
@@ -222,5 +229,5 @@ var sketch = function (p) {
 
 module.exports = {
 	containerId: containerId,
-	sketch: sketch
+	sketch: sketch,
 };
