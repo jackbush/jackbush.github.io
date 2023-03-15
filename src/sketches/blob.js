@@ -6,7 +6,7 @@ export const blobSketchLoader = (containerId) => {
 	const sketch = function (p) {
 		let container;
 		let canvas;
-		let brandDevice;
+		let blob;
 		const config = {
 			frameRate: 60,
 			layers: 5,
@@ -48,8 +48,8 @@ export const blobSketchLoader = (containerId) => {
 				container.width * 0.5,
 				container.height * 0.5
 			);
-			brandDevice = new Cluster(position);
-			brandDevice.add(config.layers);
+			blob = new Cluster(position);
+			blob.add(config.layers);
 
 			// If it's not been done, change generic colour to the p5 format with opapcity
 			if (config.blobColour === coreColour.lightblue) {
@@ -71,8 +71,8 @@ export const blobSketchLoader = (containerId) => {
 
 		p.draw = function () {
 			p.background(config.backgroundColour);
-			brandDevice.update();
-			brandDevice.display();
+			blob.update();
+			blob.display();
 		};
 
 		// A Cluster is a collection of Blobs, which share a center.
