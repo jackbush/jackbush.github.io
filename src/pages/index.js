@@ -1,6 +1,5 @@
 import * as React from "react";
 import Layout from "../components/layout";
-import { typography } from "../tokens";
 import { blobSketchLoader } from "../sketches/blob";
 
 const sketchContainerId = "jsSketchBlob";
@@ -23,9 +22,6 @@ const IndexPage = () => {
   return (
     <Layout>
       <div style={sketchContainterStyles} id={sketchContainerId} />
-      <main>
-        <h1 style={typography.title}>👋 Hi</h1>
-      </main>
     </Layout>
   );
 };

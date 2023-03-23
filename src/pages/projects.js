@@ -19,12 +19,12 @@ const listItemStyles = {
 
 const projectNameStyles = {
   ...typography.lead,
-  color: semanticColour.content,
+  color: semanticColour.message,
 };
 
 const projectDescriptionStyles = {
   ...typography.body,
-  color: semanticColour.contentAlt,
+  color: semanticColour.messageAlt,
   marginTop: space[1],
 };
 

@@ -1,15 +1,14 @@
 import * as React from "react";
 import { Link } from "gatsby";
-import { typography } from "../tokens";
+import { semanticColour, typography } from "../tokens";
 
 const listStyles = {
   listStyle: "none",
 };
 
 const linkStyles = {
-  ...typography.body,
-  color: "black",
-  opacity: 0.7,
+  ...typography.lead,
+  color: semanticColour.message,
 };
 
 export default function Nav({ links, color }) {

@@ -19,18 +19,23 @@ export const coreColour = {
   darkBlue: "#1C2242",
   pink: "#FFC6D0",
   darkPink: "#FC636F",
-  // this one needs to be rgb for p5
-  lightblue: {
-    r: 83,
-    g: 193,
-    b: 240,
-  },
+  lightBlue: "#53C1F0",
 };
 
+// HI-TEC DARK THEME
 export const semanticColour = {
-  content: coreColour.black,
-  contentAlt: coreColour.grey1,
-  background: coreColour.grey4,
+  message: coreColour.grey4,
+  messageAlt: coreColour.grey2,
+  background: coreColour.black,
   contrast: coreColour.darkBlue,
   line: coreColour.grey3,
 };
+
+// HI-TEC LIGHT THEME
+// export const semanticColour = {
+//   message: coreColour.black,
+//   messageAlt: coreColour.grey1,
+//   background: coreColour.grey4,
+//   contrast: coreColour.darkBlue,
+//   line: coreColour.grey3,
+// };

@@ -1,6 +1,6 @@
 import p5 from "p5";
 import { coreColour, semanticColour } from "../tokens";
-import { measureContainer, jitter } from "./_utils";
+import { measureContainer, jitter, getRgbFromHex } from "./_utils";
 
 export const blobSketchLoader = (containerId) => {
   const sketch = function (p) {
@@ -10,8 +10,6 @@ export const blobSketchLoader = (containerId) => {
     const config = {
       frameRate: 60,
       layers: 5,
-      // float: 0 = transparent, 1 = opaque
-      opacity: 0.15,
       // Decimal value between 0 and 1
       // NOTE other stuff breaks when this isn't 0.1
       spread: 0.1,
@@ -19,16 +17,24 @@ export const blobSketchLoader = (containerId) => {
       speed: 20,
       acceleration: 100,
 
-      blobColour: coreColour.lightblue,
+      // colours
+      blobHex: coreColour.lightBlue,
+      // float: 0 = transparent, 255 = opaque
+      opacity: 40,
       backgroundColour: semanticColour.background,
     };
 
-    // Convert opacity to the scale p5 expects...
-    config.opacity *= 255;
     // Convert speed to be independent of framerate (defaults to 60)
     config.speed /= config.frameRate;
     // Correct speed for how we actually use it -- otherwise things get really counterintuitive
     config.speed *= -1;
+    // make a colour object from hex + opacity
+    config.blobColour = p.color(
+      getRgbFromHex(config.blobHex, 'r'),
+      getRgbFromHex(config.blobHex, 'g'),
+      getRgbFromHex(config.blobHex, 'b'),
+      config.opacity
+    );
 
     p.setup = function () {
       // Set framerate
@@ -50,16 +56,6 @@ export const blobSketchLoader = (containerId) => {
       );
       blob = new Cluster(position);
       blob.add(config.layers);
-
-      // If it's not been done, change generic colour to the p5 format with opapcity
-      if (config.blobColour === coreColour.lightblue) {
-        config.blobColour = p.color(
-          config.blobColour.r,
-          config.blobColour.g,
-          config.blobColour.b,
-          config.opacity
-        );
-      }
 
       // Set p5's fill and stroke here, as they don't change
       p.fill(config.blobColour);

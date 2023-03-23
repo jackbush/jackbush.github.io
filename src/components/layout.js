@@ -4,31 +4,9 @@ import Helmet from "react-helmet";
 // import Nav from "./nav";
 import { semanticColour, typography, space } from "../tokens";
 
-const listStyles = {
-  listStyle: "none",
-  padding: 0,
-  paddingRight: space[4],
-  textAlign: "right",
-};
-
-const linkStyles = {
-  ...typography.body,
-  color: semanticColour.contrast,
-  textAlign: "right",
-};
-
-const listItemStyles = {
-  display: "inline",
-  marginLeft: space[4],
-};
-
-const headerStyles = {
-  // borderBottom: "1px solid " + semanticColour.contrast,
-};
-
 const pageStyles = {
   background: semanticColour.background,
-  color: semanticColour.content,
+  color: semanticColour.message,
   position: "fixed",
   top: 0,
   left: 0,
@@ -39,6 +17,28 @@ const pageStyles = {
 
 const pageInnerStyles = {
   padding: space[12],
+};
+
+const headerStyles = {
+  // borderBottom: "1px solid " + semanticColour.contrast,
+};
+
+const listStyles = {
+  listStyle: "none",
+  padding: 0,
+  paddingRight: space[4],
+  textAlign: "right",
+};
+
+const listItemStyles = {
+  display: "inline",
+  marginLeft: space[4],
+};
+
+const linkStyles = {
+  ...typography.lead,
+  color: semanticColour.messageAlt,
+  textAlign: "right",
 };
 
 export default function Layout({ children }) {
