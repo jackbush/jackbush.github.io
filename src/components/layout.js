@@ -39,6 +39,7 @@ const linkStyles = {
   ...typography.lead,
   color: semanticColour.messageAlt,
   textAlign: "right",
+  textDecoration: "none",
 };
 
 export default function Layout({ children }) {
