@@ -1,7 +1,7 @@
 import * as React from "react";
 import Layout from "../components/layout";
 import { typography } from "../tokens";
-import {blobSketchLoader} from '../sketches/blob'
+import { blobSketchLoader } from "../sketches/blob";
 
 const sketchContainerId = "jsSketchBlob";
 
@@ -16,10 +16,10 @@ const sketchContainterStyles = {
 
 const IndexPage = () => {
   React.useEffect(() => {
-    if (typeof window !== 'undefined' && document) {
-     blobSketchLoader(sketchContainerId)
+    if (typeof window !== "undefined" && document) {
+      blobSketchLoader(sketchContainerId);
     }
-  }, [])
+  }, []);
   return (
     <Layout>
       <div style={sketchContainterStyles} id={sketchContainerId} />
