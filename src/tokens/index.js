@@ -6,7 +6,6 @@ export const coreColour = {
   slate: "#58595B",
   prussian: "#13283A",
   petrol: "#3D5C69",
-  saphire: "#43538E",
   olive: "#676E3F",
   ochre: "#EDAF50",
   bronze: "#B08F6E",

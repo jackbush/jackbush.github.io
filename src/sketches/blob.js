@@ -30,9 +30,9 @@ export const blobSketchLoader = (containerId) => {
     config.speed *= -1;
     // make a colour object from hex + opacity
     config.blobColour = p.color(
-      getRgbFromHex(config.blobHex, 'r'),
-      getRgbFromHex(config.blobHex, 'g'),
-      getRgbFromHex(config.blobHex, 'b'),
+      getRgbFromHex(config.blobHex, "r"),
+      getRgbFromHex(config.blobHex, "g"),
+      getRgbFromHex(config.blobHex, "b"),
       config.opacity
     );
 
