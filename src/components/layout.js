@@ -64,7 +64,7 @@ export default function Layout({ children }) {
   return (
     <>
       <Helmet
-        titleTemplate={`%s | ${data.site.siteMetadata.title}`}
+        titleTemplate={`%s • ${data.site.siteMetadata.title}`}
         defaultTitle={data.site.siteMetadata.title}
       />
       <div style={pageStyles}>

@@ -1,4 +1,5 @@
 import * as React from "react";
+import Helmet from "react-helmet";
 import { Link } from "gatsby";
 import Layout from "../components/layout";
 import Badge from "../components/badge";
@@ -31,6 +32,7 @@ const projectDescriptionStyles = {
 export default function Component() {
   return (
     <Layout>
+      <Helmet title="Projects" />
       <main>
         <h1 style={typography.title}>🐳 Projects</h1>
         <ul style={listStyles}>
