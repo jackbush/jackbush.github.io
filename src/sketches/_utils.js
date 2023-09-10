@@ -1,10 +1,10 @@
 export const measureContainer = (containerId) => {
-  if (typeof window !== `undefined`) {
-    const el = document.getElementById(containerId);
-    const size = {};
+  const size = {};
+
+  const el = document.getElementById(containerId);
+  if (el) {
     size.width = el.clientWidth;
     size.height = el.clientHeight;
-
     return size;
   }
 };
