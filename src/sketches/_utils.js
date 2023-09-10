@@ -1,10 +1,12 @@
 export const measureContainer = (containerId) => {
-  const el = document.getElementById(containerId);
-  const size = {};
-  size.width = el.clientWidth;
-  size.height = el.clientHeight;
+  if (typeof window !== `undefined`) {
+    const el = document.getElementById(containerId);
+    const size = {};
+    size.width = el.clientWidth;
+    size.height = el.clientHeight;
 
-  return size;
+    return size;
+  }
 };
 
 // This is used to give numbers a variance, defaulting to 10%

@@ -1,6 +1,5 @@
 import * as React from "react";
 import Helmet from "react-helmet";
-import { Link } from "gatsby";
 import Layout from "../components/layout";
 import Badge from "../components/badge";
 import { semanticColour, typography, space } from "../tokens";
@@ -38,9 +37,14 @@ export default function Component() {
         <ul style={listStyles}>
           {projects.map((project) => (
             <li key={project.name} style={listItemStyles}>
-              <Link style={projectNameStyles} to={project.url} target="_blank">
+              <a
+                style={projectNameStyles}
+                href={project.url}
+                target="_blank"
+                rel="noreferrer"
+              >
                 {project.name}
-              </Link>
+              </a>
               {project.isWIP ? <Badge label="WIP" /> : null}
               <p style={projectDescriptionStyles}>{project.description}</p>
             </li>
