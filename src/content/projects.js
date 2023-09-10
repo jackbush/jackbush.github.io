@@ -2,7 +2,7 @@ export const projects = [
   {
     name: "Inclusive Design Scenarios",
     description: "Bite-sized prompts towards better products for everybody.",
-    url: "https://theuxtoolbox/inclusive-design-scenarios/",
+    url: "https://theuxtoolbox.com/inclusive-design-scenarios/",
     isWIP: true,
   },
   {

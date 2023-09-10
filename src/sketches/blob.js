@@ -33,7 +33,7 @@ export const blobSketchLoader = (containerId) => {
       getRgbFromHex(config.blobHex, "r"),
       getRgbFromHex(config.blobHex, "g"),
       getRgbFromHex(config.blobHex, "b"),
-      config.opacity
+      config.opacity,
     );
 
     p.setup = function () {
@@ -52,7 +52,7 @@ export const blobSketchLoader = (containerId) => {
       // Get position for brand device, create and add blobs
       const position = p.createVector(
         container.width * 0.5,
-        container.height * 0.5
+        container.height * 0.5,
       );
       blob = new Cluster(position);
       blob.add(config.layers);
@@ -129,7 +129,7 @@ export const blobSketchLoader = (containerId) => {
       this.drawCycle.forEach(function (n) {
         p.curveVertex(
           that.position.x + that.points[n].position.x,
-          that.position.y + that.points[n].position.y
+          that.position.y + that.points[n].position.y,
         );
       });
 
