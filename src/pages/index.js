@@ -15,9 +15,7 @@ const sketchContainterStyles = {
 
 const IndexPage = () => {
   React.useEffect(() => {
-    if (typeof window !== "undefined" && document) {
-      blobSketchLoader(sketchContainerId);
-    }
+    blobSketchLoader(sketchContainerId);
   }, []);
   return (
     <Layout>

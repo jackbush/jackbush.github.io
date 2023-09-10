@@ -1,6 +1,8 @@
-import p5 from "p5";
 import { coreColour, semanticColour } from "../tokens";
 import { measureContainer, jitter, getRgbFromHex } from "./_utils";
+
+// SHONK: p5 uses window, this stops that from breaking SSR
+const p5 = typeof window !== `undefined` ? require("p5") : null;
 
 export const blobSketchLoader = (containerId) => {
   const sketch = function (p) {
