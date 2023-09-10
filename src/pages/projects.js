@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Link } from "gatsby";
 import Layout from "../components/layout";
+import Badge from "../components/badge";
 import { semanticColour, typography, space } from "../tokens";
 import { projects } from "../content/projects";
 
@@ -8,7 +9,6 @@ const listStyles = {
   listStyle: "none",
   padding: 0,
   margin: 0,
-  columns: 2,
 };
 
 const listItemStyles = {
@@ -36,9 +36,10 @@ export default function Component() {
         <ul style={listStyles}>
           {projects.map((project) => (
             <li key={project.name} style={listItemStyles}>
-              <Link style={projectNameStyles} to={project.url_live}>
+              <Link style={projectNameStyles} to={project.url} target="_blank">
                 {project.name}
               </Link>
+              {project.isWIP ? <Badge label="WIP" /> : null}
               <p style={projectDescriptionStyles}>{project.description}</p>
             </li>
           ))}

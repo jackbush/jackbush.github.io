@@ -16,7 +16,10 @@ const pageStyles = {
 };
 
 const pageInnerStyles = {
-  padding: space[12],
+  padding: space[4],
+  paddingTop: space[12],
+  maxWidth: "768px",
+  margin: "0 auto",
 };
 
 const headerStyles = {
@@ -56,7 +59,7 @@ export default function Layout({ children }) {
           }
         }
       }
-    `
+    `,
   );
   return (
     <>
