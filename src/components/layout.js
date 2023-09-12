@@ -66,6 +66,7 @@ export default function Layout({ children }) {
       <Helmet
         titleTemplate={`%s • ${data.site.siteMetadata.title}`}
         defaultTitle={data.site.siteMetadata.title}
+        // link={[{ rel: "icon", type: "image/png", href: "favicon.ico" }]}
       />
       <div style={pageStyles}>
         <nav style={headerStyles}>
