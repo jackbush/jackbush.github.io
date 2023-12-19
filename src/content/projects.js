@@ -8,13 +8,13 @@ export const projects = [
     name: "Seeing the UK",
     description:
       "Interactive map to track the project of discovering my adoptive homeland",
-    url: "https://jackbush.github.io/uk-visited-counties/",
+    url: "https://jackbush.github.io/visited-uk-counties/",
   },
   {
-    name: "Bharat",
+    name: "Photo Explorer",
     description:
       "Experiments with photos. More fun than posting to the social network everybody hates but nobody can stop using",
-    url: "https://jackbush.github.io/bharat/",
+    url: "https://jackbush.github.io/photo-explorer/",
     isWIP: true,
   },
 ];
