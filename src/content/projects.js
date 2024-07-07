@@ -2,7 +2,7 @@ export const projects = [
   {
     name: "Inclusive Design Scenarios",
     description: "Bite-sized prompts towards better products for everybody",
-    url: "https://theuxtoolbox.com/inclusive-design-scenarios/",
+    url: "https://jackbush.github.io/inclusive-design-scenarios/",
   },
   {
     name: "Seeing the UK",
@@ -18,14 +18,3 @@ export const projects = [
     isWIP: true,
   },
 ];
-
-// {
-//   name: "Learnerbly",
-//   description: "Platform to accelerate professional growth",
-//   url: "https://www.behance.net/gallery/58482783/Learnerbly-professional-development-platform",
-// },
-// {
-//   name: "Central Working",
-//   description: "Website for a British co-working space",
-//   url: "https://www.behance.net/gallery/58554995/Central-Working-website-and-collateral",
-// },
