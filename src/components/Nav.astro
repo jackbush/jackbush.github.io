@@ -1,15 +1,25 @@
 ---
+const pathname = Astro.url.pathname;
 
+const links = [
+    { href: "/process", label: "Process" },
+    { href: "/work", label: "Work" },
+    { href: "/about", label: "About" },
+    { href: "/contact", label: "Contact" },
+    { href: "/projects", label: "Projects" },
+];
 ---
 
 <nav>
     <a href="/" class="home">Jack Bush</a>
     <ul>
-        <li><a href="/process">Process</a></li>
-        <li><a href="/work">Work</a></li>
-        <li><a href="/about">About</a></li>
-        <li><a href="/contact">Contact</a></li>
-        <li><a href="/projects">Projects</a></li>
+        {links.map(({ href, label }) => (
+            <li>
+                <a href={href} class={pathname.startsWith(href) ? "active" : ""}>
+                    {label}
+                </a>
+            </li>
+        ))}
     </ul>
 </nav>
 
@@ -23,14 +33,18 @@
         align-items: center;
         justify-content: space-between;
         padding-inline: 1rem;
-        height: 3rem;
-        background: white;
+        min-height: 3rem;
+        background: var(--color-bg);
+        border-bottom: 1px solid var(--color-border);
         z-index: 100;
     }
 
     .home {
         font-weight: bold;
         text-decoration: none;
+        display: flex;
+        align-items: center;
+        min-height: 44px;
     }
 
     ul {
@@ -38,10 +52,27 @@
         margin: 0;
         padding: 0;
         display: flex;
-        gap: 1.5rem;
     }
 
     a {
         text-decoration: none;
+        color: var(--color-text-primary);
+    }
+
+    ul a {
+        display: flex;
+        align-items: center;
+        min-height: 44px;
+        padding-inline: 0.75rem;
+        border-bottom: 1px solid transparent;
+        text-decoration: none;
+    }
+
+    ul a:focus {
+        text-decoration: none;
+    }
+
+    ul a.active {
+        border-bottom-color: var(--color-text-primary);
     }
 </style>
