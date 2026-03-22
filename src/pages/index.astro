@@ -1,17 +1,52 @@
 ---
-
+import Layout from "../components/Layout.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout>
+    <main>
+        <section>
+            <h1>You know what you're building. I know how to get it in front of people.</h1>
+            <p>I'm Jack Bush — a fractional CPO for early-stage founders who need a senior product partner, not a full hire yet. I bring together strategy, design and development to make your vision real.</p>
+            <a href="/contact">Let's talk →</a>
+        </section>
+
+        <section>
+            <h2>Selected work</h2>
+            <ul>
+                <li>
+                    <h3><a href="/work#make-us-proud">Make Us Proud</a></h3>
+                    <p>Strategy, product design, digital experience</p>
+                    <p>From startup MVPs to cultural firsts.</p>
+                </li>
+                <li>
+                    <h3><a href="/work#learnerbly">Learnerbly</a></h3>
+                    <p>Product strategy, MVP</p>
+                    <p>Zero to product for a learning platform now used by thousands.</p>
+                </li>
+                <li>
+                    <h3><a href="/work#tate-sensorium">Tate Sensorium</a></h3>
+                    <p>Digital experience, interaction design</p>
+                    <p>A first-of-its-kind multisensory exhibition at Tate Britain.</p>
+                </li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>How it works</h2>
+            <ol>
+                <li>
+                    <h3>We talk</h3>
+                    <p>One conversation to understand where you are and where you're trying to get to. No pitch, no deck.</p>
+                </li>
+                <li>
+                    <h3>I embed</h3>
+                    <p>Typically one or two days a week. I work the way your team works — calls, Slack, Figma, whatever's in use.</p>
+                </li>
+                <li>
+                    <h3>You ship</h3>
+                    <p>I stay until it's in front of users. Then we decide what's next.</p>
+                </li>
+            </ol>
+        </section>
+    </main>
+</Layout>
