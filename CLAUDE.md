@@ -12,14 +12,59 @@ npm run preview   # Preview production build
 
 ## Architecture
 
-This is a personal/portfolio site for Jack Bush (fractional CPO) built with **Astro 6** and deployed to GitHub Pages at `jackbush.github.io`.
+This is a personal/portfolio site for Jack Bush built with **Astro 6** and deployed to GitHub Pages at `jackbush.github.io`.
 
 **Pages** (`src/pages/`) are file-based routes — each `.astro` file is a page. Current pages: `index`, `about`, `work`, `process`, `projects`, `contact`.
 
-**Content data** lives in `src/content/` as plain JS exports (e.g. `projects.js` exports a `projects` array). Pages import this data directly — there is no CMS or Astro content collections in use.
+**Content data** lives in the page files -- there is no CMS or Astro content collections in use.
 
-**`content.md`** (repo root) is a copywriting draft for all pages — the source of truth for page copy before it's built into the `.astro` files. When updating page text, check this file for the intended wording.
+## Workflow Orchestration
 
-**`old-guts/`** contains the previous Gatsby site — kept for reference, not used.
+### 1. Plan Mode Default
+- Enter plan mode for ANY non-trivial task (3+ steps or architectural decisions)
+- If something goes sideways, STOP and re-plan immediately - don't keep pushing
+- Use plan mode for verification steps, not just building
+- Write detailed specs upfront to reduce ambiguity
 
-Pages currently don't share a layout component; each `.astro` file includes its own full HTML shell. There are no components yet.
+### 2. Subagent Strategy
+- Use subagents liberally to keep main context window clean
+- Offload research, exploration, and parallel analysis to subagents
+- For complex problems, throw more compute at it via subagents
+- One tack per subagent for focused execution
+
+### 3. Self-Improvement Loop
+- After ANY correction from the user: update `tasks/lessons.md` with the pattern
+- Write rules for yourself that prevent the same mistake
+- Ruthlessly iterate on these lessons until mistake rate drops
+- Review lessons at session start for relevant project
+
+### 4. Verification Before Done
+- Never mark a task complete without proving it works
+- Diff behavior between main and your changes when relevant
+- Ask yourself: "Would a staff engineer approve this?"
+- Run tests, check logs, demonstrate correctness
+
+### 5. Demand Elegance (Balanced)
+- For non-trivial changes: pause and ask "is there a more elegant way?"
+- If a fix feels hacky: "Knowing everything I know now, implement the elegant solution"
+- Skip this for simple, obvious fixes - don't over-engineer
+- Challenge your own work before presenting it
+
+### 6. Autonomous Bug Fixing
+- When given a bug report: just fix it. Don't ask for hand-holding
+- Point at logs, errors, failing tests - then resolve them
+- Zero context switching required from the user
+- Go fix failing CI tests without being told how
+
+## Task Management
+1. **Plan First**: Write plan to `tasks/todo.md` with checkable items
+2. **Verify Plan**: Check in before starting implementation
+3. **Track Progress**: Mark items complete as you go
+4. **Explain Changes**: High-Level summary at each step
+5. **Document Results**: Add review section to tasks/todo.md
+6. **Capture Lessons**: Update tasks/lessons.md after corrections
+
+## Core Principles
+- **Simplicity First**: Make every change as simple as possible. Impact minimal code.
+- **No Laziness**: Find root causes. No temporary fixes. Senior developer standards.
+- **Minimal Impact**: Changes should only touch what's necessary. Avoid introducing bugs.
