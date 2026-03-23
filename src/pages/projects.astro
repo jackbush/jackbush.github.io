@@ -9,15 +9,20 @@ const projects = [
         url: "https://jackbush.github.io/inclusive-design-scenarios/",
     },
     {
-        name: "Seeing the UK",
-        description: "Interactive map to track the project of discovering my adoptive homeland",
-        url: "https://jackbush.github.io/visited-uk-counties/",
+        name: "Seeing Britain",
+        description:
+            "Interactive map to track the project of discovering my adoptive homeland",
+        url: "https://jackbush.github.io/seeing-britain/",
     },
     {
-        name: "Photo Explorer",
-        description: "Experiments with photos. More fun than posting to the social network everybody hates but nobody can stop using",
-        url: "https://jackbush.github.io/photo-explorer/",
-        isWIP: true,
+        name: "Constellations",
+        description: "JS sketch drawing constellations between drifting stars",
+        url: "https://jackbush.github.io/constellations/",
+    },
+    {
+        name: "The Blob",
+        description: "The Blob moves in its own way. Quite calming to watch.",
+        url: "https://jackbush.github.io/the-blob/",
     },
 ];
 ---
@@ -26,14 +31,16 @@ const projects = [
     <main>
         <h1>Projects</h1>
         <ul>
-            {projects.map((project) => (
-                <ProjectItem
-                    name={project.name}
-                    description={project.description}
-                    url={project.url}
-                    isWIP={project.isWIP}
-                />
-            ))}
+            {
+                projects.map((project) => (
+                    <ProjectItem
+                        name={project.name}
+                        description={project.description}
+                        url={project.url}
+                        isWIP={project.isWIP}
+                    />
+                ))
+            }
         </ul>
     </main>
 </Layout>
