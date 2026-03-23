@@ -4,12 +4,13 @@ import "../styles/global.css";
 
 interface Props {
     title?: string;
+    color?: "blue" | "purple" | "pink" | "yellow";
 }
 
-const { title = "Jack Bush" } = Astro.props;
+const { title = "Jack Bush", color = "blue" } = Astro.props;
 ---
 
-<html lang="en">
+<html lang="en" data-color={color}>
     <head>
         <meta charset="utf-8" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -19,8 +20,9 @@ const { title = "Jack Bush" } = Astro.props;
         <title>{title}</title>
     </head>
     <body>
+        <a href="#main-content" class="skip-link">Skip to main content</a>
         <Nav />
-        <div class="container">
+        <div class="container" id="main-content">
             <slot />
         </div>
     </body>
@@ -29,10 +31,10 @@ const { title = "Jack Bush" } = Astro.props;
 <style>
     .container {
         width: 100%;
-        max-width: 960px;
+        max-width: 740px;
         margin-inline: auto;
-        padding-inline: 1rem;
-        padding-top: 45px;
+        padding-inline: 1.5rem;
+        padding-top: 56px;
         box-sizing: border-box;
     }
 </style>
