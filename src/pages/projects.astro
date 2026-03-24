@@ -24,6 +24,11 @@ const projects = [
             "Interactive map to track the project of discovering my adoptive homeland",
         url: "https://jackbush.github.io/seeing-britain/",
     },
+    {
+        name: "QR Cranker",
+        description: "Privacy-first QR generator with customisable parameters",
+        url: "https://jackbush.github.io/qr-cranker/",
+    },
 ];
 ---
 
@@ -38,7 +43,6 @@ const projects = [
                         name={project.name}
                         description={project.description}
                         url={project.url}
-                        isWIP={project.isWIP}
                     />
                 ))
             }
