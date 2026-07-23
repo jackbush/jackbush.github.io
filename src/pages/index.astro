@@ -102,16 +102,18 @@ import { experience } from "../data/cv";
         work: "Work",
     };
 
-    function setFavicon(fill: string) {
+    // Fill + contrasting ring so the mark reads on any tab-bar colour.
+    function setFavicon(fill: string, stroke: string) {
         if (!favicon) return;
-        const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><circle cx="64" cy="64" r="56" fill="${fill}"/></svg>`;
+        const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><circle cx="64" cy="64" r="52" fill="${fill}" stroke="${stroke}" stroke-width="8"/></svg>`;
         favicon.href = "data:image/svg+xml," + encodeURIComponent(svg);
     }
 
     function setMode(mode: string, updateUrl: boolean) {
         document.documentElement.dataset.theme = mode;
         document.title = `Jack Bush | ${LABELS[mode]}`;
-        setFavicon(mode === "work" ? "#000" : "#FFF");
+        if (mode === "work") setFavicon("#12161D", "#EEF1F6");
+        else setFavicon("#FFFFFF", "#12161D");
         tabs.forEach((tab) => {
             const active = tab.dataset.mode === mode;
             tab.setAttribute("aria-selected", String(active));
@@ -180,9 +182,5 @@ import { experience } from "../data/cv";
     .toggle button[data-mode="work"] {
         background: var(--paper);
         color: var(--paper-ink);
-    }
-
-    .education-heading {
-        margin-top: 3.5rem;
     }
 </style>

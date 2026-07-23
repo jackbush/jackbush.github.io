@@ -12,17 +12,20 @@ npm run preview   # Preview production build
 
 ## Architecture
 
-Personal site built with Astro 6 (no JS framework). Single page (`src/pages/index.astro`) with a short intro and a play/work toggle:
+Personal site built with Astro 6 (no JS framework). Single page (`src/pages/index.astro`) with a short intro and a projects/work toggle:
 
-- **Play** (default) lists side projects, themed pink.
-- **Work** shows the CV (experience + education), themed blue.
-- The toggle is an accessible tablist; switching updates the `?mode=work` URL param via `history.replaceState`, so work mode is directly shareable. An inline script applies the blue theme before first paint on `?mode=work` loads.
+- **Projects** (default) lists side projects, light theme (warm-tinted).
+- **Work** shows the CV experience, dark theme (cool-tinted).
+- The toggle is an accessible tablist; switching updates the `?mode=` URL param (`projects`|`work`) via `history.replaceState`, so either mode is directly shareable. It also swaps the page `<title>` (`Jack Bush | Projects` / `| Work`) and the favicon (white circle / black circle). An inline script applies the correct theme before first paint on `?mode=work` loads.
+- The toggle's two blocks are fixed (Projects always dark, Work always light); the surrounding page context optically switches which reads as active, so there is no separate selected-state style.
 
-**Content** lives in `src/data/projects.ts` and `src/data/cv.ts` — edit those to update the lists. No CMS or content collections.
+**Content** lives in `src/data/projects.ts` and `src/data/cv.ts` — edit those to update the lists. `CVEntry` supports an optional `listItems: string[]` rendered as a bullet list. No CMS or content collections.
 
-**Theming:** `Layout.astro` sets `data-color` (`pink|blue`) on `<html>`; each theme defines CSS custom properties (`--color-bg`, `--color-text-primary`, `--color-text-secondary`, `--color-border`) in `global.css`. The toggle script swaps `data-color` at runtime.
+**Theming:** `Layout.astro` sets `data-theme` (`projects|work`) on `<html>`; the raw surfaces (`--paper*`, `--ink*`) and the semantic `--color-*` vars are defined in `global.css`, with a `--transition-duration` (300ms) fade between themes. The toggle script swaps `data-theme` at runtime.
 
-**Components:** `Layout.astro` (head, skip link, 740px container), `ProjectItem.astro` (name, description, external link), `CVItem.astro` (organisation, role/degree, dates, description).
+**Type styles:** the complete type set lives as one commented block in `global.css` (`h1`/`h2`/`h3`/`.text-body`/`.text-strong`) — edit a style there and it changes everywhere; components carry layout margins only.
+
+**Components:** `Layout.astro` (head, skip link, 740px container), `ProjectItem.astro` (name, description, external link), `CVItem.astro` (organisation, role, dates, description, optional bullet list).
 
 **Deployment:** Push to `source` branch triggers GitHub Actions build → GitHub Pages deploy automatically.
 

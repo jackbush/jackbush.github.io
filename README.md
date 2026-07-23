@@ -17,7 +17,7 @@ npm run preview   # Preview production build
 - `src/data/cv.ts` — experience and education entries
 - `src/components/` — `Layout.astro`, `ProjectItem.astro`, `CVItem.astro`
 
-The toggle updates `?mode=work` in the URL, so work mode is shareable (`/?mode=work`). Play is pink, work is blue.
+The toggle updates `?mode=work` in the URL, so work mode is shareable (`/?mode=work`). Play is light, work is dark.
 
 ## Deployment
 
