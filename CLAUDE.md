@@ -12,19 +12,23 @@ npm run preview   # Preview production build
 
 ## Architecture
 
-Personal portfolio/consulting site built with Astro 6 (no JS framework). All content lives inline in page components — no CMS or Astro content collections.
+Personal site built with Astro 6 (no JS framework). Single page (`src/pages/index.astro`) with a short intro and a play/work toggle:
 
-**Routing:** File-based via `src/pages/`. Each `.astro` file is a route.
+- **Play** (default) lists side projects, themed pink.
+- **Work** shows the CV (experience + education), themed blue.
+- The toggle is an accessible tablist; switching updates the `?mode=work` URL param via `history.replaceState`, so work mode is directly shareable. An inline script applies the blue theme before first paint on `?mode=work` loads.
 
-**Layout system:** `Layout.astro` wraps every page and accepts a `color` prop (`blue|purple|pink|yellow`). This drives per-page theming via CSS custom properties defined in `global.css`. Each color variant sets `--bg`, `--text`, `--accent`, `--border`, etc.
+**Content** lives in `src/data/projects.ts` and `src/data/cv.ts` — edit those to update the lists. No CMS or content collections.
 
-**Navigation:** `Nav.astro` is a fixed header with a full-page hamburger overlay. It includes keyboard a11y (ESC to close, focus trap, `inert` on main, ARIA). Active page is detected via `pathname.startsWith()`.
+**Theming:** `Layout.astro` sets `data-color` (`pink|blue`) on `<html>`; each theme defines CSS custom properties (`--color-bg`, `--color-text-primary`, `--color-text-secondary`, `--color-border`) in `global.css`. The toggle script swaps `data-color` at runtime.
+
+**Components:** `Layout.astro` (head, skip link, 740px container), `ProjectItem.astro` (name, description, external link), `CVItem.astro` (organisation, role/degree, dates, description).
 
 **Deployment:** Push to `source` branch triggers GitHub Actions build → GitHub Pages deploy automatically.
 
 ## Key Constraints
 
-- **Accessibility is non-negotiable:** Skip link, ARIA labels, 44×44px minimum touch targets, contrast ≥5.7:1, focus rings visible.
-- **CSS units:** Use `rem` consistently — do not mix `rem` and `px` for the same sizing concern (previously caused nav height bugs).
+- **Accessibility is non-negotiable:** Skip link, ARIA tab semantics on the toggle, 44×44px minimum touch targets, contrast ≥5.7:1, focus rings visible.
+- **CSS units:** Use `rem` consistently — do not mix `rem` and `px` for the same sizing concern.
 - **Viewport meta:** Always include `initial-scale=1` alongside `width=device-width`.
 - **No framework:** Vanilla JS only for interactivity. Keep it minimal.

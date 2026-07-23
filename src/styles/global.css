@@ -4,38 +4,16 @@
 
 [data-color="blue"] {
     --color-bg:             #EDF1FF;
-    --color-bg-subtle:      #D8E2FF;
     --color-text-primary:   #091550;
     --color-text-secondary: #2B4ECC;
-    --color-accent:         #5E82FF;
     --color-border:         #2B4ECC;
-}
-
-[data-color="purple"] {
-    --color-bg:             #F2EEFF;
-    --color-bg-subtle:      #E4DAFF;
-    --color-text-primary:   #1A0756;
-    --color-text-secondary: #6E30D6;
-    --color-accent:         #A67DFF;
-    --color-border:         #6E30D6;
 }
 
 [data-color="pink"] {
     --color-bg:             #FFF0F8;
-    --color-bg-subtle:      #FFD9EF;
     --color-text-primary:   #44002C;
     --color-text-secondary: #C41E78;
-    --color-accent:         #FF5CAE;
     --color-border:         #C41E78;
-}
-
-[data-color="yellow"] {
-    --color-bg:             #FFFBF0;
-    --color-bg-subtle:      #FFF1CC;
-    --color-text-primary:   #3D2200;
-    --color-text-secondary: #8A5A00; /* darkened: 5.7:1 on bg, 5.2:1 on bg-subtle */
-    --color-accent:         #FFB800;
-    --color-border:         #8A5A00;
 }
 
 /* ── Reset ────────────────────────────────────────────────────── */
@@ -86,15 +64,6 @@ body {
 
 /* ── Typography ───────────────────────────────────────────────── */
 
-.eyebrow {
-    font-size: 0.7rem;
-    font-weight: 800;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--color-text-secondary);
-    margin: 0 0 0.6rem;
-}
-
 h1 {
     font-size: clamp(2.75rem, 7vw, 4.5rem);
     font-weight: 900;
@@ -143,23 +112,6 @@ a:hover {
     text-decoration: underline;
 }
 
-h3 a {
-    color: inherit;
-    font-weight: inherit;
-    text-decoration: none;
-}
-
-h3 a:hover {
-    color: var(--color-text-secondary);
-    text-decoration: none;
-}
-
-hr {
-    border: none;
-    border-top: 2px solid var(--color-border);
-    margin: 3rem 0;
-}
-
 ul,
 ol {
     list-style: none;
@@ -167,44 +119,16 @@ ol {
     padding: 0;
 }
 
-/* ── Page layout ──────────────────────────────────────────────── */
+/* ── List items in page content ───────────────────────────────── */
 
-main {
-    padding-block: 4rem 6rem;
-}
-
-/* Swiss horizontal rules between sections */
-section + section {
-    border-top: 2px solid var(--color-border);
-    padding-top: 3.5rem;
-    margin-top: 3.5rem;
-}
-
-/* Work page case study separators */
-article + article {
-    border-top: 3px solid var(--color-border);
-    padding-top: 4rem;
-    margin-top: 4rem;
-}
-
-article section + section {
-    border-top: 1px solid var(--color-border);
-    padding-top: 2.5rem;
-    margin-top: 2.5rem;
-}
-
-/* List items in page content */
-main ul li,
-main ol li {
+main ul li {
     padding-block: 1.5rem;
 }
 
-main ul li + li,
-main ol li + li {
+main ul li + li {
     border-top: 1px solid var(--color-border);
 }
 
-main ul li:first-child,
-main ol li:first-child {
+main ul li:first-child {
     padding-top: 0;
 }

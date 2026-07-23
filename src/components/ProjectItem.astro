@@ -3,24 +3,19 @@ interface Props {
     name: string;
     description: string;
     url: string;
-    isWIP?: boolean;
 }
 
-const { name, description, url, isWIP = false } = Astro.props;
+const { name, description, url } = Astro.props;
 ---
 
 <li>
     <a href={url} target="_blank" rel="noopener noreferrer">
-        <span class="name">{name}{isWIP && <span class="wip">WIP</span>}</span>
+        <span class="name">{name}</span>
         <span class="description">{description}</span>
     </a>
 </li>
 
 <style>
-    li {
-        list-style: none;
-    }
-
     a {
         display: flex;
         flex-direction: column;
@@ -31,17 +26,6 @@ const { name, description, url, isWIP = false } = Astro.props;
 
     .name {
         font-weight: 600;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-
-    .wip {
-        font-size: 0.7rem;
-        font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        color: var(--color-text-tertiary);
     }
 
     .description {

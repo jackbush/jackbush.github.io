@@ -1,11 +1,13 @@
----
-import Layout from "../components/Layout.astro";
-import ProjectItem from "../components/ProjectItem.astro";
+export interface Project {
+    name: string;
+    description: string;
+    url: string;
+}
 
-const projects = [
+export const projects: Project[] = [
     {
         name: "RISO",
-        description: " Risograph print emulator ",
+        description: "Risograph print emulator",
         url: "https://jackbush.github.io/riso/",
     },
     {
@@ -15,8 +17,7 @@ const projects = [
     },
     {
         name: "Carver",
-        description:
-            "A markdown editor. Minimal by design, private by default.",
+        description: "A markdown editor. Minimal by design, private by default.",
         url: "https://jackbush.github.io/carver/",
     },
     {
@@ -37,8 +38,7 @@ const projects = [
     },
     {
         name: "JSON Whisperer",
-        description:
-            "A fast and private JSON validator that fixes basic errors.",
+        description: "A fast and private JSON validator that fixes basic errors.",
         url: "https://jackbush.github.io/json-whisperer/",
     },
     {
@@ -52,22 +52,3 @@ const projects = [
         url: "https://jackbush.github.io/cubeland/",
     },
 ];
----
-
-<Layout title="Projects — Jack Bush" color="blue">
-    <main>
-        <p class="eyebrow">Projects</p>
-        <h1>Things I've built</h1>
-        <ul>
-            {
-                projects.map((project) => (
-                    <ProjectItem
-                        name={project.name}
-                        description={project.description}
-                        url={project.url}
-                    />
-                ))
-            }
-        </ul>
-    </main>
-</Layout>

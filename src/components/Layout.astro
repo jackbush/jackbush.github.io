@@ -1,13 +1,12 @@
 ---
-import Nav from "./Nav.astro";
 import "../styles/global.css";
 
 interface Props {
     title?: string;
-    color?: "blue" | "purple" | "pink" | "yellow";
+    color?: "blue" | "pink";
 }
 
-const { title = "Jack Bush", color = "blue" } = Astro.props;
+const { title = "Jack Bush", color = "pink" } = Astro.props;
 ---
 
 <html lang="en" data-color={color}>
@@ -21,7 +20,6 @@ const { title = "Jack Bush", color = "blue" } = Astro.props;
     </head>
     <body>
         <a href="#main-content" class="skip-link">Skip to main content</a>
-        <Nav />
         <div class="container" id="main-content">
             <slot />
         </div>
@@ -34,7 +32,5 @@ const { title = "Jack Bush", color = "blue" } = Astro.props;
         max-width: 740px;
         margin-inline: auto;
         padding-inline: 1.5rem;
-        padding-top: 56px;
-        box-sizing: border-box;
     }
 </style>
