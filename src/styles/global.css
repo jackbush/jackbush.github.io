@@ -1,19 +1,39 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 
-/* ── Color themes ─────────────────────────────────────────────── */
+/* ── Themes ───────────────────────────────────────────────────────
+   Two fixed surfaces — warm paper, cool ink — with the text tones that
+   sit on each. Themes below map these to the semantic --color-* vars;
+   the toggle reads the raw surfaces directly so it looks the same in
+   both contexts. */
 
-[data-color="blue"] {
-    --color-bg:             #EDF1FF;
-    --color-text-primary:   #091550;
-    --color-text-secondary: #2B4ECC;
-    --color-border:         #2B4ECC;
+:root {
+    --paper:        #FCFAF6; /* light, faintly warm */
+    --paper-ink:    #1B1712;
+    --paper-muted:  #5A524A;
+    --paper-line:   #B8AEA0;
+
+    --ink:          #12161D; /* dark, faintly cool */
+    --ink-paper:    #EEF1F6;
+    --ink-muted:    #9AA3B2;
+    --ink-line:     #333B49;
+
+    --transition-duration: 300ms;
 }
 
-[data-color="pink"] {
-    --color-bg:             #FFF0F8;
-    --color-text-primary:   #44002C;
-    --color-text-secondary: #C41E78;
-    --color-border:         #C41E78;
+/* Projects — light */
+[data-theme="projects"] {
+    --color-bg:             var(--paper);
+    --color-text-primary:   var(--paper-ink);
+    --color-text-secondary: var(--paper-muted);
+    --color-border:         var(--paper-line);
+}
+
+/* Work — dark */
+[data-theme="work"] {
+    --color-bg:             var(--ink);
+    --color-text-primary:   var(--ink-paper);
+    --color-text-secondary: var(--ink-muted);
+    --color-border:         var(--ink-line);
 }
 
 /* ── Reset ────────────────────────────────────────────────────── */
@@ -23,6 +43,19 @@
 *::after {
     box-sizing: border-box;
     border-radius: 0;
+    transition:
+        background-color var(--transition-duration) ease,
+        color var(--transition-duration) ease,
+        border-color var(--transition-duration) ease,
+        outline-color var(--transition-duration) ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0.01ms;
+    }
 }
 
 /* ── Focus ────────────────────────────────────────────────────── */

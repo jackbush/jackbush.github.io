@@ -6,11 +6,11 @@ import { projects } from "../data/projects";
 import { experience } from "../data/cv";
 ---
 
-<Layout color="pink">
+<Layout theme="projects">
     <script is:inline>
-        // Runs before first paint so ?mode=work links load blue, not pink.
+        // Runs before first paint so ?mode=work links load the dark theme.
         if (new URLSearchParams(location.search).get("mode") === "work") {
-            document.documentElement.dataset.color = "blue";
+            document.documentElement.dataset.theme = "work";
         }
     </script>
     <main>
@@ -92,10 +92,26 @@ import { experience } from "../data/cv";
     const panels = [
         ...document.querySelectorAll<HTMLElement>('[role="tabpanel"]'),
     ];
+    const favicon =
+        document.querySelector<HTMLLinkElement>(
+            'link[rel="icon"][type="image/svg+xml"]',
+        );
+
+    const LABELS: Record<string, string> = {
+        projects: "Projects",
+        work: "Work",
+    };
+
+    function setFavicon(fill: string) {
+        if (!favicon) return;
+        const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><circle cx="64" cy="64" r="56" fill="${fill}"/></svg>`;
+        favicon.href = "data:image/svg+xml," + encodeURIComponent(svg);
+    }
 
     function setMode(mode: string, updateUrl: boolean) {
-        document.documentElement.dataset.color =
-            mode === "work" ? "blue" : "pink";
+        document.documentElement.dataset.theme = mode;
+        document.title = `Jack Bush | ${LABELS[mode]}`;
+        setFavicon(mode === "work" ? "#000" : "#FFF");
         tabs.forEach((tab) => {
             const active = tab.dataset.mode === mode;
             tab.setAttribute("aria-selected", String(active));
@@ -151,14 +167,19 @@ import { experience } from "../data/cv";
         font-size: 1rem;
         font-weight: 700;
         border: none;
-        background: transparent;
-        color: var(--color-text-secondary);
         cursor: pointer;
     }
 
-    .toggle button[aria-selected="true"] {
-        background: var(--color-text-primary);
-        color: var(--color-bg);
+    /* Fixed blocks: Projects is always dark, Work always light. The page
+       context around them optically switches which one reads as active. */
+    .toggle button[data-mode="projects"] {
+        background: var(--ink);
+        color: var(--ink-paper);
+    }
+
+    .toggle button[data-mode="work"] {
+        background: var(--paper);
+        color: var(--paper-ink);
     }
 
     .education-heading {

@@ -3,13 +3,13 @@ import "../styles/global.css";
 
 interface Props {
     title?: string;
-    color?: "blue" | "pink";
+    theme?: "projects" | "work";
 }
 
-const { title = "Jack Bush", color = "pink" } = Astro.props;
+const { title = "Jack Bush", theme = "projects" } = Astro.props;
 ---
 
-<html lang="en" data-color={color}>
+<html lang="en" data-theme={theme}>
     <head>
         <meta charset="utf-8" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
