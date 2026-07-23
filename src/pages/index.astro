@@ -24,13 +24,13 @@ import { experience } from "../data/cv";
             </p>
         </section>
 
-        <div class="toggle" role="tablist" aria-label="Play or work">
+        <div class="toggle" role="tablist" aria-label="Projects or work">
             <button
                 role="tab"
-                id="tab-play"
-                data-mode="play"
+                id="tab-projects"
+                data-mode="projects"
                 aria-selected="true"
-                aria-controls="panel-play">Play</button
+                aria-controls="panel-projects">Projects</button
             >
             <button
                 role="tab"
@@ -43,10 +43,10 @@ import { experience } from "../data/cv";
         </div>
 
         <section
-            id="panel-play"
-            data-mode="play"
+            id="panel-projects"
+            data-mode="projects"
             role="tabpanel"
-            aria-labelledby="tab-play"
+            aria-labelledby="tab-projects"
         >
             <ul>
                 {
@@ -76,6 +76,7 @@ import { experience } from "../data/cv";
                             role={entry.role}
                             dates={entry.dates}
                             description={entry.description}
+                            listItems={entry.listItems}
                         />
                     ))
                 }
@@ -105,8 +106,7 @@ import { experience } from "../data/cv";
         });
         if (updateUrl) {
             const url = new URL(location.href);
-            if (mode === "work") url.searchParams.set("mode", "work");
-            else url.searchParams.delete("mode");
+            url.searchParams.set("mode", mode);
             history.replaceState(null, "", url);
         }
     }
@@ -124,7 +124,7 @@ import { experience } from "../data/cv";
     const initial =
         new URLSearchParams(location.search).get("mode") === "work"
             ? "work"
-            : "play";
+            : "projects";
     setMode(initial, false);
 </script>
 
@@ -139,7 +139,7 @@ import { experience } from "../data/cv";
 
     .toggle {
         display: flex;
-        border: 2px solid var(--color-border);
+        border: 2px solid var(--color-text-primary);
         margin-bottom: 3rem;
     }
 

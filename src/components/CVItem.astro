@@ -4,50 +4,51 @@ interface Props {
     role: string;
     dates: string;
     description?: string;
+    listItems?: string[];
 }
 
-const { organisation, role, dates, description } = Astro.props;
+const { organisation, role, dates, description, listItems } = Astro.props;
 ---
 
 <li>
-    <div class="header">
-        <h3>{organisation}</h3>
-        <span class="dates">{dates}</span>
-    </div>
-    <p class="role">{role}</p>
+    <h3>{organisation}</h3>
+    <p class="role text-strong">{role} <span class="dates"> ({dates})</span></p>
     {description && <p class="description">{description}</p>}
+    {
+        listItems && (
+            <ul class="highlights">
+                {listItems.map((item) => (
+                    <li class="text-body">{item}</li>
+                ))}
+            </ul>
+        )
+    }
 </li>
 
 <style>
-    .header {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        gap: 1rem;
-        flex-wrap: wrap;
-    }
-
-    .header h3 {
+    h3 {
         margin: 0;
     }
 
-    .dates {
-        font-size: 0.875rem;
-        font-weight: 600;
-        color: var(--color-text-secondary);
-        white-space: nowrap;
-    }
-
     .role {
-        font-size: 1rem;
-        font-weight: 600;
-        color: var(--color-text-primary);
         margin: 0.25rem 0 0;
     }
 
+    .dates {
+        font-weight: 400;
+    }
+
     .description {
-        font-size: 1rem;
-        line-height: 1.6;
         margin: 0.5rem 0 0;
+    }
+
+    .highlights {
+        list-style: disc;
+        margin: 0.5rem 0 0;
+        padding-left: 1.5rem;
+    }
+
+    .highlights li {
+        margin: 0;
     }
 </style>

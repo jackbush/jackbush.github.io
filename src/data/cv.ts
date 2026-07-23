@@ -3,6 +3,7 @@ export interface CVEntry {
     role: string;
     dates: string;
     description: string;
+    listItems?: string[];
 }
 
 export const experience: CVEntry[] = [
@@ -11,7 +12,7 @@ export const experience: CVEntry[] = [
         role: "VP Product",
         dates: "Jan 2024 – Jun 2026",
         description:
-            "Collaborating with all functions, defining product strategy, building a high-performing team responsible for product management, design, research and marketing.",
+      "Collaborating with all functions, defining product strategy, building a high-performing team responsible for product management, design, research and marketing.",
     },
     {
         organisation: "OVO",
