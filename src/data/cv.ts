@@ -20,7 +20,11 @@ export const experience: CVEntry[] = [
         dates: "Jan 2022 – Jan 2024",
         description:
             "Led company-wide initiatives including design system, consumer app strategy, accessibility strategy and training, and research and design events.",
-    },
+        listItems: [
+            "Doubled app engagement"
+        ],
+
+},
     {
         organisation: "OVO",
         role: "Lead Product Manager",
@@ -55,7 +59,10 @@ export const experience: CVEntry[] = [
         dates: "Apr 2015 – Aug 2016",
         description:
             "End-to-end agency work covering research, propositions, prototyping, user testing and delivery of platforms, websites, an art installation and a product playbook.",
-    },
+        listItems: [
+            "Won Best Exhibition Design at London Design Week (2016)"
+        ],
+},
     {
         organisation: "Ponoko",
         role: "Production Manager",
