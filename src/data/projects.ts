@@ -7,7 +7,7 @@ export interface Project {
 export const projects: Project[] = [
     {
         name: "RISO",
-        description: "Risograph print emulator",
+        description: "Print emulator with realistic ink blending, registration jitter, shading models and general risograph charm",
         url: "https://jackbush.github.io/riso/",
     },
     {
@@ -35,6 +35,11 @@ export const projects: Project[] = [
         name: "QR Cranker",
         description: "Privacy-first QR generator with customisable parameters",
         url: "https://jackbush.github.io/qr-cranker/",
+    },
+    {
+        name: "Bikepacking and the Art of Trailside Maintenance",
+        description: "Photos for an essay about a bikepacking trip across Europe",
+        url: "https://theradavist.com/zen-and-bikepacking",
     },
     {
         name: "JSON Whisperer",
