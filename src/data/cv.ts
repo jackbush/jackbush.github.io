@@ -63,4 +63,12 @@ export const experience: CVEntry[] = [
         description:
             "On-demand prototyping and manufacturing for NZ and Australia. Reduced order turnaround from 10 days to 48 hours and cut material costs by 25%.",
     },
+    {
+        organisation: "Victoria University",
+        role: "Research Assistant",
+        dates: "Nov 2012 – Jan 2013",
+        description:
+            "Found and documented Vishnu shrines in the Kathmandu valley, narrating local myths about the origins of the cosmos, and integrated into a series of drawings."
+    },
 ];
+
