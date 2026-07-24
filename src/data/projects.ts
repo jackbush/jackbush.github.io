@@ -17,7 +17,7 @@ export const projects: Project[] = [
     },
     {
         name: "Carver",
-        description: "A markdown editor. Minimal by design, private by default.",
+        description: "The markdown editor I couldn't find. Minimal by design, private by default, delightful by nature.",
         url: "https://jackbush.github.io/carver/",
     },
     {
