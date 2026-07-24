@@ -68,7 +68,11 @@ export const experience: CVEntry[] = [
         role: "Production Manager",
         dates: "Sep 2010 – Apr 2013",
         description:
-            "On-demand prototyping and manufacturing for NZ and Australia. Reduced order turnaround from 10 days to 48 hours and cut material costs by 25%.",
+            "On-demand prototyping and manufacturing for NZ and Australia.",
+        listItems: [
+            "Reduced order turnaround from 10 days to 48 hours",
+            "Cut material costs by 25%",
+        ],
     },
     {
         organisation: "Victoria University",
