@@ -14,9 +14,9 @@ export const experience: CVEntry[] = [
         description:
           "Resposible for product, reseaech, design and marketing. Replatformed legacy products into one modern platform with a consistent data source, best-in-class customer API and a scalable onboarding process.",
         listItems: [
-          "Reduced onboarding effort by ~70%",
           "Increased System Usability Score from 14 to 79",
           "First compliant battery passport for EVs sold in the EU",
+          "Reduced onboarding cost by ~70%",
         ],
   },
     {
