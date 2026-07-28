@@ -10,12 +10,12 @@
     --paper:        #FCFAF6; /* light, faintly warm */
     --paper-ink:    #1B1712;
     --paper-muted:  #5A524A;
-    --paper-line:   #B8AEA0;
+    --paper-line:   #E0DDD9;
 
     --ink:          #12161D; /* dark, faintly cool */
     --ink-paper:    #EEF1F6;
     --ink-muted:    #9AA3B2;
-    --ink-line:     #333B49;
+    --ink-line:     #303742;
 
     --transition-duration: 300ms;
 }
