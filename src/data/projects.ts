@@ -12,7 +12,7 @@ export const projects: Project[] = [
     },
     {
         name: "Inclusive Design Scenarios",
-        description: "Bite-sized prompts towards better products for everybody",
+        description: "Each card describes a real person's experience and needs. They're uncommon enough to be missed in most user testing cohorts, but need to be designed for.",
         url: "https://jackbush.github.io/inclusive-design-scenarios/",
     },
     {
@@ -21,39 +21,39 @@ export const projects: Project[] = [
         url: "https://jackbush.github.io/carver/",
     },
     {
+        name: "Seeing Britain",
+        description:
+            "Mission to learn the corners of my adoptive home by visiting every county. Mostly done by bicycle, tracked on an interactive map.",
+        url: "https://jackbush.github.io/seeing-britain/",
+    },
+    {
+        name: "QR Cranker",
+        description: "Easy, private and reliable QR codes. Privacy-first, ad-free and ISO compliant, with customisable appearance and legibility warnings.",
+        url: "https://jackbush.github.io/qr-cranker/",
+    },
+    {
         name: "The Blob",
         description: "The Blob moves in its own way. Quite calming to watch.",
         url: "https://jackbush.github.io/the-blob/",
     },
     {
-        name: "Seeing Britain",
-        description:
-            "Interactive map to track the project of discovering my adoptive homeland",
-        url: "https://jackbush.github.io/seeing-britain/",
-    },
-    {
-        name: "QR Cranker",
-        description: "Privacy-first QR generator with customisable parameters",
-        url: "https://jackbush.github.io/qr-cranker/",
-    },
-    {
         name: "Bikepacking and the Art of Trailside Maintenance",
-        description: "Photos for an essay about a bikepacking trip across Europe",
+        description: "Photos for an essay about a summer bikepacking trip across Europe.",
         url: "https://theradavist.com/zen-and-bikepacking",
     },
     {
         name: "JSON Whisperer",
-        description: "A fast and private JSON validator that fixes basic errors.",
+        description: "A fast, private JSON validator. Paste JSON, get instant feedback. Nothing leaves your browser.",
         url: "https://jackbush.github.io/json-whisperer/",
     },
     {
         name: "Constellations",
-        description: "JS sketch drawing constellations between drifting stars",
+        description: "Generative night sky, drawing constellations between drifting stars.",
         url: "https://jackbush.github.io/constellations/",
     },
     {
         name: "Cubeland",
-        description: "Experiment in 3D sketching",
+        description: "Experiment in 3D sketching.",
         url: "https://jackbush.github.io/cubeland/",
     },
 ];
