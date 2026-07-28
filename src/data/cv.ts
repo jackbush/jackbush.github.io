@@ -27,7 +27,7 @@ export const experience: CVEntry[] = [
 },
     {
         organisation: "OVO",
-        role: "Lead Product Manager",
+        role: "Product Lead",
         dates: "Oct 2020 – Jan 2022",
         description:
             "Developed product and design frameworks used across OVO. Led product management and design across six agile, autonomous, cross-functional teams.",
@@ -82,4 +82,3 @@ export const experience: CVEntry[] = [
             "Found and documented Vishnu shrines in the Kathmandu valley, narrating local myths about the origins of the cosmos, and integrated into a series of drawings."
     },
 ];
-
