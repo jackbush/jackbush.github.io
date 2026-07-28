@@ -7,7 +7,7 @@ export interface Project {
 export const projects: Project[] = [
     {
         name: "RISO",
-        description: "Print emulator with realistic ink blending, registration jitter, shading models and general risograph charm",
+        description: "Risograph print emulator with realistic ink blending, registration jitter, shading models and analogue charm.",
         url: "https://jackbush.github.io/riso/",
     },
     {
