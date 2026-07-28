@@ -6,7 +6,10 @@ interface Props {
     theme?: "projects" | "work";
 }
 
-const { title = "Jack Bush", theme = "projects" } = Astro.props;
+const {
+    title = "Jack Bush | Designer, Engineer & Product Leader",
+    theme = "projects",
+} = Astro.props;
 ---
 
 <html lang="en" data-theme={theme}>
@@ -17,6 +20,32 @@ const { title = "Jack Bush", theme = "projects" } = Astro.props;
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="generator" content={Astro.generator} />
         <title>{title}</title>
+        <meta
+            name="description"
+            content="Designer, engineer and product leader. Since 2005 I've made apps, platforms, design systems, AI agents, exhibitions, furniture and a van."
+        />
+        <link rel="canonical" href="https://jackbush.github.io/" />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Jack Bush" />
+        <meta
+            property="og:title"
+            content="Jack Bush — Designer, Engineer & Product Leader"
+        />
+        <meta
+            property="og:description"
+            content="Apps, platforms, design systems, AI agents, exhibitions, a brain-machine interface, furniture, zines, and a van."
+        />
+        <meta property="og:url" content="https://jackbush.github.io/" />
+        <meta property="og:image" content="https://jackbush.github.io/og.png" />
+        <meta
+            property="og:image:alt"
+            content="Jack Bush — designer, engineer, product leader"
+        />
+
+        <meta name="twitter:card" content="summary_large_image" />
+
+        <meta name="theme-color" content="#FCFAF6" />
     </head>
     <body>
         <a href="#main-content" class="skip-link">Skip to main content</a>

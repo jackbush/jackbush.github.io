@@ -11,6 +11,9 @@ import { experience } from "../data/cv";
         // Runs before first paint so ?mode=work links load the dark theme.
         if (new URLSearchParams(location.search).get("mode") === "work") {
             document.documentElement.dataset.theme = "work";
+            document
+                .querySelector('meta[name="theme-color"]')
+                ?.setAttribute("content", "#12161D");
         }
     </script>
     <main>
@@ -97,10 +100,19 @@ import { experience } from "../data/cv";
     const favicon = document.querySelector<HTMLLinkElement>(
         'link[rel="icon"][type="image/svg+xml"]',
     );
+    const themeColor = document.querySelector<HTMLMetaElement>(
+        'meta[name="theme-color"]',
+    );
 
     const LABELS: Record<string, string> = {
         projects: "Projects",
         work: "Work",
+    };
+
+    // Browser chrome colour per theme: warm paper / cool ink.
+    const THEME_COLORS: Record<string, string> = {
+        projects: "#FCFAF6",
+        work: "#12161D",
     };
 
     // Fill + contrasting ring so the mark reads on any tab-bar colour.
@@ -113,6 +125,7 @@ import { experience } from "../data/cv";
     function setMode(mode: string, updateUrl: boolean) {
         document.documentElement.dataset.theme = mode;
         document.title = `Jack Bush | ${LABELS[mode]}`;
+        themeColor?.setAttribute("content", THEME_COLORS[mode]);
         if (mode === "work") setFavicon("#12161D", "#EEF1F6");
         else setFavicon("#FFFFFF", "#12161D");
         tabs.forEach((tab) => {
