@@ -12,55 +12,64 @@ export const experience: CVEntry[] = [
         role: "VP Product",
         dates: "Jan 2024 – Jun 2026",
         description:
-      "Collaborating with all functions, defining product strategy, building a high-performing team responsible for product management, design, research and marketing.",
-    },
+          "Resposible for product, reseaech, design and marketing. Replatformed legacy products into one modern platform with a consistent data source, best-in-class customer API and a scalable onboarding process.",
+        listItems: [
+          "Reduced onboarding effort by ~70%",
+          "Increased System Usability Score from 14 to 79",
+          "First compliant battery passport for EVs sold in the EU",
+        ],
+  },
     {
         organisation: "OVO",
         role: "Principal Product Designer",
-        dates: "Jan 2022 – Jan 2024",
+        dates: "Oct 2020 – Jan 2024",
         description:
-            "Led company-wide initiatives including design system, consumer app strategy, accessibility strategy and training, and research and design events.",
+          "Led company-wide initiatives including design system, consumer app strategy, accessibility strategy and training, and research and design events for a 40-person design team.",
         listItems: [
-            "Doubled app engagement"
+          "Doubled app engagement with tools to reduce energy consumption",
+          "AA accessibility across all customer products",
+          "Got every customer product onto one design system",
         ],
-
-},
-    {
-        organisation: "OVO",
-        role: "Product Lead",
-        dates: "Oct 2020 – Jan 2022",
-        description:
-            "Developed product and design frameworks used across OVO. Led product management and design across six agile, autonomous, cross-functional teams.",
     },
+    // {
+    //     organisation: "OVO",
+    //     role: "Product Lead",
+    //     dates: "Oct 2020 – Jan 2022",
+    //     description:
+    //       "Led product and design for six autonymous teams owning operational tooling. Built frameworks used across the rest of OVO.",
+    // },
     {
         organisation: "Kantan",
         role: "Head of Design",
         dates: "Jun 2019 – Oct 2020",
         description:
-            "Formed a multidisciplinary design team responsible for ethnographic research, product strategy, service design, product design, user testing and brand.",
+          "Built and led a multidisciplinary design team responsible for ethnographic research, product strategy, service design, product design, user testing and brand.",
     },
     {
         organisation: "Rocket Lawyer",
         role: "Product Innovation Consultant",
         dates: "Jul 2018 – Jun 2019",
         description:
-            "Set up an innovation team to research, design and prototype how emerging technologies might make justice more widely available.",
-    },
+          "Started an innovation team to research, design and prototype whether emerging technology could make legal help reach people who normally can't afford it.",
+      listItems: [
+          "Built an escrow payment service, connected to the language in the contract.",
+        ],
+  },
     {
         organisation: "Everledger",
         role: "Head of Product",
         dates: "Oct 2016 – Jul 2018",
         description:
-            "Introduced product and design function. Transformed a waterfall team working on 20+ parallel projects into an agile team delivering a market-leading platform.",
+          "Set up the product and design function from scratch. Took a waterfall team spread thin across 20+ parallel projects and turned it into one agile team shipping a market-leading platform for provenance tracking, so you can actually trust where a thing came from.",
     },
     {
         organisation: "Make Us Proud",
         role: "Product Designer + Engineer",
         dates: "Apr 2015 – Aug 2016",
         description:
-            "End-to-end agency work covering research, propositions, prototyping, user testing and delivery of platforms, websites, an art installation and a product playbook.",
+          "End-to-end agency work covering research, propositions, prototyping, user testing and delivery of platforms, websites, an art installation and a product playbook.",
         listItems: [
-            "Won Best Exhibition Design at London Design Week (2016)"
+          "Won Best Exhibition Design at London Design Week (2016)",
         ],
 },
     {
@@ -68,10 +77,10 @@ export const experience: CVEntry[] = [
         role: "Production Manager",
         dates: "Sep 2010 – Apr 2013",
         description:
-            "On-demand prototyping and manufacturing for NZ and Australia.",
+          "On-demand prototyping and manufacturing for NZ and Australia.",
         listItems: [
-            "Reduced order turnaround from 10 days to 48 hours",
-            "Cut material costs by 25%",
+          "Reduced order turnaround from 10 days to 48 hours",
+          "Cut material costs by 25%",
         ],
     },
     {
@@ -79,6 +88,6 @@ export const experience: CVEntry[] = [
         role: "Research Assistant",
         dates: "Nov 2012 – Jan 2013",
         description:
-            "Found and documented Vishnu shrines in the Kathmandu valley, narrating local myths about the origins of the cosmos, and integrated into a series of drawings."
+          "Found and documented Vishnu shrines in the Kathmandu valley, narrating local myths about the origins of the cosmos, and integrated into a series of drawings."
     },
 ];
