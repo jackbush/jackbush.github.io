@@ -12,11 +12,11 @@ export const experience: CVEntry[] = [
         role: "VP Product",
         dates: "Jan 2024 – Jun 2026",
         description:
-          "Resposible for product, reseaech, design and marketing. Replatformed legacy products into one modern platform with a consistent data source, best-in-class customer API and a scalable onboarding process.",
+          "Resposible for product, research, design and marketing. Replatformed legacy products into one modern platform with a consistent data source, best-in-class customer API and a scalable onboarding process.",
         listItems: [
           "Increased System Usability Score from 14 to 79",
           "First compliant battery passport for EVs sold in the EU",
-          "Reduced onboarding cost by ~70%",
+          "Reduced onboarding time by ~70%",
         ],
   },
     {
@@ -26,9 +26,10 @@ export const experience: CVEntry[] = [
         description:
           "Led company-wide initiatives including design system, consumer app strategy, accessibility strategy and training, and research and design events for a 40-person design team.",
         listItems: [
-          "Doubled app engagement with tools to reduce energy consumption",
+          "Doubled app engagement",
           "AA accessibility across all customer products",
-          "Got every customer product onto one design system",
+          "Every customer product on one design system",
+          "Energy usage tool reduced customer bills",
         ],
     },
     // {
