@@ -12,11 +12,14 @@ export const experience: CVEntry[] = [
         role: "VP Product",
         dates: "Jan 2024 – Jun 2026",
         description:
-          "Resposible for product, research, design and marketing. Replatformed legacy products into one modern platform with a consistent data source, best-in-class customer API and a scalable onboarding process.",
+          "Owned product, design, research and product marketing for an enterprise supply-chain traceability and Digital Product Passport platform. Took it from a fragmented, support-operated legacy suite to a single self-serve platform.",
         listItems: [
-          "Increased System Usability Score from 14 to 79",
-          "First compliant battery passport for EVs sold in the EU",
-          "Reduced onboarding time by ~70%",
+          "Moved customers off support and onto the product: System Usability Scale score from 15 to 80, AA accessibility score.",
+          "Rebuilt with a modern front-end, customer API and data lake, swapping Oracle for AWS and open source: faster to build, easier to hire, 25% cheaper to run.",
+          "Cut supply chain configuration time 70% with one-time setup, and shipped an AI assistant for API onboarding so engineers stopped working as consultants.",
+          "Made privacy the differentiator: selective disclosure permissions let suppliers prove provenance without exposing commercially sensitive data.",
+          "Restructured product and engineering into cross-functional teams with embedded design, clear ownership and a prioritisation model tied to strategy.",
+          // "Built a product marketing function and packaged two off-the-shelf propositions, shifting sales from bespoke pilots to repeatable product deals.",
         ],
   },
     {
