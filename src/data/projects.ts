@@ -27,6 +27,18 @@ export const projects: Project[] = [
         url: "https://jackbush.github.io/seeing-britain/",
     },
     {
+        name: "Albums",
+        description:
+            "Old fashioned: making photo albums. Because social media is garbage, but it's nice to have something to show your mum. Got carried away with themes.",
+        url: "https://jackbush.github.io/albums/",
+    },
+    {
+        name: "Mindflow",
+        description:
+            "Video demo, projected graphics that respond to your brain waves via EEG. Focus to overlap the rings, relax to calm the outlines.",
+        url: "https://vimeo.com/1215878977",
+    },
+    {
         name: "QR Cranker",
         description: "Easy, private and reliable QR codes. Privacy-first, ad-free and ISO compliant, with customisable appearance and legibility warnings.",
         url: "https://jackbush.github.io/qr-cranker/",
