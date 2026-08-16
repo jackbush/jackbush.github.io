@@ -11,13 +11,19 @@ export const projects: Project[] = [
         url: "https://jackbush.github.io/riso/",
     },
     {
+        name: "Chromist",
+        description:
+            "Get your colours right: build or import palettes, audit accessibility and share easily. Supports P3 colours and future accessibility standards.",
+        url: "https://jackbush.github.io/chromist/",
+    },
+    {
         name: "Zola",
         description: "Each card describes a real person's experience and needs. They're uncommon enough to be missed in most user testing cohorts, but need to be designed for.",
         url: "https://jackbush.github.io/zola/",
     },
     {
         name: "Carver",
-        description: "The markdown editor I couldn't find. Minimal by design, private by default, delightful by nature.",
+        description: "The text editor I couldn't find. Minimal by design, private by default, delightful by nature.",
         url: "https://jackbush.github.io/carver/",
     },
     {
@@ -27,32 +33,21 @@ export const projects: Project[] = [
         url: "https://jackbush.github.io/seeing-britain/",
     },
     {
+        name: "Mindflow",
+        description:
+            "Animated graphics that respond to your brain waves: focus to overlap the rings, relax to calm the outlines. Link to a video demo.",
+        url: "https://vimeo.com/1215878977",
+    },
+    {
         name: "Albums",
         description:
             "Jus nice, old-fashioned photo albums. Because social media is garbage, but it's nice to have something to show your mum.",
         url: "https://jackbush.github.io/albums/",
     },
     {
-        name: "Chromist",
-        description:
-            "Get your colours right: build or import palettes, audit accessibility and share easily. Supports P3 colours and future accessibility standards.",
-        url: "https://jackbush.github.io/chromist/",
-    },
-    {
-        name: "Mindflow",
-        description:
-            "Video demo, projected graphics that respond to your brain waves via EEG. Focus to overlap the rings, relax to calm the outlines.",
-        url: "https://vimeo.com/1215878977",
-    },
-    {
         name: "QR Cranker",
         description: "Easy, private and reliable QR codes. Privacy-first, ad-free and ISO compliant, with customisable appearance and legibility warnings.",
         url: "https://jackbush.github.io/qr-cranker/",
-    },
-    {
-        name: "The Blob",
-        description: "The Blob moves in its own way. Quite calming to watch.",
-        url: "https://jackbush.github.io/the-blob/",
     },
     {
         name: "Zen and the Art of Bikepacking Maintenance",
@@ -63,6 +58,11 @@ export const projects: Project[] = [
         name: "JSON Whisperer",
         description: "A fast, private JSON validator. Paste JSON, get instant feedback. Nothing leaves your browser.",
         url: "https://jackbush.github.io/json-whisperer/",
+    },
+    {
+        name: "The Blob",
+        description: "The Blob moves in its own way. Quite calming to watch.",
+        url: "https://jackbush.github.io/the-blob/",
     },
     {
         name: "Constellations",
