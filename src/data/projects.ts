@@ -23,14 +23,20 @@ export const projects: Project[] = [
     {
         name: "Seeing Britain",
         description:
-            "Mission to learn the corners of my adoptive home by visiting every county. Mostly done by bicycle, tracked on an interactive map.",
+            "Learning the corners of my adoptive home by visiting every county. Mostly done by bicycle, tracked on an interactive map.",
         url: "https://jackbush.github.io/seeing-britain/",
     },
     {
         name: "Albums",
         description:
-            "Old fashioned: making photo albums. Because social media is garbage, but it's nice to have something to show your mum. Got carried away with themes.",
+            "Jus nice, old-fashioned photo albums. Because social media is garbage, but it's nice to have something to show your mum.",
         url: "https://jackbush.github.io/albums/",
+    },
+    {
+        name: "Chromist",
+        description:
+            "A chromist got colour right by hand. Now it's a browser tool: build palettes, share a link, no account required.",
+        url: "https://jackbush.github.io/chromist/",
     },
     {
         name: "Mindflow",
@@ -49,7 +55,7 @@ export const projects: Project[] = [
         url: "https://jackbush.github.io/the-blob/",
     },
     {
-        name: "Bikepacking and the Art of Trailside Maintenance",
+        name: "Zen and the Art of Bikepacking Maintenance",
         description: "Photos for an essay about a summer bikepacking trip across Europe.",
         url: "https://theradavist.com/zen-and-bikepacking",
     },
