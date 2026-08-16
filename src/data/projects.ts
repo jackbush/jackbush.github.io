@@ -11,9 +11,9 @@ export const projects: Project[] = [
         url: "https://jackbush.github.io/riso/",
     },
     {
-        name: "Inclusive Design Scenarios",
+        name: "Zola",
         description: "Each card describes a real person's experience and needs. They're uncommon enough to be missed in most user testing cohorts, but need to be designed for.",
-        url: "https://jackbush.github.io/inclusive-design-scenarios/",
+        url: "https://jackbush.github.io/zola/",
     },
     {
         name: "Carver",
@@ -35,7 +35,7 @@ export const projects: Project[] = [
     {
         name: "Chromist",
         description:
-            "A chromist got colour right by hand. Now it's a browser tool: build palettes, share a link, no account required.",
+            "Get your colours right: build or import palettes, audit accessibility and share easily. Supports P3 colours and future accessibility standards.",
         url: "https://jackbush.github.io/chromist/",
     },
     {
