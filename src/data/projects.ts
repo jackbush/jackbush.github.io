@@ -33,6 +33,11 @@ export const projects: Project[] = [
         url: "https://jackbush.github.io/seeing-britain/",
     },
     {
+        name: "Metty",
+        description: "Simple meditation timer, hardware version in progress.",
+        url: "https://jackbush.github.io/metty/",
+    },
+    {
         name: "Mindflow",
         description:
             "Animated graphics that respond to your brain waves: focus to overlap the rings, relax to calm the outlines. Link to a video demo.",
