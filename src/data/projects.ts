@@ -13,7 +13,7 @@ export const projects: Project[] = [
     {
         name: "Chromist",
         description:
-            "Get your colours right: build or import palettes, audit accessibility and share easily. Supports P3 colours and future accessibility standards.",
+            "Get your colours right. Build palettes for modern devices, see how they appear on old screens, audit accessibility against the next standards.",
         url: "https://jackbush.github.io/chromist/",
     },
     {
