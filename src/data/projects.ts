@@ -18,7 +18,7 @@ export const projects: Project[] = [
     },
     {
         name: "Zola",
-        description: "Each card describes a real person's experience and needs. They're uncommon enough to be missed in most user testing cohorts, but need to be designed for.",
+        description: "Better and earlier accessibility testing. Each card describes a real person's experience and needs that your design should accommodate.",
         url: "https://jackbush.github.io/zola/",
     },
     {
@@ -29,25 +29,25 @@ export const projects: Project[] = [
     {
         name: "Seeing Britain",
         description:
-            "Learning the corners of my adoptive home by visiting every county. Mostly done by bicycle, tracked on an interactive map.",
+            "Learning my adoptive home by visiting every county. Mostly done by bicycle, tracked on an interactive map.",
         url: "https://jackbush.github.io/seeing-britain/",
-    },
-    {
-        name: "Metty",
-        description: "Simple meditation timer, hardware version in progress.",
-        url: "https://jackbush.github.io/metty/",
     },
     {
         name: "Mindflow",
         description:
-            "Animated graphics that respond to your brain waves: focus to overlap the rings, relax to calm the outlines. Link to a video demo.",
+            "Animated graphics that respond to your brain waves: focus to overlap the rings, relax to calm the outlines.",
         url: "https://vimeo.com/1215878977",
     },
     {
         name: "Albums",
         description:
-            "Jus nice, old-fashioned photo albums. Because social media is garbage, but it's nice to have something to show your mum.",
+            "Nice, old-fashioned photo albums. Because social media is trash, but it's nice to have something to show your mum.",
         url: "https://jackbush.github.io/albums/",
+    },
+    {
+        name: "Metty",
+        description: "Simple meditation timer, hardware version in progress.",
+        url: "https://jackbush.github.io/metty/",
     },
     {
         name: "QR Cranker",
