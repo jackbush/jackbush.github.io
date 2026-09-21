@@ -41,22 +41,22 @@ export const projects: Project[] = [
     {
         name: "Albums",
         description:
-            "Nice, old-fashioned photo albums. Because social media is trash, but it's nice to have something to show your mum.",
+            "Nice, old-fashioned photo albums. Because social media is a dumpster fire, but it's nice to show your mum what you've been up to.",
         url: "https://jackbush.github.io/albums/",
     },
     {
         name: "Metty",
-        description: "Simple meditation timer, hardware version in progress.",
+        description: "A very nice meditation timer, loosely inspired by a record player. Hardware version in progress.",
         url: "https://jackbush.github.io/metty/",
     },
     {
-        name: "QR Cranker",
-        description: "Easy, private and reliable QR codes. Privacy-first, ad-free and ISO compliant, with customisable appearance and legibility warnings.",
-        url: "https://jackbush.github.io/qr-cranker/",
+        name: "Quadra",
+        description: "Make QR codes that are customisable and ISO compliant. Private and ad-free.",
+        url: "https://jackbush.github.io/quadra/",
     },
     {
         name: "Zen and the Art of Bikepacking Maintenance",
-        description: "Photos for an essay about a summer bikepacking trip across Europe.",
+        description: "Photos for an essay about gumption, romantic thinking and bikepacking across Europe.",
         url: "https://theradavist.com/zen-and-bikepacking",
     },
     {
