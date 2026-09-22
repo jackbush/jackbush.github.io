@@ -6,10 +6,9 @@ export interface Project {
 
 export const projects: Project[] = [
     {
-        name: "Chromist",
-        description:
-            "Get your colours right. Build palettes for modern devices, see how they appear on old screens, audit accessibility against the next standards.",
-        url: "https://jackbush.github.io/chromist/",
+        name: "Risolino",
+        description: "Make risograph prints from anywhere. Customise the ink blending, shading model and registration jitter for some analogue charm.",
+        url: "https://jackbush.github.io/risolino/",
     },
     {
         name: "Zola",
@@ -17,9 +16,10 @@ export const projects: Project[] = [
         url: "https://jackbush.github.io/zola/",
     },
     {
-        name: "Risolino",
-        description: "Make risograph prints from anywhere. Customise the ink blending, shading model and registration jitter for some analogue charm.",
-        url: "https://jackbush.github.io/risolino/",
+        name: "Chromist",
+        description:
+            "Get your colours right. Build palettes for modern devices, see how they appear on old screens, audit accessibility against the next standards.",
+        url: "https://jackbush.github.io/chromist/",
     },
     {
         name: "Carver",
