@@ -20,11 +20,12 @@ import { experience } from "../data/cv";
         <section class="intro">
             <h1>Jack Bush</h1>
             <p>
-                <strong>I've always loved making things.</strong> Since building my
-                first website in 2005 I've worked as a designer, engineer, product
-                manager and leader and made apps, platforms, design systems, AI agents,
-                exhibitions, a brain-machine interface, furniture, zines, and a van.
-                I bring warmth, curiosity and clarity to complex problems, and turn
+                <strong>I've always loved making things.</strong> Since building
+                my first website in 2005 I've worked as a designer, engineer,
+                photographer, product manager and leader. I've made apps,
+                platforms, design systems, AI agents, exhibitions, services, a
+                brain-machine interface, furniture, zines, and a van. I bring
+                warmth, curiosity and clarity to complex problems, and turn
                 ideas into quality products with measurable results.
             </p>
         </section>
@@ -35,16 +36,20 @@ import { experience } from "../data/cv";
                 id="tab-projects"
                 data-mode="projects"
                 aria-selected="true"
-                aria-controls="panel-projects">Projects</button
+                aria-controls="panel-projects"
             >
+                Projects
+            </button>
             <button
                 role="tab"
                 id="tab-work"
                 data-mode="work"
                 aria-selected="false"
                 aria-controls="panel-work"
-                tabindex="-1">Work</button
+                tabindex="-1"
             >
+                Work
+            </button>
         </div>
 
         <section
@@ -54,15 +59,13 @@ import { experience } from "../data/cv";
             aria-labelledby="tab-projects"
         >
             <ul>
-                {
-                    projects.map((project) => (
-                        <ProjectItem
-                            name={project.name}
-                            description={project.description}
-                            url={project.url}
-                        />
-                    ))
-                }
+                {projects.map((project) => (
+                    <ProjectItem
+                        name={project.name}
+                        description={project.description}
+                        url={project.url}
+                    />
+                ))}
             </ul>
         </section>
 
@@ -74,17 +77,15 @@ import { experience } from "../data/cv";
             hidden
         >
             <ul>
-                {
-                    experience.map((entry) => (
-                        <CVItem
-                            organisation={entry.organisation}
-                            role={entry.role}
-                            dates={entry.dates}
-                            description={entry.description}
-                            listItems={entry.listItems}
-                        />
-                    ))
-                }
+                {experience.map((entry) => (
+                    <CVItem
+                        organisation={entry.organisation}
+                        role={entry.role}
+                        dates={entry.dates}
+                        description={entry.description}
+                        listItems={entry.listItems}
+                    />
+                ))}
             </ul>
         </section>
     </main>
