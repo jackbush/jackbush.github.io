@@ -23,14 +23,14 @@ export const projects: Project[] = [
     },
     {
         name: "Carver",
-        description: "The text editor I couldn't find. Minimal by design, private by default, delightful by nature.",
+        description: "Write in convenient markdown, export as beautiful PDF. Minimal by design, private by default, delightful by nature.",
         url: "https://jackbush.github.io/carver/",
     },
     {
-        name: "Seeing Britain",
+        name: "Albums",
         description:
-            "Learning my adoptive home by visiting every county. Mostly done by bicycle, tracked on an interactive map.",
-        url: "https://jackbush.github.io/seeing-britain/",
+            "Nice, old-fashioned photo albums. Because social media is a dumpster fire, but it's nice to show your mum what you've been up to.",
+        url: "https://jackbush.github.io/albums/",
     },
     {
         name: "Mindflow",
@@ -39,10 +39,10 @@ export const projects: Project[] = [
         url: "https://vimeo.com/1215878977",
     },
     {
-        name: "Albums",
+        name: "Seeing Britain",
         description:
-            "Nice, old-fashioned photo albums. Because social media is a dumpster fire, but it's nice to show your mum what you've been up to.",
-        url: "https://jackbush.github.io/albums/",
+            "Learning my adoptive home by visiting every county. Mostly done by bicycle, tracked on an interactive map.",
+        url: "https://jackbush.github.io/seeing-britain/",
     },
     {
         name: "Metty",
