@@ -6,11 +6,6 @@ export interface Project {
 
 export const projects: Project[] = [
     {
-        name: "RISO",
-        description: "Risograph print emulator with realistic ink blending, registration jitter, shading models and analogue charm.",
-        url: "https://jackbush.github.io/riso/",
-    },
-    {
         name: "Chromist",
         description:
             "Get your colours right. Build palettes for modern devices, see how they appear on old screens, audit accessibility against the next standards.",
@@ -18,8 +13,13 @@ export const projects: Project[] = [
     },
     {
         name: "Zola",
-        description: "Better and earlier accessibility testing. Each card describes a real person's experience and needs that your design should accommodate.",
+        description: "Build more accessible products. Each card describes a real person's experience and needs, which your design should accommodate.",
         url: "https://jackbush.github.io/zola/",
+    },
+    {
+        name: "Risolino",
+        description: "Make risograph prints from anywhere. Customise the ink blending, shading model and registration jitter for some analogue charm.",
+        url: "https://jackbush.github.io/risolino/",
     },
     {
         name: "Carver",
@@ -46,7 +46,7 @@ export const projects: Project[] = [
     },
     {
         name: "Metty",
-        description: "A very nice meditation timer, loosely inspired by a record player. Hardware version in progress.",
+        description: "Interface prototype for a robotic meditation timer, styled like a record player. Hardware build in progress.",
         url: "https://jackbush.github.io/metty/",
     },
     {
