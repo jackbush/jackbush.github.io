@@ -61,7 +61,7 @@ export const projects: Project[] = [
     },
     {
         name: "Jason",
-        description: "Validate and fix JSON objects. Fast, private and just the right level of helpfulness.",
+        description: "Fix broken JSON objects. Fast, private, and with just the right level of helpfulness.",
         url: "https://jackbush.github.io/jason/",
     },
     {
