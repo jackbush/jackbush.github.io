@@ -51,18 +51,18 @@ export const projects: Project[] = [
     },
     {
         name: "Quadra",
-        description: "Make QR codes that are customisable and ISO compliant. Private and ad-free.",
+        description: "Make QR codes without having your data scraped. Highly customisable, ISO-compliant and ad-free.",
         url: "https://jackbush.github.io/quadra/",
     },
     {
         name: "Zen and the Art of Bikepacking Maintenance",
-        description: "Photos for an essay about gumption, romantic thinking and bikepacking across Europe.",
+        description: "Photos for an essay about gumption, romantic thinking, quality, and bikepacking across Europe.",
         url: "https://theradavist.com/zen-and-bikepacking",
     },
     {
-        name: "JSON Whisperer",
-        description: "A fast, private JSON validator. Paste JSON, get instant feedback. Nothing leaves your browser.",
-        url: "https://jackbush.github.io/json-whisperer/",
+        name: "Jason",
+        description: "Validate and fix JSON objects. Fast, private and just the right level of helpfulness.",
+        url: "https://jackbush.github.io/jason/",
     },
     {
         name: "The Blob",
