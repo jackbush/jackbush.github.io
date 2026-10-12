@@ -35,7 +35,7 @@ export const projects: Project[] = [
     {
         name: "Glimmers",
         description:
-            "Browser sketches in light, shape and motion. Live-editable parameters to play, changes and make them your own.",
+            "Browser sketches in light, shape and motion. Live-editable parameters to play, change and make them your own.",
         url: "https://jackbush.github.io/glimmers/",
     },
     {
