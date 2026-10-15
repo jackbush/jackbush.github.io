@@ -6,6 +6,12 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+      name: "Glimmers",
+      description:
+          "Interactive experiments into other worlds. Explore the night sky, invent impossible plants, design your own void. Ongoing project.",
+      url: "https://jackbush.github.io/glimmers/",
+  },
+  {
       name: "Zola",
       description: "Build more accessible products. Each card describes a real person's experience and needs, which your design should accommodate.",
       url: "https://jackbush.github.io/zola/",
@@ -22,21 +28,15 @@ export const projects: Project[] = [
       url: "https://jackbush.github.io/chromist/",
   },
   {
-      name: "Albums",
-      description:
-          "Nice, old-fashioned photo albums. Because social media is a dumpster fire, but it's nice to show your mum what you've been up to.",
-      url: "https://jackbush.github.io/albums/",
-  },
-  {
       name: "Carver",
       description: "Write in convenient markdown, export as beautiful PDF. Minimal by design, private by default, delightful by nature.",
       url: "https://jackbush.github.io/carver/",
   },
   {
-      name: "Glimmers",
+      name: "Albums",
       description:
-          "Interactive experiments into other worlds. Explore the night sky, invent impossible plants, design your own void. Ongoing project.",
-      url: "https://jackbush.github.io/glimmers/",
+          "Nice, old-fashioned photo albums. Because social media is a dumpster fire, but it's nice to show your mum what you've been up to.",
+      url: "https://jackbush.github.io/albums/",
   },
   {
       name: "Mindflow",
