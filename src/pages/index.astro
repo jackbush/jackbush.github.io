@@ -1,16 +1,16 @@
 ---
 import Layout from "../components/Layout.astro";
 import ProjectItem from "../components/ProjectItem.astro";
-import CVItem from "../components/CVItem.astro";
+import RoleItem from "../components/RoleItem.astro";
 import { projects } from "../data/projects";
-import { experience } from "../data/cv";
+import { roles } from "../data/roles";
 ---
 
 <Layout theme="projects">
     <script is:inline>
-        // Runs before first paint so ?mode=work links load the dark theme.
-        if (new URLSearchParams(location.search).get("mode") === "work") {
-            document.documentElement.dataset.theme = "work";
+        // Runs before first paint so ?mode=roles links load the dark theme.
+        if (new URLSearchParams(location.search).get("mode") === "roles") {
+            document.documentElement.dataset.theme = "roles";
             document
                 .querySelector('meta[name="theme-color"]')
                 ?.setAttribute("content", "#12161D");
@@ -20,17 +20,17 @@ import { experience } from "../data/cv";
         <section class="intro">
             <h1>Jack Bush</h1>
             <p>
-                <strong>I've always loved making things.</strong> Since building
-                my first website in 2005 I've worked as a designer,
-                photographer, engineer and product leader. I've made apps,
-                platforms, design systems, AI agents, exhibitions, a
-                brain-machine interface, furniture, zines, and a van. I bring
-                warmth, curiosity and clarity to complex problems, and turn
-                ideas into quality products with measurable results.
+                <strong>
+                    I'm a design and product leader who loves making things.
+                </strong>
+                Since 2005 I've built apps, platforms, teams, design systems, AI
+                agents, exhibitions, a brain-machine interface, furniture, and a
+                van. To me, technology is an ancient tradition: each tool helps
+                someone build the next, and all of us move forward.
             </p>
         </section>
 
-        <div class="toggle" role="tablist" aria-label="Projects or work">
+        <div class="toggle" role="tablist" aria-label="Projects or roles">
             <button
                 role="tab"
                 id="tab-projects"
@@ -42,13 +42,13 @@ import { experience } from "../data/cv";
             </button>
             <button
                 role="tab"
-                id="tab-work"
-                data-mode="work"
+                id="tab-roles"
+                data-mode="roles"
                 aria-selected="false"
-                aria-controls="panel-work"
+                aria-controls="panel-roles"
                 tabindex="-1"
             >
-                Work
+                Roles
             </button>
         </div>
 
@@ -70,15 +70,15 @@ import { experience } from "../data/cv";
         </section>
 
         <section
-            id="panel-work"
-            data-mode="work"
+            id="panel-roles"
+            data-mode="roles"
             role="tabpanel"
-            aria-labelledby="tab-work"
+            aria-labelledby="tab-roles"
             hidden
         >
             <ul>
-                {experience.map((entry) => (
-                    <CVItem
+                {roles.map((entry) => (
+                    <RoleItem
                         organisation={entry.organisation}
                         role={entry.role}
                         dates={entry.dates}
@@ -107,13 +107,13 @@ import { experience } from "../data/cv";
 
     const LABELS: Record<string, string> = {
         projects: "Projects",
-        work: "Work",
+        roles: "Roles",
     };
 
     // Browser chrome colour per theme: warm paper / cool ink.
     const THEME_COLORS: Record<string, string> = {
         projects: "#FCFAF6",
-        work: "#12161D",
+        roles: "#12161D",
     };
 
     // Fill + contrasting ring so the mark reads on any tab-bar colour.
@@ -127,7 +127,7 @@ import { experience } from "../data/cv";
         document.documentElement.dataset.theme = mode;
         document.title = `Jack Bush | ${LABELS[mode]}`;
         themeColor?.setAttribute("content", THEME_COLORS[mode]);
-        if (mode === "work") setFavicon("#12161D", "#EEF1F6");
+        if (mode === "roles") setFavicon("#12161D", "#EEF1F6");
         else setFavicon("#FFFFFF", "#12161D");
         tabs.forEach((tab) => {
             const active = tab.dataset.mode === mode;
@@ -155,8 +155,8 @@ import { experience } from "../data/cv";
     });
 
     const initial =
-        new URLSearchParams(location.search).get("mode") === "work"
-            ? "work"
+        new URLSearchParams(location.search).get("mode") === "roles"
+            ? "roles"
             : "projects";
     setMode(initial, false);
 </script>
@@ -187,14 +187,14 @@ import { experience } from "../data/cv";
         cursor: pointer;
     }
 
-    /* Fixed blocks: Projects is always dark, Work always light. The page
+    /* Fixed blocks: Projects is always dark, Roles always light. The page
        context around them optically switches which one reads as active. */
     .toggle button[data-mode="projects"] {
         background: var(--ink);
         color: var(--ink-paper);
     }
 
-    .toggle button[data-mode="work"] {
+    .toggle button[data-mode="roles"] {
         background: var(--paper);
         color: var(--paper-ink);
     }

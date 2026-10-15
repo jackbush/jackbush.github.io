@@ -65,9 +65,4 @@ export const projects: Project[] = [
         description: "Make QR codes without having your data scraped. Highly customisable, ISO-compliant and ad-free.",
         url: "https://jackbush.github.io/quadra/",
     },
-    {
-        name: "Jason",
-        description: "Fix broken JSON objects. Fast, private, and with just the right level of helpfulness.",
-        url: "https://jackbush.github.io/jason/",
-    },
 ];

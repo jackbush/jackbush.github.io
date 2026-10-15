@@ -28,8 +28,8 @@
     --color-border:         var(--paper-line);
 }
 
-/* Work — dark */
-[data-theme="work"] {
+/* Roles — dark */
+[data-theme="roles"] {
     --color-bg:             var(--ink);
     --color-text-primary:   var(--ink-paper);
     --color-text-secondary: var(--ink-muted);

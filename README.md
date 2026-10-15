@@ -1,8 +1,5 @@
 # jackbush.github.io
-
-Personal site. A single page with a short intro and a projects/work toggle:
-- **Projects** lists side projects, it's light and warm.
-- **Work** shows the CV, it's dark and cool.
+A single page with a short intro and a projects/roles toggle.
 
 ## Commands
 
@@ -16,10 +13,10 @@ npm run preview   # Preview production build
 
 - `src/pages/index.astro` — the only page: intro, toggle, both panels
 - `src/data/projects.ts` — the projects
-- `src/data/cv.ts` — experience entries
-- `src/components/` — `Layout.astro`, `ProjectItem.astro`, `CVItem.astro`
+- `src/data/roles.ts` — past roles
+- `src/components/` — `Layout.astro`, `ProjectItem.astro`, `RoleItem.astro`
 
-The toggle updates `?mode=work` in the URL, so work mode is shareable (`/?mode=work`).
+The toggle updates `?mode=roles` in the URL, so roles mode is shareable (`/?mode=roles`).
 
 ## Deployment
 

@@ -1,4 +1,4 @@
-export interface CVEntry {
+export interface Role {
     organisation: string;
     role: string;
     dates: string;
@@ -6,11 +6,11 @@ export interface CVEntry {
     listItems?: string[];
 }
 
-export const experience: CVEntry[] = [
+export const roles: Role[] = [
     {
         organisation: "Circulor",
         role: "VP Product",
-        dates: "2024–2026",
+        dates: "Jan 2024 – Jun 2026",
         description:
           "Owned product, design, research and product marketing for an enterprise supply-chain traceability and Digital Product Passport platform. Took it from a fragmented, support-operated legacy suite to a single self-serve platform.",
         listItems: [
@@ -25,7 +25,7 @@ export const experience: CVEntry[] = [
     {
         organisation: "OVO",
         role: "Principal Product Designer",
-        dates: "2020-2024",
+        dates: "Oct 2020 – Jan 2024",
         description:
           "Led company-wide initiatives including design system, consumer app strategy, accessibility strategy and training, and research and design events for a 40-person design team.",
         listItems: [
@@ -35,17 +35,24 @@ export const experience: CVEntry[] = [
           "Energy usage tool reduced customer bills",
         ],
     },
+    // {
+    //     organisation: "OVO",
+    //     role: "Product Lead",
+    //     dates: "Oct 2020 – Jan 2022",
+    //     description:
+    //       "Led product and design for six autonymous teams owning operational tooling. Built frameworks used across the rest of OVO.",
+    // },
     {
         organisation: "Kantan",
         role: "Head of Design",
-        dates: "2019-2020",
+        dates: "Jun 2019 – Oct 2020",
         description:
           "Built and led a multidisciplinary design team responsible for ethnographic research, product strategy, service design, product design, user testing and brand.",
     },
     {
         organisation: "Rocket Lawyer",
         role: "Product Innovation Consultant",
-        dates: "2018–2019",
+        dates: "Jul 2018 – Jun 2019",
         description:
           "Started an innovation team to research, design and prototype whether emerging technology could make legal help reach people who normally can't afford it.",
       listItems: [
@@ -55,14 +62,14 @@ export const experience: CVEntry[] = [
     {
         organisation: "Everledger",
         role: "Head of Product",
-        dates: "2016–2018",
+        dates: "Oct 2016 – Jul 2018",
         description:
           "Set up the product and design function from scratch. Took a waterfall team spread thin across 20+ parallel projects and turned it into one agile team shipping a market-leading platform for provenance tracking, so you can actually trust where a thing came from.",
     },
     {
         organisation: "Make Us Proud",
         role: "Product Designer + Engineer",
-        dates: "2015-2016",
+        dates: "Apr 2015 – Aug 2016",
         description:
           "End-to-end agency work covering research, propositions, prototyping, user testing and delivery of platforms, websites, an art installation and a product playbook.",
         listItems: [
@@ -72,7 +79,7 @@ export const experience: CVEntry[] = [
     {
         organisation: "Ponoko",
         role: "Production Manager",
-        dates: "2010-2013",
+        dates: "Sep 2010 – Apr 2013",
         description:
           "On-demand prototyping and manufacturing for NZ and Australia.",
         listItems: [
@@ -83,7 +90,7 @@ export const experience: CVEntry[] = [
     {
         organisation: "Victoria University",
         role: "Research Assistant",
-        dates: "2012-2013",
+        dates: "Nov 2012 – Jan 2013",
         description:
           "Found and documented Vishnu shrines in the Kathmandu valley, narrating local myths about the origins of the cosmos, and integrated into a series of drawings."
     },
