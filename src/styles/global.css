@@ -3,19 +3,19 @@
 /* ── Themes ───────────────────────────────────────────────────────
    Two fixed surfaces — warm paper, cool ink — with the text tones that
    sit on each. Themes below map these to the semantic --color-* vars;
-   the toggle reads the raw surfaces directly so it looks the same in
-   both contexts. */
+   the active toggle block reads the raw surfaces directly so it looks
+   the same in both contexts. */
 
 :root {
-    --paper:        #FCFAF6; /* light, faintly warm */
-    --paper-ink:    #1B1712;
-    --paper-muted:  #5A524A;
-    --paper-line:   #E0DDD9;
+    --paper:        #F2ECDF; /* light, faintly warm */
+    --paper-ink:    #1C1810;
+    --paper-muted:  #554B3F;
+    --paper-line:   #D9D0BF;
 
-    --ink:          #12161D; /* dark, faintly cool */
-    --ink-paper:    #EEF1F6;
-    --ink-muted:    #9AA3B2;
-    --ink-line:     #303742;
+    --ink:          #030E26; /* dark, faintly cool */
+    --ink-paper:    #EBF0F8;
+    --ink-muted:    #94A1B8;
+    --ink-line:     #1E2B47;
 
     --transition-duration: 300ms;
 }

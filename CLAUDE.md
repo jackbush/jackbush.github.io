@@ -17,7 +17,7 @@ Personal site built with Astro 6 (no JS framework). Single page (`src/pages/inde
 - **Projects** (default) lists side projects, light theme (warm-tinted).
 - **Roles** shows past roles, dark theme (cool-tinted).
 - The toggle is an accessible tablist; switching updates the `?mode=` URL param (`projects`|`roles`) via `history.replaceState`, so either mode is directly shareable. It also swaps the page `<title>` (`Jack Bush | Projects` / `| Roles`) and the favicon (white circle / black circle). An inline script applies the correct theme before first paint on `?mode=roles` loads.
-- The toggle's two blocks are fixed (Projects always dark, Roles always light); the surrounding page context optically switches which reads as active, so there is no separate selected-state style.
+- The active toggle block is filled with the opposite surface (Projects ink, Roles paper); the inactive block is transparent. Styles key off `data-theme`, so the pre-paint script gets it right.
 
 **Content** lives in `src/data/projects.ts` and `src/data/roles.ts` — edit those to update the lists. `Role` supports an optional `listItems: string[]` rendered as a bullet list. No CMS or content collections.
 

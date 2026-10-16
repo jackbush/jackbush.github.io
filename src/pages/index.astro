@@ -13,7 +13,7 @@ import { roles } from "../data/roles";
             document.documentElement.dataset.theme = "roles";
             document
                 .querySelector('meta[name="theme-color"]')
-                ?.setAttribute("content", "#12161D");
+                ?.setAttribute("content", "#030E26");
         }
     </script>
     <main>
@@ -112,8 +112,8 @@ import { roles } from "../data/roles";
 
     // Browser chrome colour per theme: warm paper / cool ink.
     const THEME_COLORS: Record<string, string> = {
-        projects: "#FCFAF6",
-        roles: "#12161D",
+        projects: "#F2ECDF",
+        roles: "#030E26",
     };
 
     // Fill + contrasting ring so the mark reads on any tab-bar colour.
@@ -127,8 +127,8 @@ import { roles } from "../data/roles";
         document.documentElement.dataset.theme = mode;
         document.title = `Jack Bush | ${LABELS[mode]}`;
         themeColor?.setAttribute("content", THEME_COLORS[mode]);
-        if (mode === "roles") setFavicon("#12161D", "#EEF1F6");
-        else setFavicon("#FFFFFF", "#12161D");
+        if (mode === "roles") setFavicon("#030E26", "#EBF0F8");
+        else setFavicon("#FFFFFF", "#030E26");
         tabs.forEach((tab) => {
             const active = tab.dataset.mode === mode;
             tab.setAttribute("aria-selected", String(active));
@@ -187,14 +187,20 @@ import { roles } from "../data/roles";
         cursor: pointer;
     }
 
-    /* Fixed blocks: Projects is always dark, Roles always light. The page
-       context around them optically switches which one reads as active. */
-    .toggle button[data-mode="projects"] {
+    /* The active block is filled with the opposite surface (Projects ink,
+       Roles paper); the inactive one is transparent on the page. Keyed off
+       data-theme, not aria-selected, so ?mode=roles paints right first time. */
+    .toggle button {
+        background: transparent;
+        color: var(--color-text-primary);
+    }
+
+    :global([data-theme="projects"]) .toggle button[data-mode="projects"] {
         background: var(--ink);
         color: var(--ink-paper);
     }
 
-    .toggle button[data-mode="roles"] {
+    :global([data-theme="roles"]) .toggle button[data-mode="roles"] {
         background: var(--paper);
         color: var(--paper-ink);
     }
