@@ -10,6 +10,13 @@
 :root {
     --transition-duration: 300ms;
     --radius: 0.5rem; /* corners of the toggle and the project cards */
+    --gutter: 1.5rem; /* the page's side margins, and the space between project cards */
+}
+
+@media (max-width: 30rem) {
+    :root {
+        --gutter: 1rem;
+    }
 }
 
 /* Projects — light */
@@ -188,8 +195,15 @@ ol {
 
 /* ── List items in page content ───────────────────────────────── */
 
-.content section > ul > li {
+.content section[data-mode="roles"] > ul > li {
     padding-block: 1.5rem;
+}
+
+/* Cards are as far apart as the page is from the screen's edges. */
+.content section[data-mode="projects"] > ul {
+    display: grid;
+    gap: var(--gutter);
+    padding-top: var(--gutter);
 }
 
 /* Roles are divided by lines like the toggle's frame; projects are cards. */

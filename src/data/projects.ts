@@ -55,16 +55,16 @@ export const projects: Project[] = [
         cover: { format: "landscape", image: zolaCover, background: "#BC6061" },
     },
     {
-        name: "Atlas Nights",
-        description: "A night in the High Atlas, looped. The summer sky turns overhead, and constellations trace themselves in as they rise.",
-        url: "https://jackbush.github.io/glimmers/atlas-nights/",
-        cover: { format: "landscape", image: atlasNightsPoster, video: atlasNightsVideo },
-    },
-    {
         name: "Risolino",
         description: "Make risograph prints from anywhere. Customise the ink blending, shading model and registration jitter for some analogue charm.",
         url: "https://jackbush.github.io/risolino/",
         cover: { format: "landscape", image: risolinoCover },
+    },
+    {
+        name: "Atlas Nights",
+        description: "A night in the High Atlas, looped. The summer sky turns overhead, and constellations trace themselves in as they rise.",
+        url: "https://jackbush.github.io/glimmers/atlas-nights/",
+        cover: { format: "landscape", image: atlasNightsPoster, video: atlasNightsVideo },
     },
     {
         name: "Chromist",
