@@ -5,6 +5,14 @@ import RoleItem from "../components/RoleItem.astro";
 import { projects } from "../data/projects";
 import { roles } from "../data/roles";
 import { pages } from "../data/theme";
+
+// Side covers (phone or square) alternate left, right, left… down the list.
+let sides = 0;
+const cards = projects.map((project) => {
+    const format = "cover" in project ? project.cover?.format : undefined;
+    const side = format === "phone" || format === "square";
+    return { project, flip: side && sides++ % 2 === 1 };
+});
 ---
 
 <Layout theme="projects">
@@ -62,12 +70,8 @@ import { pages } from "../data/theme";
                     aria-labelledby="tab-projects"
                 >
                     <ul>
-                        {projects.map((project) => (
-                            <ProjectItem
-                                name={project.name}
-                                description={project.description}
-                                url={project.url}
-                            />
+                        {cards.map(({ project, flip }) => (
+                            <ProjectItem project={project} flip={flip} />
                         ))}
                     </ul>
                 </section>
@@ -119,7 +123,8 @@ import { pages } from "../data/theme";
 
     // The ink copies (see Backdrop in global.css): the page again, three times, drawing only.
     // No ids (they'd clash), hidden from assistive tech, never focusable. Shown only once the
-    // backdrop has drawn.
+    // backdrop has drawn. They drop their media (covers keep their size without it), which
+    // would otherwise draw in the blends and load twice.
     const inks = ["m", "d", "k"].map((layer) => {
         const copy = document.createElement("div");
         for (const { name, value } of main.attributes) copy.setAttribute(name, value);
@@ -129,6 +134,7 @@ import { pages } from "../data/theme";
         copy.inert = true;
         copy.append(...(main.cloneNode(true) as HTMLElement).childNodes);
         for (const n of copy.querySelectorAll("[id]")) n.removeAttribute("id");
+        for (const n of copy.querySelectorAll("img, video, iframe")) n.remove();
         page.append(copy);
         return copy;
     });
@@ -142,6 +148,20 @@ import { pages } from "../data/theme";
         a.addEventListener("pointerenter", () => mark(true));
         a.addEventListener("pointerleave", () => mark(false));
     });
+
+    // Cover previews play only while on screen (a hidden list's never are), and never with
+    // reduced motion. Each is invisible over its poster until it's actually playing, then fades
+    // in, so loading never shows a blank or a jump.
+    const previews = [...main.querySelectorAll("video")];
+    previews.forEach((v) => v.addEventListener("playing", () => v.classList.add("on"), { once: true }));
+    const onScreen = new IntersectionObserver((entries) => {
+        for (const { target, isIntersecting } of entries) {
+            const v = target as HTMLVideoElement;
+            if (isIntersecting && !reduceMotion.matches) v.play().catch(() => {});
+            else v.pause();
+        }
+    }, { rootMargin: "100px 0px" });
+    previews.forEach((v) => onScreen.observe(v));
 
     // Fill + contrasting ring so the mark reads on any tab-bar colour.
     function setFavicon(fill: string, stroke: string) {
@@ -357,7 +377,9 @@ import { pages } from "../data/theme";
 
     .toggle {
         display: flex;
-        border: 2px solid var(--color-text-primary);
+        --frame: 1px;
+        border: var(--frame) solid var(--color-text-primary);
+        border-radius: var(--radius);
         margin-bottom: 1rem;
     }
 
@@ -372,6 +394,16 @@ import { pages } from "../data/theme";
         cursor: pointer;
         background: transparent;
         color: var(--color-text-primary);
+    }
+
+    /* The tabs' outer corners follow the frame's, inside its border (no overflow: hidden on
+       the frame, which would clip their focus rings). */
+    .toggle button:first-child {
+        border-radius: calc(var(--radius) - var(--frame)) 0 0 calc(var(--radius) - var(--frame));
+    }
+
+    .toggle button:last-child {
+        border-radius: 0 calc(var(--radius) - var(--frame)) calc(var(--radius) - var(--frame)) 0;
     }
 
     /* The active tab is filled with the text colour, its label in the page colour (with the

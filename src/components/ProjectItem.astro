@@ -1,24 +1,142 @@
 ---
+import { Image } from "astro:assets";
+import type { Project } from "../data/projects";
+
 interface Props {
-    name: string;
-    description: string;
-    url: string;
+    project: Project;
+    /** A side cover (phone or square) goes on the right instead of the left. */
+    flip?: boolean;
 }
 
-const { name, description, url } = Astro.props;
+const { project, flip = false } = Astro.props;
+const { name, description, link: more } = project;
+const vimeo = "vimeo" in project ? project.vimeo : null;
+const cover = "vimeo" in project ? null : project.cover;
+const side = cover?.format === "phone" || cover?.format === "square";
+// A video plays in place, so its card isn't a link. Links always open in a new tab.
+const Tag = vimeo ? "div" : "a";
+const newTab = { target: "_blank", rel: "noopener noreferrer" };
+const link = "url" in project ? { href: project.url, ...newTab } : {};
+
+// The container is 740px less its gutters; a side cover is a third of that, or full width
+// once stacked (narrow cards).
+const WIDE = { widths: [480, 960, 1400], sizes: "(max-width: 740px) 100vw, 692px" };
+const NARROW = { widths: [240, 480, 720, 1080], sizes: "(max-width: 560px) 100vw, 230px" };
 ---
 
 <li>
-    <a href={url} target="_blank" rel="noopener noreferrer">
-        <h3 class="name">{name}</h3>
-        <p class="description">{description}</p>
-    </a>
+    <div class:list={["card", vimeo ? "vimeo" : cover?.format, { flip: side && flip }]}>
+        <Tag class="main" {...link}>
+            {vimeo && (
+                <div class="cover">
+                    <iframe
+                        src={`https://player.vimeo.com/video/${vimeo}?dnt=1&title=0&byline=0&portrait=0`}
+                        title={`${name} video`}
+                        loading="lazy"
+                        allow="autoplay; fullscreen; picture-in-picture"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                    />
+                </div>
+            )}
+            {cover && (
+                <div
+                    class="cover"
+                    style={cover.format === "phone"
+                        ? `aspect-ratio: ${cover.image.width} / ${cover.image.height}`
+                        : cover.format === "landscape" && cover.background
+                            ? `--cover-bg: ${cover.background}`
+                            : undefined}
+                >
+                    <Image src={cover.image} alt="" {...(side ? NARROW : WIDE)} />
+                    {cover.format === "landscape" && cover.video && (
+                        <video src={cover.video} muted loop playsinline preload="none" aria-hidden="true" />
+                    )}
+                </div>
+            )}
+            <div class="text">
+                <h3 class="name">{name}</h3>
+                <p class="description">{description}</p>
+            </div>
+        </Tag>
+        {more && (
+            <a class="more" href={more.url} {...newTab}>
+                <span class="text-body">{more.label}</span>
+                <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" /></svg>
+            </a>
+        )}
+    </div>
 </li>
 
 <style>
-    a {
+    .main,
+    .more {
         display: block;
         text-decoration: none;
+    }
+
+    /* The card clips its corners, which would clip a link's focus ring, so the main link's
+       ring goes round the whole card and the bar's sits inside it. */
+    .card:has(.main:focus-visible) {
+        outline: 3px solid var(--color-focus);
+        outline-offset: 3px;
+    }
+
+    .main:focus-visible {
+        outline: none;
+    }
+
+    .more:focus-visible {
+        outline-offset: -4px;
+    }
+
+    /* The second link: a bar along the bottom, ruled off like the cover, chevron at the end. */
+    .more {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.75rem 1rem;
+        border-top: 1px solid var(--color-text-primary);
+    }
+
+    .more .text-body {
+        margin: 0;
+        color: var(--color-text-primary);
+    }
+
+    .more svg {
+        flex: none;
+        width: 1rem;
+        height: 1rem;
+        fill: none;
+        stroke: var(--color-text-primary);
+        stroke-width: 1.5;
+    }
+
+    /* Every card but a phone one is a box in the toggle's colour, with a line between its
+       cover and its text. */
+    .card:not(.phone) {
+        border: 1px solid var(--color-text-primary);
+        border-radius: var(--radius);
+        overflow: hidden;
+    }
+
+    .card:not(.phone) .text {
+        padding: 1rem;
+    }
+
+    /* The text and the bar sit on a lighter wash of the page. Not under their lines, which
+       the ink copies draw over the page colour, and not in the copies at all (it would go
+       through their blends). */
+    .card:not(.phone) .text,
+    .card:not(.phone) .more {
+        background: rgba(255, 255, 255, 0.25);
+        background-clip: padding-box;
+    }
+
+    :global(.ink) .card .text,
+    :global(.ink) .card .more {
+        background: none;
     }
 
     .name {
@@ -27,5 +145,119 @@ const { name, description, url } = Astro.props;
 
     .description {
         margin: 0.25rem 0 0;
+    }
+
+    /* Every cover is a box sized by its format, with the media filling it, so the ink copies
+       (which drop their media, see index.astro) keep the same layout. */
+    .cover {
+        position: relative;
+        overflow: hidden;
+        background: var(--cover-bg, none);
+        /* Not under the line: the ink copies draw it over the page colour. */
+        background-clip: padding-box;
+    }
+
+    /* The ink copies only draw text; a colour here would go through their blends. */
+    :global(.ink) .cover {
+        background: none;
+    }
+
+    .cover > :global(*) {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border: 0;
+    }
+
+    /* Header covers: 3:2, or 16:9 for a video player so it isn't letterboxed. */
+    .landscape .cover,
+    .vimeo .cover {
+        aspect-ratio: 3 / 2;
+        border-bottom: 1px solid var(--color-text-primary);
+        /* The ratio is the media's, not the media's plus the line, or the player shows bars. */
+        box-sizing: content-box;
+    }
+
+    .vimeo .cover {
+        aspect-ratio: 16 / 9;
+    }
+
+    /* The preview fades in over its poster once it's actually playing (see index.astro). */
+    .cover video {
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
+
+    .cover video.on {
+        opacity: 1;
+    }
+
+    /* Side covers keep their ratio (1:1, or the screenshot's), like every cover. Narrow
+       cards (phones) stack them above the text: a square full width like a header, a
+       screenshot at half width. */
+    li {
+        container: card / inline-size;
+    }
+
+    .square .cover {
+        aspect-ratio: 1;
+        border-bottom: 1px solid var(--color-text-primary);
+    }
+
+    .phone .cover {
+        width: 50%;
+        margin-bottom: 1rem;
+    }
+
+    /* Wide enough, they sit beside it: a third for the image, the rest for the text. Text
+       shorter than the image sits in the middle of it; longer text starts level with it. */
+    @container card (min-width: 32rem) {
+        .phone .main,
+        .square .main {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            align-items: start;
+        }
+
+        .phone {
+            column-gap: 1.25rem;
+        }
+
+        .phone .cover {
+            width: auto;
+            margin-bottom: 0;
+        }
+
+        .text {
+            align-self: stretch;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* The line runs down the text's side, which spans the card even when the square
+           doesn't. */
+        .square .cover {
+            border-bottom: 0;
+        }
+
+        .square .text {
+            border-left: 1px solid var(--color-text-primary);
+        }
+
+        .square.flip .text {
+            border-left: 0;
+            border-right: 1px solid var(--color-text-primary);
+        }
+
+        .flip .main {
+            grid-template-columns: 2fr 1fr;
+        }
+
+        .flip .cover {
+            order: 1;
+        }
     }
 </style>

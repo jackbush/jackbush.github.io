@@ -3,7 +3,7 @@
 // sketch in the glimmers repo (its settings pane has the same names).
 //
 // Each page's text is computed, never picked: the page colour's inverse, at full
-// strength for headings and strong text, and at lower opacities for body text and rules.
+// strength for headings, strong text and lines, and at a lower opacity for body text.
 
 export type Mode = "projects" | "roles";
 export const MODES: Mode[] = ["projects", "roles"];
@@ -16,17 +16,16 @@ export const pages: Record<Mode, string> = {
 
 /** Text: the page's inverse at these opacities over it. */
 export const textOpacity = {
-    main: 1, // headings, strong text, the toggle
+    main: 1, // headings, strong text, the toggle and the lines between roles
     minor: 0.8, // body text and links
-    rule: 0.2, // the lines between list items
 };
 
 /** A switch: starts at the click and spreads until it has passed the whole screen. */
 export const switchMotion = {
     startSize: 1, // diameter at the click, CSS px
-    speed: 0.15, // screen short sides per second, at the start
-    accel: 3, // screen short sides per second², after that
-    oldTextFade: 0.3, // seconds for the old list to fade out
+    speed: 0.195, // screen short sides per second, at the start
+    accel: 5.07, // screen short sides per second², after that
+    oldTextFade: 0.23, // seconds for the old list to fade out
     interruptFade: 0.05, // seconds for a half-revealed list to go, on a switch back
     barsLead: 0.15, // seconds before the switch covers the top edge that the browser's bars change
 };
@@ -61,7 +60,6 @@ export const textColours = Object.fromEntries(
         {
             main: hex(text(mode, textOpacity.main)),
             minor: hex(text(mode, textOpacity.minor)),
-            rule: hex(text(mode, textOpacity.rule)),
         },
     ]),
 ) as Record<Mode, Record<keyof typeof textOpacity, string>>;

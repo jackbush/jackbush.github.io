@@ -3,12 +3,13 @@
 /* ── Themes ───────────────────────────────────────────────────────
    The colours come from src/data/theme.ts, set on <html> by Layout.astro:
    --{projects,roles}-bg (the page), and its text: -main (the page's inverse),
-   -minor and -rule (the inverse at lower opacities). These map them to the
+   and -minor (the inverse at a lower opacity). These map them to the
    semantic --color-* vars. --color-focus is kept apart from the text colours
    because the backdrop makes the real text transparent (see Backdrop below). */
 
 :root {
     --transition-duration: 300ms;
+    --radius: 0.5rem; /* corners of the toggle and the project cards */
 }
 
 /* Projects — light */
@@ -16,7 +17,6 @@
     --color-bg:             var(--projects-bg);
     --color-text-primary:   var(--projects-main);
     --color-text-secondary: var(--projects-minor);
-    --color-border:         var(--projects-rule);
     --color-focus:          var(--projects-minor);
 }
 
@@ -25,7 +25,6 @@
     --color-bg:             var(--roles-bg);
     --color-text-primary:   var(--roles-main);
     --color-text-secondary: var(--roles-minor);
-    --color-border:         var(--roles-rule);
     --color-focus:          var(--roles-minor);
 }
 
@@ -193,15 +192,16 @@ ol {
     padding-block: 1.5rem;
 }
 
-.content section > ul > li + li {
-    border-top: 2px solid var(--color-border);
+/* Roles are divided by lines like the toggle's frame; projects are cards. */
+.content section[data-mode="roles"] > ul > li + li {
+    border-top: 1px solid var(--color-text-primary);
 }
 
 /* ── Backdrop ─────────────────────────────────────────────────────
    With WebGL2 (and once its first frame is drawn), src/scripts/backdrop.ts
    paints the page colour on a canvas behind everything and sets
    html.backdrop-on. The page (index.astro) is then drawn four times in one grid
-   cell: the real one, with its text and rules transparent but still there for
+   cell: the real one, with its text and lines transparent but still there for
    focus, selection and screen readers, and three aria-hidden copies (.ink) that
    only draw, each in a blend layer over the canvas, with greys from theme.ts
    (inkGreys) that turn whatever page is under a glyph into that page's text
@@ -235,7 +235,6 @@ html.backdrop-on .ink {
 html.backdrop-on main {
     --color-text-primary:   transparent;
     --color-text-secondary: transparent;
-    --color-border:         transparent;
     --ink-none:             transparent;
 }
 
@@ -243,7 +242,6 @@ html.backdrop-on main {
     mix-blend-mode: multiply;
     --color-text-primary:   var(--ink-m-main);
     --color-text-secondary: var(--ink-m-minor);
-    --color-border:         var(--ink-m-rule);
     --ink-none:             #FFF;
 }
 
@@ -251,7 +249,6 @@ html.backdrop-on main {
     mix-blend-mode: difference;
     --color-text-primary:   var(--ink-d-main);
     --color-text-secondary: var(--ink-d-minor);
-    --color-border:         var(--ink-d-rule);
     --ink-none:             #000;
 }
 
@@ -259,7 +256,6 @@ html.backdrop-on main {
     mix-blend-mode: plus-lighter;
     --color-text-primary:   var(--ink-k-main);
     --color-text-secondary: var(--ink-k-minor);
-    --color-border:         var(--ink-k-rule);
     --ink-none:             #000;
 }
 
