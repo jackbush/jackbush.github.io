@@ -17,7 +17,9 @@ const cards = projects.map((project) => {
 
 <Layout theme="projects">
     <script is:inline define:vars={{ rolesBg: pages.roles }}>
-        // Runs before first paint so ?mode=roles links load the dark theme.
+        // Runs before first paint so ?mode=roles links load the dark theme. The lists wait
+        // (lists-pending) until the page script has shown the right one, then fade in.
+        document.documentElement.classList.add("lists-pending");
         if (new URLSearchParams(location.search).get("mode") === "roles") {
             document.documentElement.dataset.theme = "roles";
             document
@@ -384,6 +386,7 @@ const cards = projects.map((project) => {
             : "projects";
     setChrome(initial, false);
     showList(initial);
+    root.classList.remove("lists-pending");
 </script>
 
 <style>
@@ -408,6 +411,11 @@ const cards = projects.map((project) => {
     /* Both lists share one cell, so the new one can appear over the old one as it fades. */
     .panels {
         display: grid;
+        transition: opacity var(--transition-duration) ease;
+    }
+
+    :global(.lists-pending) .panels {
+        opacity: 0;
     }
 
     .panels > section {
