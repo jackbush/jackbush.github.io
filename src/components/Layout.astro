@@ -72,6 +72,13 @@ const style = Object.entries(vars).map(([k, v]) => `${k}: ${v}`).join("; ");
         margin-inline: auto;
         /* viewport-fit=cover lets the backdrop reach under the browser's bars; keep the
            text clear of notches in landscape. */
-        padding-inline: max(1.5rem, env(safe-area-inset-left)) max(1.5rem, env(safe-area-inset-right));
+        --gutter: 1.5rem;
+        padding-inline: max(var(--gutter), env(safe-area-inset-left)) max(var(--gutter), env(safe-area-inset-right));
+    }
+
+    @media (max-width: 30rem) {
+        .container {
+            --gutter: 1rem;
+        }
     }
 </style>
