@@ -9,7 +9,7 @@
 
 :root {
     --transition-duration: 300ms;
-    --radius: 0.5rem; /* corners of the toggle and the project cards */
+    --radius: 0.5rem; /* corners of the toggle and the project cards (square in roles) */
     --gutter: 1.5rem; /* the page's side margins, and the space between project cards */
 }
 
@@ -27,12 +27,13 @@
     --color-focus:          var(--projects-minor);
 }
 
-/* Roles — dark */
+/* Roles — dark, with square corners */
 [data-theme="roles"] {
     --color-bg:             var(--roles-bg);
     --color-text-primary:   var(--roles-main);
     --color-text-secondary: var(--roles-minor);
     --color-focus:          var(--roles-minor);
+    --radius:               0;
 }
 
 /* ── Reset ────────────────────────────────────────────────────── */
@@ -199,11 +200,10 @@ ol {
     padding-block: 1.5rem;
 }
 
-/* Cards are as far apart as the page is from the screen's edges. */
+/* Cards are as far apart as the page is from the screen's edges, and from the toggle. */
 .content section[data-mode="projects"] > ul {
     display: grid;
     gap: var(--gutter);
-    padding-top: var(--gutter);
 }
 
 /* Roles are divided by lines like the toggle's frame; projects are cards. */
