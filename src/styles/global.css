@@ -197,10 +197,6 @@ ol {
     border-top: 2px solid var(--color-border);
 }
 
-.content section > ul > li:first-child {
-    padding-top: 0;
-}
-
 /* ── Backdrop ─────────────────────────────────────────────────────
    With WebGL2 (and once its first frame is drawn), src/scripts/backdrop.ts
    paints the page colour on a canvas behind everything and sets
