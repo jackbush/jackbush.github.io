@@ -1,18 +1,17 @@
-// The two pages, their text, and how a switch between them moves. Every tunable value
-// for the theme and the backdrop lives here. They're tuned live in the "homepage"
-// sketch in the glimmers repo (its settings pane has the same names).
+// The theme colour, the text, and how a switch between the two pages moves. Every
+// tunable value for the theme and the backdrop lives here. They're tuned live in the
+// "homepage" sketch in the glimmers repo (its settings pane has the same names).
 //
-// Each page's text is computed, never picked: the page colour's inverse, at full
-// strength for headings, strong text and lines, and at a lower opacity for body text.
+// One colour decides both pages: it's the Projects page and the Roles text, and its
+// inverse is the Projects text and the Roles page. Each page's text is that page's
+// inverse, at full strength for headings, strong text and lines, and at a lower
+// opacity for body text.
 
 export type Mode = "projects" | "roles";
 export const MODES: Mode[] = ["projects", "roles"];
 
-/** Page colours. */
-export const pages: Record<Mode, string> = {
-    projects: "#F3EAD6",
-    roles: "#000210",
-};
+/** The Projects page; the Roles page is its inverse. */
+export const themeColour = "#F3EAD6";
 
 /** Text: the page's inverse at these opacities over it. */
 export const textOpacity = {
@@ -48,6 +47,12 @@ export const rgb = (hex: string): Rgb =>
 
 const hex = (c: Rgb) =>
     "#" + c.map((v) => Math.round(v * 255).toString(16).padStart(2, "0")).join("").toUpperCase();
+
+/** Page colours: the theme colour, and its inverse. */
+export const pages: Record<Mode, string> = {
+    projects: themeColour,
+    roles: hex(rgb(themeColour).map((v) => 1 - v) as Rgb),
+};
 
 /** A page's text at `opacity`: the inverse, that share of the way over the page. */
 const text = (mode: Mode, opacity: number): Rgb =>
