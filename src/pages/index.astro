@@ -33,10 +33,11 @@ const cards = projects.map((project) => {
                     <strong>
                         I'm a design and product leader who loves making things.
                     </strong>
-                    Since 2005 I've built apps, platforms, teams, design systems,
-                    AI agents, instruments, a brain-machine interface,
-                    exhibitions, furniture, and a van. I care a lot about quality,
-                    accessibility, delight, and contributing to the human toolbox.
+                    Since 2005 I've built apps, platforms, teams, design
+                    systems, AI agents, instruments, a brain-machine interface,
+                    exhibitions, furniture, and a van. I care about quality,
+                    accessibility, delight, and contributing to the human
+                    toolbox.
                 </p>
             </section>
 
@@ -127,7 +128,8 @@ const cards = projects.map((project) => {
     // would otherwise draw in the blends and load twice.
     const inks = ["m", "d", "k"].map((layer) => {
         const copy = document.createElement("div");
-        for (const { name, value } of main.attributes) copy.setAttribute(name, value);
+        for (const { name, value } of main.attributes)
+            copy.setAttribute(name, value);
         copy.classList.add("ink");
         copy.dataset.ink = layer;
         copy.setAttribute("aria-hidden", "true");
@@ -138,13 +140,16 @@ const cards = projects.map((project) => {
         page.append(copy);
         return copy;
     });
-    const panels = [...page.querySelectorAll<HTMLElement>("section[data-mode]")];
+    const panels = [
+        ...page.querySelectorAll<HTMLElement>("section[data-mode]"),
+    ];
 
     // Link hover lives on the real page, whose text is transparent under the backdrop, so
     // mirror it onto the copies.
     const links = [main, ...inks].map((m) => [...m.querySelectorAll("a")]);
     links[0].forEach((a, i) => {
-        const mark = (on: boolean) => links.slice(1).forEach((l) => l[i].classList.toggle("hover", on));
+        const mark = (on: boolean) =>
+            links.slice(1).forEach((l) => l[i].classList.toggle("hover", on));
         a.addEventListener("pointerenter", () => mark(true));
         a.addEventListener("pointerleave", () => mark(false));
     });
@@ -153,14 +158,22 @@ const cards = projects.map((project) => {
     // reduced motion. Each is invisible over its poster until it's actually playing, then fades
     // in, so loading never shows a blank or a jump.
     const previews = [...main.querySelectorAll("video")];
-    previews.forEach((v) => v.addEventListener("playing", () => v.classList.add("on"), { once: true }));
-    const onScreen = new IntersectionObserver((entries) => {
-        for (const { target, isIntersecting } of entries) {
-            const v = target as HTMLVideoElement;
-            if (isIntersecting && !reduceMotion.matches) v.play().catch(() => {});
-            else v.pause();
-        }
-    }, { rootMargin: "100px 0px" });
+    previews.forEach((v) =>
+        v.addEventListener("playing", () => v.classList.add("on"), {
+            once: true,
+        }),
+    );
+    const onScreen = new IntersectionObserver(
+        (entries) => {
+            for (const { target, isIntersecting } of entries) {
+                const v = target as HTMLVideoElement;
+                if (isIntersecting && !reduceMotion.matches)
+                    v.play().catch(() => {});
+                else v.pause();
+            }
+        },
+        { rootMargin: "100px 0px" },
+    );
     previews.forEach((v) => onScreen.observe(v));
 
     // Fill + contrasting ring so the mark reads on any tab-bar colour.
@@ -179,7 +192,10 @@ const cards = projects.map((project) => {
         bars = mode;
         if (mode) root.style.setProperty("--browser-bg", pages[mode]);
         else root.style.removeProperty("--browser-bg");
-        themeColor?.setAttribute("content", pages[mode ?? (root.dataset.theme as Mode)]);
+        themeColor?.setAttribute(
+            "content",
+            pages[mode ?? (root.dataset.theme as Mode)],
+        );
     }
 
     /** Everything but the lists: theme, title, browser colours, tabs, the URL. */
@@ -214,15 +230,26 @@ const cards = projects.map((project) => {
         const clip = document.createElementNS(SVG, "clipPath");
         clip.id = `switch-clip-${i}`;
         const poly = document.createElementNS(SVG, "polygon");
-        for (let j = 0; j < CLIP_POINTS; j++) poly.points.appendItem(svg.createSVGPoint());
+        for (let j = 0; j < CLIP_POINTS; j++)
+            poly.points.appendItem(svg.createSVGPoint());
         clip.append(poly);
         svg.append(clip);
-        return { url: `url(#switch-clip-${i})`, points: [...Array(CLIP_POINTS).keys()].map((j) => poly.points.getItem(j)) };
+        return {
+            url: `url(#switch-clip-${i})`,
+            points: [...Array(CLIP_POINTS).keys()].map((j) =>
+                poly.points.getItem(j),
+            ),
+        };
     });
     document.body.append(svg);
 
     const fades = new Map<HTMLElement, Animation>();
-    let reveal: { clip: (typeof clips)[number]; lists: HTMLElement[]; x: number; y: number } | null = null;
+    let reveal: {
+        clip: (typeof clips)[number];
+        lists: HTMLElement[];
+        x: number;
+        y: number;
+    } | null = null;
     let nextClip = 0;
 
     function settle(p: HTMLElement) {
@@ -250,8 +277,13 @@ const cards = projects.map((project) => {
             const interrupted = reveal?.lists.includes(p) ?? false;
             settle(p);
             p.setAttribute("aria-hidden", "true");
-            const seconds = interrupted ? switchMotion.interruptFade : switchMotion.oldTextFade;
-            const fade = p.animate([{ opacity: 1 }, { opacity: 0 }], { duration: seconds * 1000, fill: "forwards" });
+            const seconds = interrupted
+                ? switchMotion.interruptFade
+                : switchMotion.oldTextFade;
+            const fade = p.animate([{ opacity: 1 }, { opacity: 0 }], {
+                duration: seconds * 1000,
+                fill: "forwards",
+            });
             fade.onfinish = () => {
                 p.hidden = true;
                 p.removeAttribute("aria-hidden");
@@ -283,7 +315,8 @@ const cards = projects.map((project) => {
             return;
         }
         const box = reveal.lists[0].getBoundingClientRect();
-        const ox = reveal.x - box.left, oy = reveal.y - box.top;
+        const ox = reveal.x - box.left,
+            oy = reveal.y - box.top;
         reveal.clip.points.forEach((pt, j) => {
             const a = (j / CLIP_POINTS) * Math.PI * 2;
             const r = backdrop!.radiusAt(a);
@@ -293,24 +326,31 @@ const cards = projects.map((project) => {
     }
 
     // ── The backdrop ───────────────────────────────────────────
-    const backdrop = createBackdrop(document.querySelector<HTMLCanvasElement>(".backdrop")!, {
-        onFrame: () => {
-            stepReveal();
-            setBrowserBars(backdrop!.topEdge);
+    const backdrop = createBackdrop(
+        document.querySelector<HTMLCanvasElement>(".backdrop")!,
+        {
+            onFrame: () => {
+                stepReveal();
+                setBrowserBars(backdrop!.topEdge);
+            },
+            onReady: () => root.classList.add("backdrop-on"),
+            onLost: () => {
+                root.classList.remove("backdrop-on");
+                showList(root.dataset.theme as Mode);
+                setBrowserBars(null);
+            },
         },
-        onReady: () => root.classList.add("backdrop-on"),
-        onLost: () => {
-            root.classList.remove("backdrop-on");
-            showList(root.dataset.theme as Mode);
-            setBrowserBars(null);
-        },
-    });
+    );
 
     /** Switch to `mode` from (x, y): spread on the backdrop when there is one and motion is welcome. */
     function switchTo(mode: Mode, x: number, y: number) {
         if (mode === root.dataset.theme) return;
         setChrome(mode, true);
-        if (backdrop && root.classList.contains("backdrop-on") && !reduceMotion.matches) {
+        if (
+            backdrop &&
+            root.classList.contains("backdrop-on") &&
+            !reduceMotion.matches
+        ) {
             backdrop.start(mode, x, y);
             swapLists(mode, x, y);
         } else {
@@ -399,11 +439,13 @@ const cards = projects.map((project) => {
     /* The tabs' outer corners follow the frame's, inside its border (no overflow: hidden on
        the frame, which would clip their focus rings). */
     .toggle button:first-child {
-        border-radius: calc(var(--radius) - var(--frame)) 0 0 calc(var(--radius) - var(--frame));
+        border-radius: calc(var(--radius) - var(--frame)) 0 0
+            calc(var(--radius) - var(--frame));
     }
 
     .toggle button:last-child {
-        border-radius: 0 calc(var(--radius) - var(--frame)) calc(var(--radius) - var(--frame)) 0;
+        border-radius: 0 calc(var(--radius) - var(--frame))
+            calc(var(--radius) - var(--frame)) 0;
     }
 
     /* The active tab is filled with the text colour, its label in the page colour (with the

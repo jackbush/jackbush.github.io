@@ -62,7 +62,7 @@ export const projects: Project[] = [
     },
     {
         name: "Atlas Nights",
-        description: "Spend a night star-gazing in the High Atlas. Choose constellation maps from any of the historic sky cultures of the region.",
+        description: "Spend a night star-gazing in the High Atlas. Choose constellation maps from a selection of regional sky cultures.",
         url: "https://jackbush.github.io/glimmers/atlas-nights/",
         cover: { format: "landscape", image: atlasNightsPoster, video: atlasNightsVideo },
     },
