@@ -28,6 +28,7 @@ export const switchMotion = {
     accel: 3, // screen short sides per second², after that
     oldTextFade: 0.3, // seconds for the old list to fade out
     interruptFade: 0.05, // seconds for a half-revealed list to go, on a switch back
+    barsLead: 0.15, // seconds before the switch covers the top edge that the browser's bars change
 };
 
 /** The switch's outline: a smooth closed curve through points that each swing in and out. */

@@ -152,7 +152,7 @@ import { pages } from "../data/theme";
 
     // The browser's own bars take one flat page colour (theme-color, or html's background in
     // Safari), so they can't show a switch. With the backdrop they follow the page it draws
-    // along the top edge, changing as a switch covers it; otherwise the theme.
+    // along the top edge, changing just before a switch covers it; otherwise the theme.
     let bars: Mode | null = null;
     function setBrowserBars(mode: Mode | null) {
         if (mode === bars) return;
