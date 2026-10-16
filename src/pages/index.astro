@@ -17,9 +17,10 @@ const cards = projects.map((project) => {
 
 <Layout theme="projects">
     <script is:inline define:vars={{ rolesBg: pages.roles }}>
-        // Runs before first paint so ?mode=roles links load the dark theme. The lists wait
-        // (lists-pending) until the page script has shown the right one, then fade in.
-        document.documentElement.classList.add("lists-pending");
+        // Runs before first paint so ?mode=roles links load the dark theme. Everything below
+        // the intro waits (tabs-pending) until the page script has set up the toggle and shown
+        // the right list, then fades in.
+        document.documentElement.classList.add("tabs-pending");
         if (new URLSearchParams(location.search).get("mode") === "roles") {
             document.documentElement.dataset.theme = "roles";
             document
@@ -43,61 +44,63 @@ const cards = projects.map((project) => {
                 </p>
             </section>
 
-            <div class="toggle" role="tablist" aria-label="Projects or roles">
-                <button
-                    role="tab"
-                    id="tab-projects"
-                    data-mode="projects"
-                    aria-selected="true"
-                    aria-controls="panel-projects"
-                >
-                    Projects
-                </button>
-                <button
-                    role="tab"
-                    id="tab-roles"
-                    data-mode="roles"
-                    aria-selected="false"
-                    aria-controls="panel-roles"
-                    tabindex="-1"
-                >
-                    Roles
-                </button>
-            </div>
+            <div class="tabs">
+                <div class="toggle" role="tablist" aria-label="Projects or roles">
+                    <button
+                        role="tab"
+                        id="tab-projects"
+                        data-mode="projects"
+                        aria-selected="true"
+                        aria-controls="panel-projects"
+                    >
+                        Projects
+                    </button>
+                    <button
+                        role="tab"
+                        id="tab-roles"
+                        data-mode="roles"
+                        aria-selected="false"
+                        aria-controls="panel-roles"
+                        tabindex="-1"
+                    >
+                        Roles
+                    </button>
+                </div>
 
-            <div class="panels">
-                <section
-                    id="panel-projects"
-                    data-mode="projects"
-                    role="tabpanel"
-                    aria-labelledby="tab-projects"
-                >
-                    <ul>
-                        {cards.map(({ project, flip }) => (
-                            <ProjectItem project={project} flip={flip} />
-                        ))}
-                    </ul>
-                </section>
+                <div class="panels">
+                    <section
+                        id="panel-projects"
+                        data-mode="projects"
+                        role="tabpanel"
+                        aria-labelledby="tab-projects"
+                    >
+                        <ul>
+                            {cards.map(({ project, flip }) => (
+                                <ProjectItem project={project} flip={flip} />
+                            ))}
+                        </ul>
+                    </section>
 
-                <section
-                    id="panel-roles"
-                    data-mode="roles"
-                    role="tabpanel"
-                    aria-labelledby="tab-roles"
-                    hidden
-                >
-                    <ul>
-                        {roles.map((entry) => (
-                            <RoleItem
-                                organisation={entry.organisation}
-                                role={entry.role}
-                                dates={entry.dates}
-                                description={entry.description}
-                                listItems={entry.listItems}
-                            />
-                        ))}
-                    </ul>
-                </section>
+                    <section
+                        id="panel-roles"
+                        data-mode="roles"
+                        role="tabpanel"
+                        aria-labelledby="tab-roles"
+                        hidden
+                    >
+                        <ul>
+                            {roles.map((entry) => (
+                                <RoleItem
+                                    organisation={entry.organisation}
+                                    role={entry.role}
+                                    dates={entry.dates}
+                                    description={entry.description}
+                                    listItems={entry.listItems}
+                                />
+                            ))}
+                        </ul>
+                    </section>
+                </div>
             </div>
         </main>
     </div>
@@ -386,7 +389,15 @@ const cards = projects.map((project) => {
             : "projects";
     setChrome(initial, false);
     showList(initial);
-    root.classList.remove("lists-pending");
+    // Fade the toggle and lists in explicitly: a CSS transition is skipped if the page hasn't
+    // painted them hidden yet, so they'd just pop in.
+    if (!reduceMotion.matches)
+        for (const p of page.querySelectorAll(".tabs"))
+            p.animate([{ opacity: 0 }, { opacity: 1 }], {
+                duration: 200,
+                easing: "ease-out",
+            });
+    root.classList.remove("tabs-pending");
 </script>
 
 <style>
@@ -411,10 +422,9 @@ const cards = projects.map((project) => {
     /* Both lists share one cell, so the new one can appear over the old one as it fades. */
     .panels {
         display: grid;
-        transition: opacity var(--transition-duration) ease;
     }
 
-    :global(.lists-pending) .panels {
+    :global(.tabs-pending) .tabs {
         opacity: 0;
     }
 
