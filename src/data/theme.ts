@@ -1,0 +1,103 @@
+// The two pages, their text, and how a switch between them moves. Every tunable value
+// for the theme and the backdrop lives here. They're tuned live in the "homepage"
+// sketch in the glimmers repo (its settings pane has the same names).
+//
+// Each page's text is computed, never picked: the page colour's inverse, at full
+// strength for headings and strong text, and at lower opacities for body text and rules.
+
+export type Mode = "projects" | "roles";
+export const MODES: Mode[] = ["projects", "roles"];
+
+/** Page colours. */
+export const pages: Record<Mode, string> = {
+    projects: "#F3EAD6",
+    roles: "#000210",
+};
+
+/** Text: the page's inverse at these opacities over it. */
+export const textOpacity = {
+    main: 1, // headings, strong text, the toggle
+    minor: 0.8, // body text and links
+    rule: 0.2, // the lines between list items
+};
+
+/** A switch: starts at the click and spreads until it has passed the whole screen. */
+export const switchMotion = {
+    startSize: 1, // diameter at the click, CSS px
+    speed: 0.15, // screen short sides per second, at the start
+    accel: 3, // screen short sides per second², after that
+    oldTextFade: 0.3, // seconds for the old list to fade out
+    interruptFade: 0.05, // seconds for a half-revealed list to go, on a switch back
+};
+
+/** The switch's outline: a smooth closed curve through points that each swing in and out. */
+export const switchShape = {
+    wobble: 0.12, // how far each point swings, as a share of the radius (0 = a circle)
+    points: 6,
+    speed: 0.8, // swings per second
+    speedJitter: 0.35, // each point's own speed, so they drift in and out of step
+    sizeJitter: 0.5, // each point's own swing size
+};
+
+// ── Derived colours ─────────────────────────────────────────────
+
+type Rgb = [number, number, number];
+
+export const rgb = (hex: string): Rgb =>
+    [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255) as Rgb;
+
+const hex = (c: Rgb) =>
+    "#" + c.map((v) => Math.round(v * 255).toString(16).padStart(2, "0")).join("").toUpperCase();
+
+/** A page's text at `opacity`: the inverse, that share of the way over the page. */
+const text = (mode: Mode, opacity: number): Rgb =>
+    rgb(pages[mode]).map((v) => v + (1 - 2 * v) * opacity) as Rgb;
+
+/** Text colours per mode and kind, as hex. */
+export const textColours = Object.fromEntries(
+    MODES.map((mode) => [
+        mode,
+        {
+            main: hex(text(mode, textOpacity.main)),
+            minor: hex(text(mode, textOpacity.minor)),
+            rule: hex(text(mode, textOpacity.rule)),
+        },
+    ]),
+) as Record<Mode, Record<keyof typeof textOpacity, string>>;
+
+/**
+ * With the backdrop on, text is drawn in three blend layers over the canvas: multiply
+ * by m, difference with d, then plus-lighter k. Text at opacity o over a page bg should
+ * be (1 − 2o)·bg + o per channel, which those give:
+ *   o ≥ ½: |o − (2o − 1)·bg|      o < ½: (1 − 2o)·bg + o
+ * so every glyph is the inverse of whatever page is under it, mid-switch included.
+ */
+export function inkGreys(opacity: number) {
+    return opacity >= 0.5
+        ? { m: 2 * opacity - 1, d: opacity, k: 0 }
+        : { m: 1 - 2 * opacity, d: 0, k: opacity };
+}
+
+// ── Contrast: the site's floor is 5.7:1, checked at build ──────
+
+const MIN_CONTRAST = 5.7;
+
+function contrast(a: Rgb, b: Rgb) {
+    const lum = (c: Rgb) => {
+        const [r, g, bl] = c.map((v) => (v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
+        return 0.2126 * r + 0.7152 * g + 0.0722 * bl;
+    };
+    const [hi, lo] = [lum(a), lum(b)].sort((x, y) => y - x);
+    return (hi + 0.05) / (lo + 0.05);
+}
+
+for (const mode of MODES) {
+    for (const kind of ["main", "minor"] as const) {
+        const ratio = contrast(rgb(pages[mode]), text(mode, textOpacity[kind]));
+        if (ratio < MIN_CONTRAST) {
+            throw new Error(
+                `src/data/theme.ts: ${kind} text on the ${mode} page is ${ratio.toFixed(2)}:1, below ${MIN_CONTRAST}:1.`,
+            );
+        }
+    }
+}

@@ -4,117 +4,144 @@ import ProjectItem from "../components/ProjectItem.astro";
 import RoleItem from "../components/RoleItem.astro";
 import { projects } from "../data/projects";
 import { roles } from "../data/roles";
+import { pages } from "../data/theme";
 ---
 
 <Layout theme="projects">
-    <script is:inline>
+    <script is:inline define:vars={{ rolesBg: pages.roles }}>
         // Runs before first paint so ?mode=roles links load the dark theme.
         if (new URLSearchParams(location.search).get("mode") === "roles") {
             document.documentElement.dataset.theme = "roles";
             document
                 .querySelector('meta[name="theme-color"]')
-                ?.setAttribute("content", "#030E26");
+                ?.setAttribute("content", rolesBg);
         }
     </script>
-    <main>
-        <section class="intro">
-            <h1>Jack Bush</h1>
-            <p>
-                <strong>
-                    I'm a design and product leader who loves making things.
-                </strong>
-                Since 2005 I've built apps, platforms, teams, design systems, AI
-                agents, instruments, a brain-machine interface, exhibitions,
-                furniture, and a van. I care a lot about quality, accessibility,
-                delight, and contributing to the human toolbox.
-            </p>
-        </section>
+    <div class="page">
+        <main class="content">
+            <section class="intro">
+                <h1>Jack Bush</h1>
+                <p>
+                    <strong>
+                        I'm a design and product leader who loves making things.
+                    </strong>
+                    Since 2005 I've built apps, platforms, teams, design systems,
+                    AI agents, instruments, a brain-machine interface,
+                    exhibitions, furniture, and a van. I care a lot about quality,
+                    accessibility, delight, and contributing to the human toolbox.
+                </p>
+            </section>
 
-        <div class="toggle" role="tablist" aria-label="Projects or roles">
-            <button
-                role="tab"
-                id="tab-projects"
-                data-mode="projects"
-                aria-selected="true"
-                aria-controls="panel-projects"
-            >
-                Projects
-            </button>
-            <button
-                role="tab"
-                id="tab-roles"
-                data-mode="roles"
-                aria-selected="false"
-                aria-controls="panel-roles"
-                tabindex="-1"
-            >
-                Roles
-            </button>
-        </div>
+            <div class="toggle" role="tablist" aria-label="Projects or roles">
+                <button
+                    role="tab"
+                    id="tab-projects"
+                    data-mode="projects"
+                    aria-selected="true"
+                    aria-controls="panel-projects"
+                >
+                    Projects
+                </button>
+                <button
+                    role="tab"
+                    id="tab-roles"
+                    data-mode="roles"
+                    aria-selected="false"
+                    aria-controls="panel-roles"
+                    tabindex="-1"
+                >
+                    Roles
+                </button>
+            </div>
 
-        <section
-            id="panel-projects"
-            data-mode="projects"
-            role="tabpanel"
-            aria-labelledby="tab-projects"
-        >
-            <ul>
-                {projects.map((project) => (
-                    <ProjectItem
-                        name={project.name}
-                        description={project.description}
-                        url={project.url}
-                    />
-                ))}
-            </ul>
-        </section>
+            <div class="panels">
+                <section
+                    id="panel-projects"
+                    data-mode="projects"
+                    role="tabpanel"
+                    aria-labelledby="tab-projects"
+                >
+                    <ul>
+                        {projects.map((project) => (
+                            <ProjectItem
+                                name={project.name}
+                                description={project.description}
+                                url={project.url}
+                            />
+                        ))}
+                    </ul>
+                </section>
 
-        <section
-            id="panel-roles"
-            data-mode="roles"
-            role="tabpanel"
-            aria-labelledby="tab-roles"
-            hidden
-        >
-            <ul>
-                {roles.map((entry) => (
-                    <RoleItem
-                        organisation={entry.organisation}
-                        role={entry.role}
-                        dates={entry.dates}
-                        description={entry.description}
-                        listItems={entry.listItems}
-                    />
-                ))}
-            </ul>
-        </section>
-    </main>
+                <section
+                    id="panel-roles"
+                    data-mode="roles"
+                    role="tabpanel"
+                    aria-labelledby="tab-roles"
+                    hidden
+                >
+                    <ul>
+                        {roles.map((entry) => (
+                            <RoleItem
+                                organisation={entry.organisation}
+                                role={entry.role}
+                                dates={entry.dates}
+                                description={entry.description}
+                                listItems={entry.listItems}
+                            />
+                        ))}
+                    </ul>
+                </section>
+            </div>
+        </main>
+    </div>
 </Layout>
 
 <script>
-    const tabs = [
-        ...document.querySelectorAll<HTMLButtonElement>('[role="tab"]'),
-    ];
-    const panels = [
-        ...document.querySelectorAll<HTMLElement>('[role="tabpanel"]'),
-    ];
+    import { createBackdrop } from "../scripts/backdrop";
+    import { pages, switchMotion, textColours, type Mode } from "../data/theme";
+
+    const root = document.documentElement;
+    const page = document.querySelector<HTMLElement>(".page")!;
+    const main = page.querySelector<HTMLElement>("main")!;
+    const tabs = [...main.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
     const favicon = document.querySelector<HTMLLinkElement>(
         'link[rel="icon"][type="image/svg+xml"]',
     );
     const themeColor = document.querySelector<HTMLMetaElement>(
         'meta[name="theme-color"]',
     );
+    const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
 
-    const LABELS: Record<string, string> = {
+    const LABELS: Record<Mode, string> = {
         projects: "Projects",
         roles: "Roles",
     };
 
-    // Browser chrome colour per theme: warm paper / cool ink.
-    const THEME_COLORS: Record<string, string> = {
-        projects: "#F2ECDF",
-        roles: "#030E26",
-    };
+    // The ink copies (see Backdrop in global.css): the page again, three times, drawing only.
+    // No ids (they'd clash), hidden from assistive tech, never focusable. Shown only once the
+    // backdrop has drawn.
+    const inks = ["m", "d", "k"].map((layer) => {
+        const copy = document.createElement("div");
+        for (const { name, value } of main.attributes) copy.setAttribute(name, value);
+        copy.classList.add("ink");
+        copy.dataset.ink = layer;
+        copy.setAttribute("aria-hidden", "true");
+        copy.inert = true;
+        copy.append(...(main.cloneNode(true) as HTMLElement).childNodes);
+        for (const n of copy.querySelectorAll("[id]")) n.removeAttribute("id");
+        page.append(copy);
+        return copy;
+    });
+    const panels = [...page.querySelectorAll<HTMLElement>("section[data-mode]")];
+
+    // Link hover lives on the real page, whose text is transparent under the backdrop, so
+    // mirror it onto the copies.
+    const links = [main, ...inks].map((m) => [...m.querySelectorAll("a")]);
+    links[0].forEach((a, i) => {
+        const mark = (on: boolean) => links.slice(1).forEach((l) => l[i].classList.toggle("hover", on));
+        a.addEventListener("pointerenter", () => mark(true));
+        a.addEventListener("pointerleave", () => mark(false));
+    });
 
     // Fill + contrasting ring so the mark reads on any tab-bar colour.
     function setFavicon(fill: string, stroke: string) {
@@ -123,19 +150,17 @@ import { roles } from "../data/roles";
         favicon.href = "data:image/svg+xml," + encodeURIComponent(svg);
     }
 
-    function setMode(mode: string, updateUrl: boolean) {
-        document.documentElement.dataset.theme = mode;
+    /** Everything but the lists: theme, title, browser colours, tabs, the URL. */
+    function setChrome(mode: Mode, updateUrl: boolean) {
+        root.dataset.theme = mode;
         document.title = `Jack Bush | ${LABELS[mode]}`;
-        themeColor?.setAttribute("content", THEME_COLORS[mode]);
-        if (mode === "roles") setFavicon("#030E26", "#EBF0F8");
-        else setFavicon("#FFFFFF", "#030E26");
+        themeColor?.setAttribute("content", pages[mode]);
+        if (mode === "roles") setFavicon(pages.roles, textColours.roles.main);
+        else setFavicon("#FFFFFF", pages.roles);
         tabs.forEach((tab) => {
             const active = tab.dataset.mode === mode;
             tab.setAttribute("aria-selected", String(active));
             tab.tabIndex = active ? 0 : -1;
-        });
-        panels.forEach((panel) => {
-            panel.hidden = panel.dataset.mode !== mode;
         });
         if (updateUrl) {
             const url = new URL(location.href);
@@ -144,30 +169,174 @@ import { roles } from "../data/roles";
         }
     }
 
+    // ── The lists on a switch ──────────────────────────────────
+    // The old list fades out; the new one shows only inside the switch as it spreads, clipped
+    // to its outline. Two SVG clips, so a list cut off by a quick switch back keeps its clip
+    // while the next reveal uses the other.
+    const CLIP_POINTS = 256; // at a full-screen radius, the chords sit within a pixel of the curve
+    const SVG = "http://www.w3.org/2000/svg";
+    const svg = document.createElementNS(SVG, "svg");
+    svg.setAttribute("aria-hidden", "true");
+    svg.style.cssText = "position: absolute; width: 0; height: 0;";
+    const clips = [0, 1].map((i) => {
+        const clip = document.createElementNS(SVG, "clipPath");
+        clip.id = `switch-clip-${i}`;
+        const poly = document.createElementNS(SVG, "polygon");
+        for (let j = 0; j < CLIP_POINTS; j++) poly.points.appendItem(svg.createSVGPoint());
+        clip.append(poly);
+        svg.append(clip);
+        return { url: `url(#switch-clip-${i})`, points: [...Array(CLIP_POINTS).keys()].map((j) => poly.points.getItem(j)) };
+    });
+    document.body.append(svg);
+
+    const fades = new Map<HTMLElement, Animation>();
+    let reveal: { clip: (typeof clips)[number]; lists: HTMLElement[]; x: number; y: number } | null = null;
+    let nextClip = 0;
+
+    function settle(p: HTMLElement) {
+        fades.get(p)?.cancel();
+        fades.delete(p);
+    }
+
+    /** Show `mode`'s list at once. */
+    function showList(mode: Mode) {
+        reveal = null;
+        for (const p of panels) {
+            settle(p);
+            p.hidden = p.dataset.mode !== mode;
+            p.removeAttribute("aria-hidden");
+            p.style.clipPath = "";
+        }
+    }
+
+    /** Fade the old list and start revealing `mode`'s from (x, y), viewport CSS px. */
+    function swapLists(mode: Mode, x: number, y: number) {
+        for (const p of panels) {
+            if (p.dataset.mode === mode || p.hidden) continue;
+            // A list still being revealed (a switch back mid-switch) keeps its clip, so it
+            // doesn't jump to whole, and goes quickly; its switch keeps spreading.
+            const interrupted = reveal?.lists.includes(p) ?? false;
+            settle(p);
+            p.setAttribute("aria-hidden", "true");
+            const seconds = interrupted ? switchMotion.interruptFade : switchMotion.oldTextFade;
+            const fade = p.animate([{ opacity: 1 }, { opacity: 0 }], { duration: seconds * 1000, fill: "forwards" });
+            fade.onfinish = () => {
+                p.hidden = true;
+                p.removeAttribute("aria-hidden");
+                p.style.clipPath = "";
+                settle(p);
+            };
+            fades.set(p, fade);
+        }
+        const clip = clips[nextClip];
+        nextClip = 1 - nextClip;
+        const lists = panels.filter((p) => p.dataset.mode === mode);
+        for (const p of lists) {
+            settle(p);
+            p.hidden = false;
+            p.removeAttribute("aria-hidden");
+            p.style.clipPath = clip.url;
+        }
+        reveal = { clip, lists, x, y };
+        // Nothing shows until the backdrop's next frame sets the outline.
+        for (const pt of clip.points) pt.x = pt.y = 0;
+    }
+
+    /** Set the reveal's clip to the switch's outline (the list may have scrolled since). */
+    function stepReveal() {
+        if (!reveal) return;
+        if (!backdrop?.running) {
+            for (const p of reveal.lists) p.style.clipPath = "";
+            reveal = null;
+            return;
+        }
+        const box = reveal.lists[0].getBoundingClientRect();
+        const ox = reveal.x - box.left, oy = reveal.y - box.top;
+        reveal.clip.points.forEach((pt, j) => {
+            const a = (j / CLIP_POINTS) * Math.PI * 2;
+            const r = backdrop!.radiusAt(a);
+            pt.x = ox + Math.cos(a) * r;
+            pt.y = oy + Math.sin(a) * r;
+        });
+    }
+
+    // ── The backdrop ───────────────────────────────────────────
+    const backdrop = createBackdrop(document.querySelector<HTMLCanvasElement>(".backdrop")!, {
+        onFrame: stepReveal,
+        onReady: () => root.classList.add("backdrop-on"),
+        onLost: () => {
+            root.classList.remove("backdrop-on");
+            showList(root.dataset.theme as Mode);
+        },
+    });
+
+    /** Switch to `mode` from (x, y): spread on the backdrop when there is one and motion is welcome. */
+    function switchTo(mode: Mode, x: number, y: number) {
+        if (mode === root.dataset.theme) return;
+        setChrome(mode, true);
+        if (backdrop && root.classList.contains("backdrop-on") && !reduceMotion.matches) {
+            backdrop.start(mode, x, y);
+            swapLists(mode, x, y);
+        } else {
+            backdrop?.jump(mode);
+            showList(mode);
+        }
+    }
+
+    // The switch starts at the pointer, or at the tab's centre from the keyboard (a keyboard
+    // click has detail 0).
+    function pick(tab: HTMLElement, e: MouseEvent | null) {
+        const r = tab.getBoundingClientRect();
+        const x = e && e.detail > 0 ? e.clientX : r.left + r.width / 2;
+        const y = e && e.detail > 0 ? e.clientY : r.top + r.height / 2;
+        switchTo(tab.dataset.mode as Mode, x, y);
+    }
+
     tabs.forEach((tab, i) => {
-        tab.addEventListener("click", () => setMode(tab.dataset.mode!, true));
+        tab.addEventListener("click", (e) => pick(tab, e));
         tab.addEventListener("keydown", (e) => {
             if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
             const next = tabs[(i + 1) % tabs.length];
-            setMode(next.dataset.mode!, true);
+            pick(next, null);
             next.focus();
         });
     });
 
-    const initial =
+    const initial: Mode =
         new URLSearchParams(location.search).get("mode") === "roles"
             ? "roles"
             : "projects";
-    setMode(initial, false);
+    setChrome(initial, false);
+    showList(initial);
 </script>
 
 <style>
-    main {
+    .page {
+        display: grid;
+    }
+
+    /* The real page and its ink copies share one cell. */
+    .page > :global(*) {
+        grid-area: 1 / 1;
+        min-width: 0;
+    }
+
+    .content {
         padding-block: 4rem 6rem;
     }
 
     .intro {
         margin-bottom: 3rem;
+    }
+
+    /* Both lists share one cell, so the new one can appear over the old one as it fades. */
+    .panels {
+        display: grid;
+    }
+
+    .panels > section {
+        grid-area: 1 / 1;
+        min-width: 0;
     }
 
     .toggle {
@@ -185,23 +354,16 @@ import { roles } from "../data/roles";
         font-weight: 700;
         border: none;
         cursor: pointer;
-    }
-
-    /* The active block is filled with the opposite surface (Projects ink,
-       Roles paper); the inactive one is transparent on the page. Keyed off
-       data-theme, not aria-selected, so ?mode=roles paints right first time. */
-    .toggle button {
         background: transparent;
         color: var(--color-text-primary);
     }
 
-    :global([data-theme="projects"]) .toggle button[data-mode="projects"] {
-        background: var(--ink);
-        color: var(--ink-paper);
-    }
-
+    /* The active tab is filled with the text colour, its label in the page colour (with the
+       backdrop on, a gap in the fill: --ink-none). Keyed off data-theme, not aria-selected,
+       so ?mode=roles paints right first time and the ink copies follow. */
+    :global([data-theme="projects"]) .toggle button[data-mode="projects"],
     :global([data-theme="roles"]) .toggle button[data-mode="roles"] {
-        background: var(--paper);
-        color: var(--paper-ink);
+        background: var(--color-text-primary);
+        color: var(--ink-none, var(--color-bg));
     }
 </style>

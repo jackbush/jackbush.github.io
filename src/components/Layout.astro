@@ -1,15 +1,28 @@
 ---
 import "../styles/global.css";
+import { MODES, inkGreys, pages, textColours, textOpacity, type Mode } from "../data/theme";
 
 interface Props {
     title?: string;
-    theme?: "projects" | "roles";
+    theme?: Mode;
 }
 
 const { title = "Jack Bush", theme = "projects" } = Astro.props;
+
+// The theme's colours as CSS variables (global.css maps them per data-theme), and the
+// backdrop's ink greys (see inkGreys in theme.ts), all from src/data/theme.ts.
+const vars: Record<string, string> = {};
+for (const mode of MODES) {
+    vars[`--${mode}-bg`] = pages[mode];
+    for (const [kind, colour] of Object.entries(textColours[mode])) vars[`--${mode}-${kind}`] = colour;
+}
+for (const [kind, opacity] of Object.entries(textOpacity)) {
+    for (const [layer, grey] of Object.entries(inkGreys(opacity))) vars[`--ink-${layer}-${kind}`] = `color(srgb ${grey} ${grey} ${grey})`;
+}
+const style = Object.entries(vars).map(([k, v]) => `${k}: ${v}`).join("; ");
 ---
 
-<html lang="en" data-theme={theme}>
+<html lang="en" data-theme={theme} style={style}>
     <head>
         <meta charset="utf-8" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -39,9 +52,10 @@ const { title = "Jack Bush", theme = "projects" } = Astro.props;
 
         <meta name="twitter:card" content="summary_large_image" />
 
-        <meta name="theme-color" content="#F2ECDF" />
+        <meta name="theme-color" content={pages[theme]} />
     </head>
     <body>
+        <canvas class="backdrop" aria-hidden="true"></canvas>
         <a href="#main-content" class="skip-link">
             Skip to main content
         </a>

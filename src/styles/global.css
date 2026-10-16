@@ -1,39 +1,32 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 
 /* ── Themes ───────────────────────────────────────────────────────
-   Two fixed surfaces — warm paper, cool ink — with the text tones that
-   sit on each. Themes below map these to the semantic --color-* vars;
-   the active toggle block reads the raw surfaces directly so it looks
-   the same in both contexts. */
+   The colours come from src/data/theme.ts, set on <html> by Layout.astro:
+   --{projects,roles}-bg (the page), and its text: -main (the page's inverse),
+   -minor and -rule (the inverse at lower opacities). These map them to the
+   semantic --color-* vars. --color-focus is kept apart from the text colours
+   because the backdrop makes the real text transparent (see Backdrop below). */
 
 :root {
-    --paper:        #F2ECDF; /* light, faintly warm */
-    --paper-ink:    #1C1810;
-    --paper-muted:  #554B3F;
-    --paper-line:   #D9D0BF;
-
-    --ink:          #030E26; /* dark, faintly cool */
-    --ink-paper:    #EBF0F8;
-    --ink-muted:    #94A1B8;
-    --ink-line:     #1E2B47;
-
     --transition-duration: 300ms;
 }
 
 /* Projects — light */
 [data-theme="projects"] {
-    --color-bg:             var(--paper);
-    --color-text-primary:   var(--paper-ink);
-    --color-text-secondary: var(--paper-muted);
-    --color-border:         var(--paper-line);
+    --color-bg:             var(--projects-bg);
+    --color-text-primary:   var(--projects-main);
+    --color-text-secondary: var(--projects-minor);
+    --color-border:         var(--projects-rule);
+    --color-focus:          var(--projects-minor);
 }
 
 /* Roles — dark */
 [data-theme="roles"] {
-    --color-bg:             var(--ink);
-    --color-text-primary:   var(--ink-paper);
-    --color-text-secondary: var(--ink-muted);
-    --color-border:         var(--ink-line);
+    --color-bg:             var(--roles-bg);
+    --color-text-primary:   var(--roles-main);
+    --color-text-secondary: var(--roles-minor);
+    --color-border:         var(--roles-rule);
+    --color-focus:          var(--roles-minor);
 }
 
 /* ── Reset ────────────────────────────────────────────────────── */
@@ -61,7 +54,7 @@
 /* ── Focus ────────────────────────────────────────────────────── */
 
 :focus-visible {
-    outline: 3px solid var(--color-text-secondary);
+    outline: 3px solid var(--color-focus);
     outline-offset: 3px;
 }
 
@@ -87,10 +80,15 @@
 
 /* ── Base ─────────────────────────────────────────────────────── */
 
+/* The page colour sits on html, not body: the backdrop canvas (z-index -1)
+   paints over the root's background but under body's. */
+html {
+    background-color: var(--color-bg);
+}
+
 body {
     font-family: "Inter", sans-serif;
     margin: 0;
-    background-color: var(--color-bg);
     color: var(--color-text-primary);
     -webkit-font-smoothing: antialiased;
 }
@@ -161,7 +159,8 @@ a {
     text-decoration: none;
 }
 
-a:hover {
+a:hover,
+a.hover {
     text-decoration: underline;
 }
 
@@ -174,14 +173,87 @@ ol {
 
 /* ── List items in page content ───────────────────────────────── */
 
-main section > ul > li {
+.content section > ul > li {
     padding-block: 1.5rem;
 }
 
-main section > ul > li + li {
+.content section > ul > li + li {
     border-top: 2px solid var(--color-border);
 }
 
-main section > ul > li:first-child {
+.content section > ul > li:first-child {
     padding-top: 0;
+}
+
+/* ── Backdrop ─────────────────────────────────────────────────────
+   With WebGL2 (and once its first frame is drawn), src/scripts/backdrop.ts
+   paints the page colour on a canvas behind everything and sets
+   html.backdrop-on. The page (index.astro) is then drawn four times in one grid
+   cell: the real one, with its text and rules transparent but still there for
+   focus, selection and screen readers, and three aria-hidden copies (.ink) that
+   only draw, each in a blend layer over the canvas, with greys from theme.ts
+   (inkGreys) that turn whatever page is under a glyph into that page's text
+   colour. --ink-none is a layer's do-nothing colour: the active tab's label is
+   a gap in its fill. Without the class, everything is plain CSS as above. */
+
+.backdrop {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100lvh;
+    z-index: -1;
+    pointer-events: none;
+    visibility: hidden;
+}
+
+html.backdrop-on .backdrop {
+    visibility: visible;
+}
+
+.ink {
+    display: none;
+}
+
+html.backdrop-on .ink {
+    display: block;
+    pointer-events: none;
+    user-select: none;
+}
+
+html.backdrop-on main {
+    --color-text-primary:   transparent;
+    --color-text-secondary: transparent;
+    --color-border:         transparent;
+    --ink-none:             transparent;
+}
+
+.ink[data-ink="m"] {
+    mix-blend-mode: multiply;
+    --color-text-primary:   var(--ink-m-main);
+    --color-text-secondary: var(--ink-m-minor);
+    --color-border:         var(--ink-m-rule);
+    --ink-none:             #FFF;
+}
+
+.ink[data-ink="d"] {
+    mix-blend-mode: difference;
+    --color-text-primary:   var(--ink-d-main);
+    --color-text-secondary: var(--ink-d-minor);
+    --color-border:         var(--ink-d-rule);
+    --ink-none:             #000;
+}
+
+.ink[data-ink="k"] {
+    mix-blend-mode: plus-lighter;
+    --color-text-primary:   var(--ink-k-main);
+    --color-text-secondary: var(--ink-k-minor);
+    --color-border:         var(--ink-k-rule);
+    --ink-none:             #000;
+}
+
+/* The canvas carries the switch; colours don't fade as well. */
+html.backdrop-on .page *,
+html.backdrop-on .page *::before,
+html.backdrop-on .page *::after {
+    transition: none;
 }
