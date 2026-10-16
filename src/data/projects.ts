@@ -44,7 +44,7 @@ export type Project = Base & ({ url: string; cover?: Cover } | { vimeo: string }
 export const projects: Project[] = [
     {
         name: "Sprig",
-        description: "Botanical studies of leaves that never grew. Invent impossible plants, and watch one species morph into the next.",
+        description: "Botanical studies. Be taken on an arboreal tour, or click the settings cog and invent your own impossible plants.",
         url: "https://jackbush.github.io/glimmers/sprig/",
         cover: { format: "landscape", image: sprigPoster, video: sprigVideo },
     },
@@ -62,7 +62,7 @@ export const projects: Project[] = [
     },
     {
         name: "Atlas Nights",
-        description: "A night in the High Atlas, looped. The summer sky turns overhead, and constellations trace themselves in as they rise.",
+        description: "Spend a night star-gazing in the High Atlas. Choose constellation maps from any of the historic sky cultures of the region.",
         url: "https://jackbush.github.io/glimmers/atlas-nights/",
         cover: { format: "landscape", image: atlasNightsPoster, video: atlasNightsVideo },
     },
@@ -75,7 +75,7 @@ export const projects: Project[] = [
     },
     {
         name: "Blackstar",
-        description: "An undulating black orb with a burning halo, on a wobbling gradient under analogue film grain. Design your own void.",
+        description: "An undulating black orb with a burning halo. Open the settings pane to design your own void.",
         url: "https://jackbush.github.io/glimmers/blackstar/",
         cover: { format: "landscape", image: blackstarPoster, video: blackstarVideo },
     },
