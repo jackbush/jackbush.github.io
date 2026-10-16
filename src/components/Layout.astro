@@ -27,7 +27,7 @@ const style = Object.entries(vars).map(([k, v]) => `${k}: ${v}`).join("; ");
         <meta charset="utf-8" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="icon" href="/favicon.ico" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <meta name="generator" content={Astro.generator} />
         <title>{title}</title>
         <meta
@@ -70,6 +70,8 @@ const style = Object.entries(vars).map(([k, v]) => `${k}: ${v}`).join("; ");
         width: 100%;
         max-width: 740px;
         margin-inline: auto;
-        padding-inline: 1.5rem;
+        /* viewport-fit=cover lets the backdrop reach under the browser's bars; keep the
+           text clear of notches in landscape. */
+        padding-inline: max(1.5rem, env(safe-area-inset-left)) max(1.5rem, env(safe-area-inset-right));
     }
 </style>

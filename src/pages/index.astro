@@ -150,11 +150,23 @@ import { pages } from "../data/theme";
         favicon.href = "data:image/svg+xml," + encodeURIComponent(svg);
     }
 
+    // The browser's own bars take one flat page colour (theme-color, or html's background in
+    // Safari), so they can't show a switch. With the backdrop they follow the page it draws
+    // along the top edge, changing as a switch covers it; otherwise the theme.
+    let bars: Mode | null = null;
+    function setBrowserBars(mode: Mode | null) {
+        if (mode === bars) return;
+        bars = mode;
+        if (mode) root.style.setProperty("--browser-bg", pages[mode]);
+        else root.style.removeProperty("--browser-bg");
+        themeColor?.setAttribute("content", pages[mode ?? (root.dataset.theme as Mode)]);
+    }
+
     /** Everything but the lists: theme, title, browser colours, tabs, the URL. */
     function setChrome(mode: Mode, updateUrl: boolean) {
         root.dataset.theme = mode;
         document.title = `Jack Bush | ${LABELS[mode]}`;
-        themeColor?.setAttribute("content", pages[mode]);
+        if (!bars) themeColor?.setAttribute("content", pages[mode]);
         if (mode === "roles") setFavicon(pages.roles, textColours.roles.main);
         else setFavicon("#FFFFFF", pages.roles);
         tabs.forEach((tab) => {
@@ -262,11 +274,15 @@ import { pages } from "../data/theme";
 
     // ── The backdrop ───────────────────────────────────────────
     const backdrop = createBackdrop(document.querySelector<HTMLCanvasElement>(".backdrop")!, {
-        onFrame: stepReveal,
+        onFrame: () => {
+            stepReveal();
+            setBrowserBars(backdrop!.topEdge);
+        },
         onReady: () => root.classList.add("backdrop-on"),
         onLost: () => {
             root.classList.remove("backdrop-on");
             showList(root.dataset.theme as Mode);
+            setBrowserBars(null);
         },
     });
 

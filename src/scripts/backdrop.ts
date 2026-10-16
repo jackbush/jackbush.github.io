@@ -84,6 +84,8 @@ export interface Backdrop {
     jump(mode: Mode): void;
     /** Whether a switch is under way. */
     readonly running: boolean;
+    /** The page drawn right along the top edge, for the browser's bars. */
+    readonly topEdge: Mode;
     /** The newest switch's radius (CSS px) at angle `a` (radians, from +x towards +y). */
     radiusAt(a: number): number;
 }
@@ -103,6 +105,7 @@ export function createBackdrop(
     const live: { theme: number; x: number; y: number; t0: number; id: number }[] = [];
     const theme = (mode: Mode) => MODES.indexOf(mode);
     let base = theme((document.documentElement.dataset.theme as Mode) ?? "projects");
+    let top = base;
     let clock = 0;
     let nextId = 0;
     let newestReach = -1;
@@ -166,15 +169,19 @@ export function createBackdrop(
         // A switch whose deepest dip has passed the furthest corner becomes the base, with
         // any older ones. (The curve can overshoot its points a little, hence the 1.5.)
         const short = Math.min(w, h);
+        const covers = (sp: (typeof live)[number], dy: number) =>
+            reach(clock - sp.t0, short) * (1 - 1.5 * switchShape.wobble) >= Math.hypot(Math.max(sp.x, w - sp.x), dy) + 1;
         for (let s = live.length - 1; s >= 0; s--) {
             const sp = live[s];
-            const far = Math.hypot(Math.max(sp.x, w - sp.x), Math.max(sp.y, h - sp.y)) + 1;
-            if (reach(clock - sp.t0, short) * (1 - 1.5 * switchShape.wobble) >= far) {
+            if (covers(sp, Math.max(sp.y, h - sp.y))) {
                 base = sp.theme;
                 live.splice(0, s + 1);
                 break;
             }
         }
+        // Likewise the top edge, by its corners; newer switches draw over older ones.
+        top = base;
+        for (const sp of live) if (covers(sp, sp.y)) top = sp.theme;
         live.forEach((sp, s) => {
             const tau = clock - sp.t0;
             switches.set([sp.x, sp.y, reach(tau, short), sp.theme], s * 4);
@@ -232,6 +239,9 @@ export function createBackdrop(
         },
         get running() {
             return newestReach >= 0;
+        },
+        get topEdge() {
+            return MODES[top];
         },
         radiusAt(a) {
             const n = switchShape.points;
