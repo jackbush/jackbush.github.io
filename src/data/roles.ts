@@ -15,13 +15,12 @@ export const roles: Role[] = [
         start: "2024-01",
         end: "2026-06",
         description:
-            "Owned product, design, research and product marketing. Took supply chain traceability and Digital Product Passports from a fragmented, support-run legacy suite to one self-serve platform.",
+            "Owned product, design, research and product marketing. Took supply chain traceability and Digital Product Passports from a fragmented, support-run legacy suite to a self-serve platform.",
         listItems: [
-            // "Moved customers from support to the product: System Usability Scale score 14->79, WCAG AA accessibility, near-zero help tickets.",
-            "Restructured product and engineering into cross-functional, value-stream-aligned teams.",
+            "Restructured product and engineering into cross-functional, stream-aligned teams.",
             "Packaged the platform into two off-the-shelf propositions, setting sales up for repeatable deals instead of bespoke pilots.",
             "Rebuilt the platform API-first on AWS and open source, with a data lake and full API parity, cutting running costs 25%.",
-            "Addressed scaling bottlenecks: Cut configuration time 70%, shipped setup tool and AI assistant for self-serve API integration.",
+            "Addressed scaling bottlenecks: Cut config time 70%, shipped self-serve API setup tool with AI assistant.",
         ],
     },
     {
