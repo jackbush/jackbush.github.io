@@ -163,7 +163,7 @@ p strong {
     font-size: 0.8125rem;
     font-weight: 400;
     line-height: 1.6;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.035em;
     text-transform: uppercase;
     font-variant-numeric: tabular-nums;
     color: var(--color-text-secondary);
