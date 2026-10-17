@@ -25,10 +25,10 @@ export const roles: Role[] = [
         role: "Principal Product Designer",
         dates: "2020 – 2024",
         description:
-            "Led design of OVO’s consumer app and digital experience for 4m UK households, alongside company-wide work on the design system and accessibility.",
+            "Led design of OVO’s consumer app and digital experience for 4m UK households, also owning the design system and accessibility.",
         listItems: [
             "Rebuilt the customer app from information architecture up, based on mental model research, growing users from 200k to 500k and doubling engagement.",
-            "Brought every customer product onto one design system at WCAG AA, with documentation, open clinics and team-wide training.",
+            "Brought every customer product onto one design system at WCAG AA, with open clinics and team-wide training.",
         ],
     },
     {
@@ -39,8 +39,8 @@ export const roles: Role[] = [
             "First hire at an OVO-backed start-up building tools for independent tradespeople. Built and led a design team covering research, service design, product design and brand.",
         listItems: [
             "Scaled from four local pilot users to 1000+ engineers covering the whole UK.",
-            "Conceived an automated booking service from ethnographic research, converted 82% from email to booking with no human involvement.",
-            "Ran company-wide ride-alongs, with every employee spending a day in the field with engineers.",
+            "Conceived an automated booking service from ethnographic research, converted 82% from email to booking.",
+            "Organised ride-alongs, with every employee spending a day in the field with users.",
         ],
     },
     {
@@ -48,7 +48,7 @@ export const roles: Role[] = [
         role: "Product Innovation Consultant",
         dates: "2018 – 2019",
         description:
-            "Led research and development into how emerging technologies across electronic signatures, blockchain, smart contracts and payments could make legal protection more accessible.",
+            "Led research and development into how emerging technologies (electronic signatures, blockchain, smart contracts and payments) could make legal protection more accessible.",
         listItems: [
             "Designed Rocket Wallet, a payment protection service that released funds based on contract terms, taking it to private beta with partners.",
         ],
@@ -69,7 +69,7 @@ export const roles: Role[] = [
         role: "Product Designer + Engineer",
         dates: "2015 – 2016",
         description:
-            "Full-spectrum product consultancy covering research, propositions, prototyping, user testing and engineering. Projects included B2B platforms, marketing websites and experimental experiences (game, VR, exhibition).",
+            "Full-spectrum product consultancy covering research, propositions, prototyping, user testing and engineering. Projects included B2B platforms, marketing websites and experiences (VR, game, exhibition).",
         listItems: [
             "Won: Best Exhibition Design at London Design Week (2015).",
         ],
