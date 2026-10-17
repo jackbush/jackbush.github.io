@@ -11,6 +11,7 @@
     --transition-duration: 300ms;
     --radius: 0.5rem; /* corners of the toggle and the project cards */
     --gutter: 1.5rem; /* the page's side margins, and the space between project cards */
+    --card-padding: 1rem; /* around a project card's text */
 }
 
 @media (max-width: 30rem) {
@@ -195,8 +196,8 @@ ol {
 
 /* ── List items in page content ───────────────────────────────── */
 
-/* Both lists start a gutter below the toggle (its margin) and end at their last item, so
-   only the space between items differs. */
+/* Both lists start a gutter below the toggle (its margin) and end at their last item. A
+   card's text sits inside its padding, so the roles start that much lower to line up. */
 
 /* Cards are as far apart as the page is from the screen's edges, and from the toggle. */
 .content section[data-mode="projects"] > ul {
@@ -205,6 +206,10 @@ ol {
 }
 
 /* Roles are divided by lines like the toggle's frame; projects are cards. */
+.content section[data-mode="roles"] > ul {
+    padding-top: var(--card-padding);
+}
+
 .content section[data-mode="roles"] > ul > li + li {
     margin-top: 1.5rem;
     padding-top: 1.5rem;
