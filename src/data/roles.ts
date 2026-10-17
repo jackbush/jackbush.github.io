@@ -11,7 +11,7 @@ export interface Role {
 export const roles: Role[] = [
     {
         organisation: "Circulor",
-        role: "VP Product",
+        role: "Vice President, Product",
         start: "2024-01",
         end: "2026-06",
         description:
