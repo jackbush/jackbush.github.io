@@ -62,7 +62,7 @@ export const roles: Role[] = [
             "Set up the product and design function at an accelerator-stage start-up, leading it through growth to a $10.4m Series A.",
         listItems: [
             "Built the first decentralised platform for tracing provenance data across supply chains, securing over two million diamonds.",
-            "Used it to digitally track the first diamond from mine to market across mining, cutting, polishing and certification.",
+            "Used it to digitally track the first diamond across mining, cutting, polishing and certification, to a ring on the market.",
         ],
     },
     {
