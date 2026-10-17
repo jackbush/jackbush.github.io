@@ -7,6 +7,8 @@ import blackstarPoster from "../assets/covers/blackstar.jpg";
 import blackstarVideo from "../assets/covers/blackstar.mp4?url";
 import carverCover from "../assets/covers/carver.jpg";
 import chromistCover from "../assets/covers/chromist.jpg";
+import geodePoster from "../assets/covers/geode.jpg";
+import geodeVideo from "../assets/covers/geode.mp4?url";
 import mettyCover from "../assets/covers/metty.jpg";
 import quadraCover from "../assets/covers/quadra.jpg";
 import risolinoCover from "../assets/covers/risolino.jpg";
@@ -150,6 +152,14 @@ export const projects: Project[] = [
         url: "https://jackbush.github.io/quadra/",
         cover: { format: "square", image: quadraCover },
     },
+    {
+        name: "Geode",
+        description:
+            "An experiment in browser-based ray tracing. Open the settings to grow your own crystals.",
+        url: "https://jackbush.github.io/glimmers/geode/",
+        cover: { format: "landscape", image: geodePoster, video: geodeVideo },
+    },
+
 ];
 
 // A card without a cover still works (text only), but it's probably an oversight.
