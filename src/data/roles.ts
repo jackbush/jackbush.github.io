@@ -76,13 +76,6 @@ export const roles: Role[] = [
         ],
     },
     {
-        organisation: "Victoria University",
-        role: "Research Assistant",
-        dates: "2012 – 2013",
-        description:
-            "Found and documented Vishnu shrines in the Kathmandu valley, narrating local myths about the origins of the cosmos, and integrated into a series of drawings.",
-    },
-    {
         organisation: "Ponoko",
         role: "Production Manager",
         dates: "2010 – 2013",
@@ -92,5 +85,12 @@ export const roles: Role[] = [
             "Reduced order turnaround from 10 days to 48 hours.",
             "Cut material costs 25% by renegotiating with existing suppliers.",
         ],
+    },
+    {
+        organisation: "Victoria University",
+        role: "Research Assistant",
+        dates: "2011 – 2012",
+        description:
+            "Found and documented Vishnu shrines in the Kathmandu valley, narrating local myths about the origins of the cosmos, and integrated into a series of drawings.",
     },
 ];
