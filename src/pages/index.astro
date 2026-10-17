@@ -1,10 +1,9 @@
 ---
 import Layout from "../components/Layout.astro";
 import ProjectItem from "../components/ProjectItem.astro";
-import RoleItem from "../components/RoleItem.astro";
+import Roles from "../components/Roles.astro";
 import { intro } from "../data/intro";
 import { projects } from "../data/projects";
-import { roles } from "../data/roles";
 import { pages } from "../data/theme";
 
 // Side covers (phone or square) alternate left, right, left… down the list.
@@ -87,17 +86,7 @@ const cards = projects.map((project) => {
                         aria-labelledby="tab-roles"
                         hidden
                     >
-                        <ul>
-                            {roles.map((entry) => (
-                                <RoleItem
-                                    organisation={entry.organisation}
-                                    role={entry.role}
-                                    dates={entry.dates}
-                                    description={entry.description}
-                                    listItems={entry.listItems}
-                                />
-                            ))}
-                        </ul>
+                        <Roles />
                     </section>
                 </div>
             </div>
@@ -112,7 +101,9 @@ const cards = projects.map((project) => {
     const root = document.documentElement;
     const page = document.querySelector<HTMLElement>(".page")!;
     const main = page.querySelector<HTMLElement>("main")!;
-    const tabs = [...main.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+    const tabs = [
+        ...main.querySelectorAll<HTMLButtonElement>('.toggle [role="tab"]'),
+    ];
     const favicon = document.querySelector<HTMLLinkElement>(
         'link[rel="icon"][type="image/svg+xml"]',
     );
@@ -446,7 +437,7 @@ const cards = projects.map((project) => {
         padding: 0.6rem 1rem;
         font-family: inherit;
         font-size: 1rem;
-        font-weight: 700;
+        font-weight: 600;
         border: none;
         cursor: pointer;
         background: transparent;

@@ -75,7 +75,7 @@
     padding: 0.6rem 1.1rem;
     background: var(--color-text-primary);
     color: var(--color-bg);
-    font-weight: 700;
+    font-weight: 600;
     font-size: 0.875rem;
     text-decoration: none;
     transition: top 0.15s ease;
@@ -116,23 +116,29 @@ h1 {
     margin: 0 0 1rem;
 }
 
-/* Section heading — organisations, a step up from item titles */
+/* Section heading — organisations. Heavy and tight, a clear step over the
+   role under it. */
 h2 {
-    font-size: 1.375rem;
-    font-weight: 700;
-    line-height: 1.4;
-    letter-spacing: -0.01em;
+    font-size: 1.625rem;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
     color: var(--color-text-primary);
     margin: 0;
 }
 
-/* Item title — project names */
-h3 {
-    font-size: 1.2rem;
-    font-weight: 700;
-    line-height: 1.6;
+/* Item title — project names, and the role under an organisation: a touch
+   bigger than the body, semibold, in the main text colour. */
+h3,
+.text-strong {
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.35;
     letter-spacing: -0.01em;
     color: var(--color-text-primary);
+}
+
+h3 {
     margin: 0 0 0.5rem;
 }
 
@@ -147,27 +153,32 @@ p,
 }
 
 p strong {
-    color: var(--color-text-primary);
-}
-
-/* Body strong — the emphasised line under an item title (roles) */
-.text-strong {
-    font-size: 1.125rem;
     font-weight: 600;
-    line-height: 1.75;
     color: var(--color-text-primary);
 }
 
-/* Phones: body, item titles and strong lines a step down (the headings scale
-   down on their own). */
+/* Meta — small print set aside from the text: role dates. Capitals set close,
+   with tabular figures so the years line up down the list. */
+.text-meta {
+    font-size: 0.8125rem;
+    font-weight: 400;
+    line-height: 1.6;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-text-secondary);
+}
+
+/* Phones: item titles, roles and body a step down (the page title scales on
+   its own; organisations stay as they are). */
 @media (max-width: 30rem) {
-    h3 {
+    h3,
+    .text-strong {
         font-size: 1.125rem;
     }
 
     p,
-    .text-body,
-    .text-strong {
+    .text-body {
         font-size: 1rem;
     }
 }
@@ -197,23 +208,13 @@ ol {
 /* ── List items in page content ───────────────────────────────── */
 
 /* Both lists start a gutter below the toggle (its margin) and end at their last item. A
-   card's text sits inside its padding, so the roles start that much lower to line up. */
+   card's text sits inside its padding, so the roles start that much lower to line up
+   (src/components/roles). */
 
 /* Cards are as far apart as the page is from the screen's edges, and from the toggle. */
 .content section[data-mode="projects"] > ul {
     display: grid;
     gap: var(--gutter);
-}
-
-/* Roles are divided by lines like the toggle's frame; projects are cards. */
-.content section[data-mode="roles"] > ul {
-    padding-top: var(--card-padding);
-}
-
-.content section[data-mode="roles"] > ul > li + li {
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--color-text-primary);
 }
 
 /* ── Backdrop ─────────────────────────────────────────────────────

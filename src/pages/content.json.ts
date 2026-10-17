@@ -5,7 +5,7 @@ import type { APIRoute } from "astro";
 import { getImage } from "astro:assets";
 import { intro } from "../data/intro";
 import { projects } from "../data/projects";
-import { roles } from "../data/roles";
+import { formatDates, roles } from "../data/roles";
 
 /** Cover widths: a landscape header fills the card; a side cover is a third of it. */
 const WIDTH = { landscape: 960, phone: 480, square: 480 };
@@ -16,7 +16,10 @@ export const GET: APIRoute = async ({ site }) => {
         projects.map(async (p) => {
             if ("vimeo" in p || !p.cover) return p;
             const { image, ...cover } = p.cover;
-            const img = await getImage({ src: image, width: WIDTH[cover.format] });
+            const img = await getImage({
+                src: image,
+                width: WIDTH[cover.format],
+            });
             return {
                 ...p,
                 cover: {
@@ -24,12 +27,22 @@ export const GET: APIRoute = async ({ site }) => {
                     image: abs(img.src),
                     width: image.width,
                     height: image.height,
-                    ...("video" in cover && cover.video ? { video: abs(cover.video) } : {}),
+                    ...("video" in cover && cover.video
+                        ? { video: abs(cover.video) }
+                        : {}),
                 },
             };
         }),
     );
-    return new Response(JSON.stringify({ intro, projects: out, roles }), {
-        headers: { "Content-Type": "application/json" },
-    });
+    return new Response(
+        JSON.stringify({
+            intro,
+            projects: out,
+            // The glimmers prototype shows a role's dates as one string.
+            roles: roles.map((r) => ({ ...r, dates: formatDates(r) })),
+        }),
+        {
+            headers: { "Content-Type": "application/json" },
+        },
+    );
 };
