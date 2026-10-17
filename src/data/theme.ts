@@ -46,7 +46,15 @@ export const rgb = (hex: string): Rgb =>
     [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255) as Rgb;
 
 const hex = (c: Rgb) =>
-    "#" + c.map((v) => Math.round(v * 255).toString(16).padStart(2, "0")).join("").toUpperCase();
+    "#" +
+    c
+        .map((v) =>
+            Math.round(v * 255)
+                .toString(16)
+                .padStart(2, "0"),
+        )
+        .join("")
+        .toUpperCase();
 
 /** Page colours: the theme colour, and its inverse. */
 export const pages: Record<Mode, string> = {
@@ -88,7 +96,9 @@ const MIN_CONTRAST = 5.7;
 
 function contrast(a: Rgb, b: Rgb) {
     const lum = (c: Rgb) => {
-        const [r, g, bl] = c.map((v) => (v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
+        const [r, g, bl] = c.map((v) =>
+            v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4,
+        );
         return 0.2126 * r + 0.7152 * g + 0.0722 * bl;
     };
     const [hi, lo] = [lum(a), lum(b)].sort((x, y) => y - x);

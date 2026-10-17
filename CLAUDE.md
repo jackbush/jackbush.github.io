@@ -8,6 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 npm run dev       # Dev server at localhost:4321
 npm run build     # Build to ./dist/
 npm run preview   # Preview production build
+npm run format    # Prettier (4-space indent; 2 for JSON, YAML, Markdown)
 ```
 
 ## Architecture

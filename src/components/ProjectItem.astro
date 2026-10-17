@@ -20,12 +20,24 @@ const link = "url" in project ? { href: project.url, ...newTab } : {};
 
 // The container is 740px less its gutters; a side cover is a third of that, or full width
 // once stacked (narrow cards).
-const WIDE = { widths: [480, 960, 1400], sizes: "(max-width: 740px) 100vw, 692px" };
-const NARROW = { widths: [240, 480, 720, 1080], sizes: "(max-width: 560px) 100vw, 230px" };
+const WIDE = {
+    widths: [480, 960, 1400],
+    sizes: "(max-width: 740px) 100vw, 692px",
+};
+const NARROW = {
+    widths: [240, 480, 720, 1080],
+    sizes: "(max-width: 560px) 100vw, 230px",
+};
 ---
 
 <li>
-    <div class:list={["card", vimeo ? "vimeo" : cover?.format, { flip: side && flip }]}>
+    <div
+        class:list={[
+            "card",
+            vimeo ? "vimeo" : cover?.format,
+            { flip: side && flip },
+        ]}
+    >
         <Tag class="main" {...link}>
             {vimeo && (
                 <div class="cover">
@@ -41,15 +53,28 @@ const NARROW = { widths: [240, 480, 720, 1080], sizes: "(max-width: 560px) 100vw
             {cover && (
                 <div
                     class="cover"
-                    style={cover.format === "phone"
-                        ? `aspect-ratio: ${cover.image.width} / ${cover.image.height}`
-                        : cover.format === "landscape" && cover.background
-                            ? `--cover-bg: ${cover.background}`
-                            : undefined}
+                    style={
+                        cover.format === "phone"
+                            ? `aspect-ratio: ${cover.image.width} / ${cover.image.height}`
+                            : cover.format === "landscape" && cover.background
+                              ? `--cover-bg: ${cover.background}`
+                              : undefined
+                    }
                 >
-                    <Image src={cover.image} alt="" {...(side ? NARROW : WIDE)} />
+                    <Image
+                        src={cover.image}
+                        alt=""
+                        {...(side ? NARROW : WIDE)}
+                    />
                     {cover.format === "landscape" && cover.video && (
-                        <video src={cover.video} muted loop playsinline preload="none" aria-hidden="true" />
+                        <video
+                            src={cover.video}
+                            muted
+                            loop
+                            playsinline
+                            preload="none"
+                            aria-hidden="true"
+                        />
                     )}
                 </div>
             )}
@@ -61,7 +86,9 @@ const NARROW = { widths: [240, 480, 720, 1080], sizes: "(max-width: 560px) 100vw
         {more && (
             <a class="more" href={more.url} {...newTab}>
                 <span class="text-body">{more.label}</span>
-                <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" /></svg>
+                <svg viewBox="0 0 16 16" aria-hidden="true">
+                    <path d="M6 3l5 5-5 5" />
+                </svg>
             </a>
         )}
     </div>

@@ -8,7 +8,14 @@
 //
 // It only draws when something changes: a switch under way, a resize. Time is real seconds.
 
-import { MODES, pages, rgb, switchMotion, switchShape, type Mode } from "../data/theme";
+import {
+    MODES,
+    pages,
+    rgb,
+    switchMotion,
+    switchShape,
+    type Mode,
+} from "../data/theme";
 
 /** Switches that can be in flight at once; a third folds the oldest into the base. */
 const MAX_SWITCHES = 2;
@@ -66,8 +73,18 @@ void main() {
 }`;
 
 /** Catmull-Rom through four values, u = 0..1 between the middle two. */
-const catmullRom = (p0: number, p1: number, p2: number, p3: number, u: number) =>
-    0.5 * (2 * p1 + (p2 - p0) * u + (2 * p0 - 5 * p1 + 4 * p2 - p3) * u * u + (3 * (p1 - p2) + p3 - p0) * u * u * u);
+const catmullRom = (
+    p0: number,
+    p1: number,
+    p2: number,
+    p3: number,
+    u: number,
+) =>
+    0.5 *
+    (2 * p1 +
+        (p2 - p0) * u +
+        (2 * p0 - 5 * p1 + 4 * p2 - p3) * u * u +
+        (3 * (p1 - p2) + p3 - p0) * u * u * u);
 
 /** Stateless hash of two integers → [0, 1), so each switch's outline is its own. */
 function hash(a: number, b: number) {
@@ -97,14 +114,31 @@ export interface Backdrop {
  */
 export function createBackdrop(
     canvas: HTMLCanvasElement,
-    { onFrame, onReady, onLost }: { onFrame(): void; onReady(): void; onLost(): void },
+    {
+        onFrame,
+        onReady,
+        onLost,
+    }: { onFrame(): void; onReady(): void; onLost(): void },
 ): Backdrop | null {
-    const gl = canvas.getContext("webgl2", { alpha: false, antialias: false, depth: false, stencil: false });
+    const gl = canvas.getContext("webgl2", {
+        alpha: false,
+        antialias: false,
+        depth: false,
+        stencil: false,
+    });
     if (!gl) return null;
 
-    const live: { theme: number; x: number; y: number; t0: number; id: number }[] = [];
+    const live: {
+        theme: number;
+        x: number;
+        y: number;
+        t0: number;
+        id: number;
+    }[] = [];
     const theme = (mode: Mode) => MODES.indexOf(mode);
-    let base = theme((document.documentElement.dataset.theme as Mode) ?? "projects");
+    let base = theme(
+        (document.documentElement.dataset.theme as Mode) ?? "projects",
+    );
     let top = base;
     let clock = 0;
     let nextId = 0;
@@ -113,13 +147,18 @@ export function createBackdrop(
     const switches = new Float32Array(MAX_SWITCHES * 4);
 
     const reach = (tau: number, short: number) =>
-        switchMotion.startSize / 2 + short * (switchMotion.speed * tau + 0.5 * switchMotion.accel * tau * tau);
+        switchMotion.startSize / 2 +
+        short *
+            (switchMotion.speed * tau + 0.5 * switchMotion.accel * tau * tau);
 
     /** Point i's offset (a share of the reach) τ seconds into switch `id`. */
     function point(id: number, i: number, tau: number) {
         const k = id * 31 + i;
-        const amp = switchShape.wobble * (1 - switchShape.sizeJitter * hash(k, 1));
-        const freq = switchShape.speed * (1 + switchShape.speedJitter * (hash(k, 2) * 2 - 1));
+        const amp =
+            switchShape.wobble * (1 - switchShape.sizeJitter * hash(k, 1));
+        const freq =
+            switchShape.speed *
+            (1 + switchShape.speedJitter * (hash(k, 2) * 2 - 1));
         return amp * Math.sin(TAU * (freq * tau + hash(k, 3)));
     }
 
@@ -128,11 +167,17 @@ export function createBackdrop(
     let u: Record<string, WebGLUniformLocation | null> = {};
     function build() {
         const p = gl!.createProgram()!;
-        for (const [type, src] of [[gl!.VERTEX_SHADER, VERT], [gl!.FRAGMENT_SHADER, FRAG]] as const) {
+        for (const [type, src] of [
+            [gl!.VERTEX_SHADER, VERT],
+            [gl!.FRAGMENT_SHADER, FRAG],
+        ] as const) {
             const sh = gl!.createShader(type)!;
             gl!.shaderSource(sh, src);
             gl!.compileShader(sh);
-            if (!gl!.getShaderParameter(sh, gl!.COMPILE_STATUS) && !gl!.isContextLost()) {
+            if (
+                !gl!.getShaderParameter(sh, gl!.COMPILE_STATUS) &&
+                !gl!.isContextLost()
+            ) {
                 throw new Error("Backdrop shader: " + gl!.getShaderInfoLog(sh));
             }
             gl!.attachShader(p, sh);
@@ -141,7 +186,16 @@ export function createBackdrop(
         gl!.useProgram(p);
         gl!.bindVertexArray(gl!.createVertexArray());
         u = Object.fromEntries(
-            ["uRes", "uPx", "uPage", "uBase", "uCount", "uSwitch", "uPoints", "uRing"].map((n) => [n, gl!.getUniformLocation(p, n)]),
+            [
+                "uRes",
+                "uPx",
+                "uPage",
+                "uBase",
+                "uCount",
+                "uSwitch",
+                "uPoints",
+                "uRing",
+            ].map((n) => [n, gl!.getUniformLocation(p, n)]),
         );
         gl!.uniform3fv(u.uPage, [...rgb(pages.projects), ...rgb(pages.roles)]);
         gl!.uniform1i(u.uPoints, switchShape.points);
@@ -158,9 +212,11 @@ export function createBackdrop(
         clock += last ? Math.min(0.1, (now - last) / 1000) : 0;
         last = live.length ? now : 0;
 
-        const w = canvas.clientWidth, h = canvas.clientHeight;
+        const w = canvas.clientWidth,
+            h = canvas.clientHeight;
         const px = Math.min(devicePixelRatio || 1, MAX_DPR);
-        const cw = Math.max(1, Math.round(w * px)), ch = Math.max(1, Math.round(h * px));
+        const cw = Math.max(1, Math.round(w * px)),
+            ch = Math.max(1, Math.round(h * px));
         if (canvas.width !== cw || canvas.height !== ch) {
             canvas.width = cw;
             canvas.height = ch;
@@ -170,7 +226,9 @@ export function createBackdrop(
         // any older ones. (The curve can overshoot its points a little, hence the 1.5.)
         const short = Math.min(w, h);
         const covers = (sp: (typeof live)[number], dy: number, lead = 0) =>
-            reach(clock + lead - sp.t0, short) * (1 - 1.5 * switchShape.wobble) >= Math.hypot(Math.max(sp.x, w - sp.x), dy) + 1;
+            reach(clock + lead - sp.t0, short) *
+                (1 - 1.5 * switchShape.wobble) >=
+            Math.hypot(Math.max(sp.x, w - sp.x), dy) + 1;
         for (let s = live.length - 1; s >= 0; s--) {
             const sp = live[s];
             if (covers(sp, Math.max(sp.y, h - sp.y))) {
@@ -181,11 +239,13 @@ export function createBackdrop(
         }
         // Likewise the top edge, by its corners, a little early; newer switches draw over older ones.
         top = base;
-        for (const sp of live) if (covers(sp, sp.y, switchMotion.barsLead)) top = sp.theme;
+        for (const sp of live)
+            if (covers(sp, sp.y, switchMotion.barsLead)) top = sp.theme;
         live.forEach((sp, s) => {
             const tau = clock - sp.t0;
             switches.set([sp.x, sp.y, reach(tau, short), sp.theme], s * 4);
-            for (let i = 0; i < switchShape.points; i++) ring[s * MAX_POINTS + i] = point(sp.id, i, tau);
+            for (let i = 0; i < switchShape.points; i++)
+                ring[s * MAX_POINTS + i] = point(sp.id, i, tau);
         });
         newestReach = live.length ? switches[(live.length - 1) * 4 + 2] : -1;
 
@@ -226,7 +286,8 @@ export function createBackdrop(
     return {
         start(mode, x, y) {
             const t = theme(mode);
-            if (t === (live.length ? live[live.length - 1].theme : base)) return;
+            if (t === (live.length ? live[live.length - 1].theme : base))
+                return;
             if (live.length === MAX_SWITCHES) base = live.shift()!.theme;
             live.push({ theme: t, x, y, t0: clock, id: nextId++ });
             draw();
@@ -248,7 +309,13 @@ export function createBackdrop(
             const b = (live.length - 1) * MAX_POINTS;
             const s = ((((a / TAU) % 1) + 1) % 1) * n;
             const k = Math.floor(s);
-            const off = catmullRom(ring[b + ((k + n - 1) % n)], ring[b + (k % n)], ring[b + ((k + 1) % n)], ring[b + ((k + 2) % n)], s - k);
+            const off = catmullRom(
+                ring[b + ((k + n - 1) % n)],
+                ring[b + (k % n)],
+                ring[b + ((k + 1) % n)],
+                ring[b + ((k + 2) % n)],
+                s - k,
+            );
             return newestReach * (1 + off);
         },
     };

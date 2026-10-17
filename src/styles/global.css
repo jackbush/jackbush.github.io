@@ -21,18 +21,18 @@
 
 /* Projects — light */
 [data-theme="projects"] {
-    --color-bg:             var(--projects-bg);
-    --color-text-primary:   var(--projects-main);
+    --color-bg: var(--projects-bg);
+    --color-text-primary: var(--projects-main);
     --color-text-secondary: var(--projects-minor);
-    --color-focus:          var(--projects-minor);
+    --color-focus: var(--projects-minor);
 }
 
 /* Roles — dark */
 [data-theme="roles"] {
-    --color-bg:             var(--roles-bg);
-    --color-text-primary:   var(--roles-main);
+    --color-bg: var(--roles-bg);
+    --color-text-primary: var(--roles-main);
     --color-text-secondary: var(--roles-minor);
-    --color-focus:          var(--roles-minor);
+    --color-focus: var(--roles-minor);
 }
 
 /* ── Reset ────────────────────────────────────────────────────── */
@@ -115,17 +115,17 @@ h1 {
     margin: 0 0 1rem;
 }
 
-/* Section heading */
+/* Section heading — organisations, a step up from item titles */
 h2 {
-    font-size: clamp(1.5rem, 4vw, 2.75rem);
-    font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: -0.025em;
+    font-size: 1.375rem;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
     color: var(--color-text-primary);
-    margin: 0 0 1.25rem;
+    margin: 0;
 }
 
-/* Item title — organisations and project names */
+/* Item title — project names */
 h3 {
     font-size: 1.2rem;
     font-weight: 700;
@@ -195,9 +195,8 @@ ol {
 
 /* ── List items in page content ───────────────────────────────── */
 
-.content section[data-mode="roles"] > ul > li {
-    padding-block: 1.5rem;
-}
+/* Both lists start a gutter below the toggle (its margin) and end at their last item, so
+   only the space between items differs. */
 
 /* Cards are as far apart as the page is from the screen's edges, and from the toggle. */
 .content section[data-mode="projects"] > ul {
@@ -207,6 +206,8 @@ ol {
 
 /* Roles are divided by lines like the toggle's frame; projects are cards. */
 .content section[data-mode="roles"] > ul > li + li {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
     border-top: 1px solid var(--color-text-primary);
 }
 
@@ -246,30 +247,30 @@ html.backdrop-on .ink {
 }
 
 html.backdrop-on main {
-    --color-text-primary:   transparent;
+    --color-text-primary: transparent;
     --color-text-secondary: transparent;
-    --ink-none:             transparent;
+    --ink-none: transparent;
 }
 
 .ink[data-ink="m"] {
     mix-blend-mode: multiply;
-    --color-text-primary:   var(--ink-m-main);
+    --color-text-primary: var(--ink-m-main);
     --color-text-secondary: var(--ink-m-minor);
-    --ink-none:             #FFF;
+    --ink-none: #fff;
 }
 
 .ink[data-ink="d"] {
     mix-blend-mode: difference;
-    --color-text-primary:   var(--ink-d-main);
+    --color-text-primary: var(--ink-d-main);
     --color-text-secondary: var(--ink-d-minor);
-    --ink-none:             #000;
+    --ink-none: #000;
 }
 
 .ink[data-ink="k"] {
     mix-blend-mode: plus-lighter;
-    --color-text-primary:   var(--ink-k-main);
+    --color-text-primary: var(--ink-k-main);
     --color-text-secondary: var(--ink-k-minor);
-    --ink-none:             #000;
+    --ink-none: #000;
 }
 
 /* The canvas carries the switch; colours don't fade as well. */

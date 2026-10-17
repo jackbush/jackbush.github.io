@@ -11,27 +11,23 @@ const { organisation, role, dates, description, listItems } = Astro.props;
 ---
 
 <li>
-    <h3>{organisation}</h3>
-    <p class="role text-strong">{role} <span class="dates"> ({dates})</span></p>
+    <h2>{organisation}</h2>
+    <p class="role text-strong">
+        {role} <span class="dates"> ({dates})</span>
+    </p>
     {description && <p class="description">{description}</p>}
-    {
-        listItems && (
-            <ul class="highlights">
-                {listItems.map((item) => (
-                    <li class="text-body">{item}</li>
-                ))}
-            </ul>
-        )
-    }
+    {listItems && (
+        <ul class="highlights">
+            {listItems.map((item) => (
+                <li class="text-body">{item}</li>
+            ))}
+        </ul>
+    )}
 </li>
 
 <style>
-    h3 {
-        margin: 0;
-    }
-
     .role {
-        margin: 0.25rem 0 0;
+        margin: 0;
     }
 
     .dates {

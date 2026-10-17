@@ -28,7 +28,12 @@ import zolaCover from "../assets/covers/zola.png";
  * the card's name says what it is.
  */
 export type Cover =
-    | { format: "landscape"; image: ImageMetadata; video?: string; background?: string }
+    | {
+          format: "landscape";
+          image: ImageMetadata;
+          video?: string;
+          background?: string;
+      }
     | { format: "phone" | "square"; image: ImageMetadata };
 
 interface Base {
@@ -39,32 +44,41 @@ interface Base {
 }
 
 /** A card links to `url`, or plays a Vimeo video in place (a 16:9 header) instead. */
-export type Project = Base & ({ url: string; cover?: Cover } | { vimeo: string });
+export type Project = Base &
+    ({ url: string; cover?: Cover } | { vimeo: string });
 
 export const projects: Project[] = [
     {
         name: "Sprig",
-        description: "Botanical studies. Be taken on an arboreal tour, or click the settings cog and invent your own impossible plants.",
+        description:
+            "Botanical studies. Be taken on an arboreal tour, or click the settings cog and invent your own impossible plants.",
         url: "https://jackbush.github.io/glimmers/sprig/",
         cover: { format: "landscape", image: sprigPoster, video: sprigVideo },
     },
     {
         name: "Zola",
-        description: "Build more accessible products. Each card describes a real person's experience and needs, which your design should accommodate.",
+        description:
+            "Build more accessible products. Each card describes a real person's experience and needs, which your design should accommodate.",
         url: "https://jackbush.github.io/zola/",
         cover: { format: "landscape", image: zolaCover, background: "#BC6061" },
     },
     {
         name: "Risolino",
-        description: "Make risograph prints from anywhere. Customise the ink blending, shading model and registration jitter for some analogue charm.",
+        description:
+            "Make risograph prints from anywhere. Customise the ink blending, shading model and registration jitter for some analogue charm.",
         url: "https://jackbush.github.io/risolino/",
         cover: { format: "landscape", image: risolinoCover },
     },
     {
         name: "Atlas Nights",
-        description: "Spend a night star-gazing in the High Atlas. Choose constellation maps from a selection of regional sky cultures.",
+        description:
+            "Spend a night star-gazing in the High Atlas. Choose constellation maps from a selection of regional sky cultures.",
         url: "https://jackbush.github.io/glimmers/atlas-nights/",
-        cover: { format: "landscape", image: atlasNightsPoster, video: atlasNightsVideo },
+        cover: {
+            format: "landscape",
+            image: atlasNightsPoster,
+            video: atlasNightsVideo,
+        },
     },
     {
         name: "Chromist",
@@ -74,10 +88,22 @@ export const projects: Project[] = [
         cover: { format: "square", image: chromistCover },
     },
     {
+        name: "Metty",
+        description:
+            "Interface prototype for a robotic meditation timer, styled like a record player. Hardware build in progress.",
+        url: "https://jackbush.github.io/metty/",
+        cover: { format: "square", image: mettyCover },
+    },
+    {
         name: "Blackstar",
-        description: "An undulating black orb with a burning halo. Open the settings pane to design your own void.",
+        description:
+            "An undulating black orb with a burning halo. Open the settings pane to design your own void.",
         url: "https://jackbush.github.io/glimmers/blackstar/",
-        cover: { format: "landscape", image: blackstarPoster, video: blackstarVideo },
+        cover: {
+            format: "landscape",
+            image: blackstarPoster,
+            video: blackstarVideo,
+        },
     },
     {
         name: "Albums",
@@ -88,13 +114,15 @@ export const projects: Project[] = [
     },
     {
         name: "Carver",
-        description: "Write in convenient markdown, export as beautiful PDF. Minimal by design, private by default, delightful by nature.",
+        description:
+            "Write in convenient markdown, export as beautiful PDF. Minimal by design, private by default, delightful by nature.",
         url: "https://jackbush.github.io/carver/",
         cover: { format: "landscape", image: carverCover },
     },
     {
         name: "Zen and the Art of Bikepacking Maintenance",
-        description: "Photos for an essay about gumption, romantic thinking, quality, and bikepacking across Europe.",
+        description:
+            "Photos for an essay about gumption, romantic thinking, quality, and bikepacking across Europe.",
         url: "https://theradavist.com/zen-and-bikepacking",
         cover: { format: "landscape", image: zenCover },
     },
@@ -103,13 +131,10 @@ export const projects: Project[] = [
         description:
             "Animated graphics that respond to your brain waves: focus to overlap the rings, relax to calm the outlines.",
         vimeo: "1215878977",
-        link: { label: "Play with the animation settings", url: "https://jackbush.github.io/glimmers/mindflow/" },
-    },
-    {
-        name: "Metty",
-        description: "Interface prototype for a robotic meditation timer, styled like a record player. Hardware build in progress.",
-        url: "https://jackbush.github.io/metty/",
-        cover: { format: "square", image: mettyCover },
+        link: {
+            label: "Play with the animation settings",
+            url: "https://jackbush.github.io/glimmers/mindflow/",
+        },
     },
     {
         name: "Seeing Britain",
@@ -120,7 +145,8 @@ export const projects: Project[] = [
     },
     {
         name: "Quadra",
-        description: "Make QR codes without having your data scraped. Highly customisable, ISO-compliant and ad-free.",
+        description:
+            "Make QR codes without having your data scraped. Highly customisable, ISO-compliant and ad-free.",
         url: "https://jackbush.github.io/quadra/",
         cover: { format: "square", image: quadraCover },
     },
@@ -128,5 +154,6 @@ export const projects: Project[] = [
 
 // A card without a cover still works (text only), but it's probably an oversight.
 for (const p of projects) {
-    if (!("vimeo" in p) && !p.cover) console.warn(`src/data/projects.ts: ${p.name} has no cover.`);
+    if (!("vimeo" in p) && !p.cover)
+        console.warn(`src/data/projects.ts: ${p.name} has no cover.`);
 }

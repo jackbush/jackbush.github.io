@@ -1,6 +1,13 @@
 ---
 import "../styles/global.css";
-import { MODES, inkGreys, pages, textColours, textOpacity, type Mode } from "../data/theme";
+import {
+    MODES,
+    inkGreys,
+    pages,
+    textColours,
+    textOpacity,
+    type Mode,
+} from "../data/theme";
 
 interface Props {
     title?: string;
@@ -14,12 +21,16 @@ const { title = "Jack Bush", theme = "projects" } = Astro.props;
 const vars: Record<string, string> = {};
 for (const mode of MODES) {
     vars[`--${mode}-bg`] = pages[mode];
-    for (const [kind, colour] of Object.entries(textColours[mode])) vars[`--${mode}-${kind}`] = colour;
+    for (const [kind, colour] of Object.entries(textColours[mode]))
+        vars[`--${mode}-${kind}`] = colour;
 }
 for (const [kind, opacity] of Object.entries(textOpacity)) {
-    for (const [layer, grey] of Object.entries(inkGreys(opacity))) vars[`--ink-${layer}-${kind}`] = `color(srgb ${grey} ${grey} ${grey})`;
+    for (const [layer, grey] of Object.entries(inkGreys(opacity)))
+        vars[`--ink-${layer}-${kind}`] = `color(srgb ${grey} ${grey} ${grey})`;
 }
-const style = Object.entries(vars).map(([k, v]) => `${k}: ${v}`).join("; ");
+const style = Object.entries(vars)
+    .map(([k, v]) => `${k}: ${v}`)
+    .join("; ");
 ---
 
 <html lang="en" data-theme={theme} style={style}>
@@ -27,7 +38,10 @@ const style = Object.entries(vars).map(([k, v]) => `${k}: ${v}`).join("; ");
         <meta charset="utf-8" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="icon" href="/favicon.ico" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, viewport-fit=cover"
+        />
         <meta name="generator" content={Astro.generator} />
         <title>{title}</title>
         <meta
@@ -45,10 +59,7 @@ const style = Object.entries(vars).map(([k, v]) => `${k}: ${v}`).join("; ");
         />
         <meta property="og:url" content="https://jackbush.github.io/" />
         <meta property="og:image" content="https://jackbush.github.io/og.png" />
-        <meta
-            property="og:image:alt"
-            content="Jack Bush"
-        />
+        <meta property="og:image:alt" content="Jack Bush" />
 
         <meta name="twitter:card" content="summary_large_image" />
 
@@ -72,6 +83,7 @@ const style = Object.entries(vars).map(([k, v]) => `${k}: ${v}`).join("; ");
         margin-inline: auto;
         /* viewport-fit=cover lets the backdrop reach under the browser's bars; keep the
            text clear of notches in landscape. */
-        padding-inline: max(var(--gutter), env(safe-area-inset-left)) max(var(--gutter), env(safe-area-inset-right));
+        padding-inline: max(var(--gutter), env(safe-area-inset-left))
+            max(var(--gutter), env(safe-area-inset-right));
     }
 </style>
