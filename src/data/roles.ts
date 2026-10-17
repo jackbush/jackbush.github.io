@@ -17,10 +17,10 @@ export const roles: Role[] = [
         description:
             "Owned product, design, research and product marketing. Took supply chain traceability and Digital Product Passports from a fragmented, support-run legacy suite to a unified self-serve platform.",
         listItems: [
-            "Restructured product and engineering into cross-functional, stream-aligned teams.",
-            "Packaged the platform into two off-the-shelf propositions, setting sales up for repeatable deals instead of bespoke solutions.",
-            "Rebuilt the platform API-first on AWS and open source, with a data lake and full API parity, cutting running costs 25%.",
-            "Addressed scaling bottlenecks: Cut config time 70%, shipped self-serve API setup tool with AI assistant.",
+            "Restructured product and engineering into cross-functional, stream-aligned teams",
+            "Packaged the platform into two off-the-shelf propositions, setting sales up for repeatable deals instead of bespoke solutions",
+            "Rebuilt the platform API-first on AWS and open source, with a data lake and full API parity, cutting running costs 25%",
+            "Addressed scaling bottlenecks: Cut back-of-house config time 70%, shipped self-serve API setup tool with AI assistant",
         ],
     },
     {
@@ -31,8 +31,8 @@ export const roles: Role[] = [
         description:
             "Led design of OVO’s consumer app and digital experience for 4m UK households, also owning the design system and accessibility.",
         listItems: [
-            "Rebuilt the customer app from information architecture up, based on mental model research, growing users from 200k to 500k and doubling engagement.",
-            "Brought every customer product onto one design system at WCAG AA, with open clinics and team-wide training.",
+            "Rebuilt the customer app from information architecture up, based on mental model research, growing users from 200k to 500k and doubling engagement",
+            "Brought every customer product onto one design system at WCAG AA, with open clinics and team-wide training",
         ],
     },
     {
@@ -43,9 +43,9 @@ export const roles: Role[] = [
         description:
             "First hire at a start-up using tools for independent tradespeople to build a network it could route jobs to. Built and led a design team covering research, service design, product design and brand.",
         listItems: [
-            "Conceived an automated booking service from ethnographic research, converted 82% from email to booking.",
-            "Scaled from four local pilot users to a 1000+ engineer UK-wide network completing 200k jobs/year.",
-            "Implemented ride-alongs, with every colleague spending a day in the field.",
+            "Conceived an automated booking service from ethnographic research, converted 82% from email to booking",
+            "Scaled from four local pilot users to a 1000+ engineer UK-wide network completing 200k jobs/year",
+            "Implemented ride-alongs, with every colleague spending a day in the field",
         ],
     },
     {
@@ -56,7 +56,7 @@ export const roles: Role[] = [
         description:
             "Led research and development into how emerging technologies (electronic signatures, blockchain, smart contracts and payments) could make legal protection more accessible.",
         listItems: [
-            "Designed Rocket Wallet, a payment protection service that released funds based on contract terms, taking it to private beta with partners.",
+            "Designed Rocket Wallet, a payment protection service that released funds based on contract terms, taking it to private beta with partners",
         ],
     },
     {
@@ -67,8 +67,8 @@ export const roles: Role[] = [
         description:
             "Set up the product and design function at an accelerator-stage start-up, leading it through growth to a $10.4m Series A.",
         listItems: [
-            "Built the first decentralised platform for tracing provenance data across supply chains, securing over two million diamonds.",
-            "Used it to digitally track the first diamond across mining, cutting, polishing and certification, to a ring on the market.",
+            "Built the first decentralised platform for tracing provenance data across supply chains, securing over two million diamonds",
+            "Used it to digitally track the first diamond across mining, cutting, polishing and certification, to a ring in a shop",
         ],
     },
     {
@@ -79,7 +79,7 @@ export const roles: Role[] = [
         description:
             "Full-spectrum product consultancy covering research, propositions, prototyping, user testing and engineering. Projects included B2B platforms, marketing websites and experiences (VR, game, exhibition).",
         listItems: [
-            "Won: Best Exhibition Design at London Design Week (2015).",
+            "Won: Best Exhibition Design at London Design Week (2015)",
         ],
     },
     {
@@ -90,8 +90,8 @@ export const roles: Role[] = [
         description:
             "Ran the workshop for an on-demand prototyping and manufacturing service covering NZ and Australia.",
         listItems: [
-            "Reduced order turnaround from 10 days to 48 hours.",
-            "Cut material costs 25% by renegotiating with existing suppliers.",
+            "Reduced order turnaround from 10 days to 48 hours",
+            "Cut material costs 25% by renegotiating with existing suppliers",
         ],
     },
     {
