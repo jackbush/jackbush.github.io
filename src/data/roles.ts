@@ -12,12 +12,13 @@ export const roles: Role[] = [
         role: "VP Product",
         dates: "2024 – 2026",
         description:
-            "Owned product, design, research and product marketing for a supply-chain traceability and Digital Product Passport platform. Took it from a fragmented, support-operated legacy suite to one self-serve platform. Restructured product and engineering into cross-functional teams.",
+            "Owned product, design, research and product marketing. Took supply chain traceability and Digital Product Passports from a fragmented, support-run legacy suite to one self-serve platform.",
         listItems: [
-            "Moved customers off support and onto the product: System Usability Scale score from 14 to 79 with WCAG AA accessibility.",
-            "Packaged the platform into off-the-shelf propositions, setting sales up for repeatable deals instead of bespoke pilots.",
+            // "Moved customers from support to the product: System Usability Scale score 14->79, WCAG AA accessibility, near-zero help tickets.",
+            "Restructured product and engineering into cross-functional, value-stream-aligned teams.",
+            "Packaged the platform into two off-the-shelf propositions, setting sales up for repeatable deals instead of bespoke pilots.",
             "Rebuilt the platform API-first on AWS and open source, with a data lake and full API parity, cutting running costs 25%.",
-            "Cut supply chain configuration time 70%, and shipped an AI assistant to automate customer API onboarding.",
+            "Addressed scaling bottlenecks: Cut configuration time 70%, shipped setup tool and AI assistant for self-serve API integration.",
         ],
     },
     {
@@ -36,11 +37,11 @@ export const roles: Role[] = [
         role: "Head of Design",
         dates: "2019 – 2020",
         description:
-            "First hire at an OVO-backed start-up building tools for independent tradespeople. Built and led a design team covering research, service design, product design and brand.",
+            "First hire at a start-up using tools for independent tradespeople to build a network it could route jobs to. Built and led a design team covering research, service design, product design and brand.",
         listItems: [
-            "Scaled from four local pilot users to 1000+ engineers covering the whole UK.",
+            "Scaled from four local pilot users to a 1000+ engineer UK-wide network completing 150k jobs/year.",
             "Conceived an automated booking service from ethnographic research, converted 82% from email to booking.",
-            "Organised ride-alongs, with every employee spending a day in the field with users.",
+            "Implemented ride-alongs, with every colleague spending a day in the field.",
         ],
     },
     {
@@ -86,10 +87,11 @@ export const roles: Role[] = [
         role: "Production Manager",
         dates: "2010 – 2013",
         description:
-            "On-demand prototyping and manufacturing for NZ and Australia.",
+          // "On-demand prototyping and manufacturing for NZ and Australia.",
+          "Ran the workshop for an on-demand prototyping and manufacturing service covering NZ and Australia.",
         listItems: [
             "Reduced order turnaround from 10 days to 48 hours.",
-            "Cut material costs by 25%.",
+            "Cut material costs 25% by renegotiating with existing suppliers.",
         ],
     },
 ];
