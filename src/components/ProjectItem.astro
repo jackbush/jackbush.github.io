@@ -152,13 +152,21 @@ const NARROW = {
         padding: var(--card-padding);
     }
 
-    /* The text and the bar sit on a lighter wash of the page. Not under their lines, which
-       the ink copies draw over the page colour, and not in the copies at all (it would go
-       through their blends). */
+    /* The text and the bar sit on a wash of the theme colour blended over the page (cardWash
+       in theme.ts): worked out flat without the backdrop, blended live over its canvas with
+       it (only in the real page, whose text is then transparent, so only the wash blends).
+       Not under their lines, which the ink copies draw over the page colour, and not in the
+       copies at all (it would go through their blends). */
     .card:not(.phone) .text,
     .card:not(.phone) .more {
-        background: rgba(255, 255, 255, 0.25);
+        background: var(--card-wash-flat);
         background-clip: padding-box;
+    }
+
+    :global(html.backdrop-on main) .card:not(.phone) .text,
+    :global(html.backdrop-on main) .card:not(.phone) .more {
+        background: var(--card-wash);
+        mix-blend-mode: var(--card-wash-blend);
     }
 
     :global(.ink) .card .text,

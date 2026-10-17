@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import {
     MODES,
+    cardWash,
     inkGreys,
     pages,
     textColours,
@@ -16,8 +17,8 @@ interface Props {
 
 const { title = "Jack Bush", theme = "projects" } = Astro.props;
 
-// The theme's colours as CSS variables (global.css maps them per data-theme), and the
-// backdrop's ink greys (see inkGreys in theme.ts), all from src/data/theme.ts.
+// The theme's colours as CSS variables (global.css maps them per data-theme), the backdrop's
+// ink greys (see inkGreys in theme.ts) and the cards' wash, all from src/data/theme.ts.
 const vars: Record<string, string> = {};
 for (const mode of MODES) {
     vars[`--${mode}-bg`] = pages[mode];
@@ -28,6 +29,9 @@ for (const [kind, opacity] of Object.entries(textOpacity)) {
     for (const [layer, grey] of Object.entries(inkGreys(opacity)))
         vars[`--ink-${layer}-${kind}`] = `color(srgb ${grey} ${grey} ${grey})`;
 }
+vars["--card-wash"] = cardWash.colour;
+vars["--card-wash-blend"] = cardWash.blend;
+vars["--card-wash-flat"] = cardWash.flat;
 const style = Object.entries(vars)
     .map(([k, v]) => `${k}: ${v}`)
     .join("; ");

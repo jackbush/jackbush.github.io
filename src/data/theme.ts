@@ -19,6 +19,9 @@ export const textOpacity = {
     minor: 0.8, // body text and links
 };
 
+/** Opacity of the wash behind a project card's text (see `cardWash`). */
+export const cardOpacity = 0.25;
+
 /** A switch: starts at the click and spreads until it has passed the whole screen. */
 export const switchMotion = {
     startSize: 1, // diameter at the click, CSS px
@@ -61,6 +64,24 @@ export const pages: Record<Mode, string> = {
     projects: themeColour,
     roles: hex(rgb(themeColour).map((v) => 1 - v) as Rgb),
 };
+
+/**
+ * The wash behind a project card's text: the theme colour at `cardOpacity`, blended over the
+ * page. Screen lightens a bright theme and multiply deepens a dark one (bright = HSB brightness,
+ * the max channel, from 50%). Blending the colour with itself keeps its hue and adds
+ * saturation, where a white or black wash would grey it. With the backdrop on, the browser
+ * blends it over the canvas; without, `flat` is the same result over the plain page.
+ */
+export const cardWash = (() => {
+    const c = rgb(themeColour);
+    const screen = Math.max(...c) >= 0.5;
+    const blended = c.map((v) => (screen ? 1 - (1 - v) * (1 - v) : v * v));
+    return {
+        colour: `rgba(${c.map((v) => Math.round(v * 255)).join(", ")}, ${cardOpacity})`,
+        blend: screen ? "screen" : "multiply",
+        flat: hex(c.map((v, i) => v + (blended[i] - v) * cardOpacity) as Rgb),
+    };
+})();
 
 /** A page's text at `opacity`: the inverse, that share of the way over the page. */
 const text = (mode: Mode, opacity: number): Rgb =>
