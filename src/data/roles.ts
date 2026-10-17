@@ -39,8 +39,8 @@ export const roles: Role[] = [
         description:
             "First hire at a start-up using tools for independent tradespeople to build a network it could route jobs to. Built and led a design team covering research, service design, product design and brand.",
         listItems: [
-            "Scaled from four local pilot users to a 1000+ engineer UK-wide network completing 150k jobs/year.",
             "Conceived an automated booking service from ethnographic research, converted 82% from email to booking.",
+            "Scaled from four local pilot users to a 1000+ engineer UK-wide network completing 200k jobs/year.",
             "Implemented ride-alongs, with every colleague spending a day in the field.",
         ],
     },
@@ -87,7 +87,6 @@ export const roles: Role[] = [
         role: "Production Manager",
         dates: "2010 – 2013",
         description:
-          // "On-demand prototyping and manufacturing for NZ and Australia.",
           "Ran the workshop for an on-demand prototyping and manufacturing service covering NZ and Australia.",
         listItems: [
             "Reduced order turnaround from 10 days to 48 hours.",
