@@ -13,26 +13,28 @@ const WIDTH = { landscape: 960, phone: 480, square: 480 };
 export const GET: APIRoute = async ({ site }) => {
     const abs = (path: string) => new URL(path, site).href;
     const out = await Promise.all(
-        projects.map(async (p) => {
-            if ("vimeo" in p || !p.cover) return p;
-            const { image, ...cover } = p.cover;
-            const img = await getImage({
-                src: image,
-                width: WIDTH[cover.format],
-            });
-            return {
-                ...p,
-                cover: {
-                    ...cover,
-                    image: abs(img.src),
-                    width: image.width,
-                    height: image.height,
-                    ...("video" in cover && cover.video
-                        ? { video: abs(cover.video) }
-                        : {}),
-                },
-            };
-        }),
+        projects
+            .filter((p) => "name" in p)
+            .map(async (p) => {
+                if ("vimeo" in p || !p.cover) return p;
+                const { image, ...cover } = p.cover;
+                const img = await getImage({
+                    src: image,
+                    width: WIDTH[cover.format],
+                });
+                return {
+                    ...p,
+                    cover: {
+                        ...cover,
+                        image: abs(img.src),
+                        width: image.width,
+                        height: image.height,
+                        ...("video" in cover && cover.video
+                            ? { video: abs(cover.video) }
+                            : {}),
+                    },
+                };
+            }),
     );
     return new Response(
         JSON.stringify({

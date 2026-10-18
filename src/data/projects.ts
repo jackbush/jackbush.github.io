@@ -38,16 +38,22 @@ export type Cover =
       }
     | { format: "phone" | "square"; image: ImageMetadata };
 
+type Link = { label: string; url: string };
+
 interface Base {
     name: string;
     description: string;
     /** A second link, as a bar along the bottom of the card. */
-    link?: { label: string; url: string };
+    link?: Link;
 }
 
-/** A card links to `url`, or plays a Vimeo video in place (a 16:9 header) instead. */
-export type Project = Base &
-    ({ url: string; cover?: Cover } | { vimeo: string });
+/**
+ * A card links to `url`, or plays a Vimeo video in place (a 16:9 header) instead. A card with
+ * only a `link` is just the bar, and isn't in content.json.
+ */
+export type Project =
+    | (Base & ({ url: string; cover?: Cover } | { vimeo: string }))
+    | { link: Link };
 
 export const projects: Project[] = [
     {
@@ -124,7 +130,7 @@ export const projects: Project[] = [
     {
         name: "Zen and the Art of Bikepacking Maintenance",
         description:
-            "Photos for an essay about gumption, romantic thinking, quality, and bikepacking across Europe.",
+            "Photos for an essay on The Radavist about gumption, romantic thinking, quality, and bikepacking across Europe.",
         url: "https://theradavist.com/zen-and-bikepacking",
         cover: { format: "landscape", image: zenCover },
     },
@@ -159,11 +165,17 @@ export const projects: Project[] = [
         url: "https://jackbush.github.io/glimmers/geode/",
         cover: { format: "landscape", image: geodePoster, video: geodeVideo },
     },
-
+    {
+        link: {
+            label: "Explore this site's theme and transition",
+            // The homepage sketch draws this page's copy; #settings opens its pane.
+            url: "https://jackbush.github.io/glimmers/homepage/#settings",
+        },
+    },
 ];
 
 // A card without a cover still works (text only), but it's probably an oversight.
 for (const p of projects) {
-    if (!("vimeo" in p) && !p.cover)
+    if ("url" in p && !p.cover)
         console.warn(`src/data/projects.ts: ${p.name} has no cover.`);
 }
