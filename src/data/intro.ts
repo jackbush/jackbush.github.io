@@ -2,5 +2,5 @@
 export const intro = {
     title: "Jack Bush",
     lead: "I'm a design and product leader who loves making things.",
-    body: "Since 2005 I've built apps, platforms, teams, design systems, AI agents, instruments, a brain-machine interface, exhibitions, furniture, and a van. I care about quality, accessibility, delight, and contributing to the human toolbox.",
+    body: "Since 2005 I've built websites, apps, platforms, teams, design systems, AI agents, instruments, a brain-machine interface, exhibitions, furniture, and a van. I care about quality, accessibility, delight, and contributing to the human toolbox.",
 };
