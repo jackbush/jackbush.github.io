@@ -71,7 +71,7 @@ export const projects: Project[] = [
     {
         name: "Risolino",
         description:
-            "Make risograph prints from anywhere. Customise the ink blending, shading model and registration jitter for some analogue charm.",
+            "Make riso-style prints. Customise the ink blending, shading mode and registration for some analogue charm.",
         url: "https://jackbush.github.io/risolino/",
         cover: { format: "landscape", image: risolinoCover },
         link: {
