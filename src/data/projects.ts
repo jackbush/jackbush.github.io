@@ -57,7 +57,7 @@ export const projects: Project[] = [
     {
         name: "Sprig",
         description:
-            "Botanical studies. Be taken on an arboreal tour, or click the settings cog and invent your own impossible plants.",
+            "Botanical studies. Be taken on an arboreal tour, or click the settings cog and invent some plants. A bit like a god.",
         url: "https://jackbush.github.io/glimmers/sprig/",
         cover: { format: "landscape", image: sprigPoster, video: sprigVideo },
     },
@@ -74,10 +74,10 @@ export const projects: Project[] = [
             "Make riso-style prints. Customise the ink blending, shading mode and registration for some analogue charm.",
         url: "https://jackbush.github.io/risolino/",
         cover: { format: "landscape", image: risolinoCover },
-        link: {
-            label: "Learn how to use it",
-            url: "https://jackbush.github.io/albums/risolino-guide/",
-        },
+        // link: {
+        //     label: "Learn how to use it",
+        //     url: "https://jackbush.github.io/albums/risolino-guide/",
+        // },
     },
     {
         name: "Atlas Nights",
