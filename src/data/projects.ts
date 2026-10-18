@@ -74,6 +74,10 @@ export const projects: Project[] = [
             "Make risograph prints from anywhere. Customise the ink blending, shading model and registration jitter for some analogue charm.",
         url: "https://jackbush.github.io/risolino/",
         cover: { format: "landscape", image: risolinoCover },
+        link: {
+            label: "Learn how to use it",
+            url: "https://jackbush.github.io/albums/risolino-guide/",
+        },
     },
     {
         name: "Atlas Nights",
