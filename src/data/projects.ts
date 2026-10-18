@@ -21,8 +21,7 @@ import zolaCover from "../assets/covers/zola.png";
 /**
  * A project's cover, which sets its card's layout:
  * - `landscape`: a 3:2 header, cropped to fill; with `video`, a looping preview over `image`
- *   as its poster (the glimmers' own covers, from their sketch folders); with `background`, a
- *   colour behind an image with transparency.
+ *   as its poster (the glimmers' own covers, from their sketch folders).
  * - `phone`: a phone screenshot beside the text, a third of the width.
  * - `square`: a square beside the text, a third of the width, stretched to the card's height
  *   and cropped from the centre.
@@ -34,7 +33,6 @@ export type Cover =
           format: "landscape";
           image: ImageMetadata;
           video?: string;
-          background?: string;
       }
     | { format: "phone" | "square"; image: ImageMetadata };
 
@@ -68,7 +66,7 @@ export const projects: Project[] = [
         description:
             "Build more accessible products. Each card describes a real person's experience and needs, which your design should accommodate.",
         url: "https://jackbush.github.io/zola/",
-        cover: { format: "landscape", image: zolaCover, background: "#BC6061" },
+        cover: { format: "landscape", image: zolaCover },
     },
     {
         name: "Risolino",

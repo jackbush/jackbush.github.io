@@ -59,10 +59,7 @@ const NARROW = {
                         style={
                             cover.format === "phone"
                                 ? `aspect-ratio: ${cover.image.width} / ${cover.image.height}`
-                                : cover.format === "landscape" &&
-                                    cover.background
-                                  ? `--cover-bg: ${cover.background}`
-                                  : undefined
+                                : undefined
                         }
                     >
                         <Image
@@ -197,14 +194,6 @@ const NARROW = {
     .cover {
         position: relative;
         overflow: hidden;
-        background: var(--cover-bg, none);
-        /* Not under the line: the ink copies draw it over the page colour. */
-        background-clip: padding-box;
-    }
-
-    /* The ink copies only draw text; a colour here would go through their blends. */
-    :global(.ink) .cover {
-        background: none;
     }
 
     .cover > :global(*) {
