@@ -24,3 +24,12 @@ The toggle updates `?mode=roles` in the URL, so roles mode is shareable (`/?mode
 ## Deployment
 
 Pushing to the `source` branch triggers a GitHub Actions build and deploy to GitHub Pages.
+
+## Fav theme colours
+
+```
+[ ] #dce9c0 [pistachio | deep purple]
+[ ] #f3decc [paper | slate]
+[ ] #f6dcdb [dusty pink | forest green]
+[•] #e6dcd6 [putty | dark teal]
+```
