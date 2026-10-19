@@ -5,7 +5,7 @@ import ProjectItem from "../components/ProjectItem.astro";
 import Roles from "../components/Roles.astro";
 import { intro } from "../data/intro";
 import { projects } from "../data/projects";
-import { pages } from "../data/theme";
+import { defaultColours } from "../data/theme";
 
 // Side covers (phone or square) alternate left, right, left… down the list.
 let sides = 0;
@@ -17,7 +17,7 @@ const cards = projects.map((project) => {
 ---
 
 <Layout theme="projects">
-    <script is:inline define:vars={{ rolesBg: pages.roles }}>
+    <script is:inline define:vars={{ rolesBg: defaultColours.pages.roles }}>
         // Runs before first paint so ?mode=roles links load the dark theme. Everything below
         // the intro waits (tabs-pending) until the page script has set up the toggle and shown
         // the right list, then fades in.
@@ -98,7 +98,13 @@ const cards = projects.map((project) => {
 
 <script>
     import { createBackdrop } from "../scripts/backdrop";
-    import { pages, switchMotion, textColours, type Mode } from "../data/theme";
+    import {
+        colours,
+        defaultColours,
+        switchMotion,
+        themeColours,
+        type Mode,
+    } from "../data/theme";
 
     const root = document.documentElement;
     const page = document.querySelector<HTMLElement>(".page")!;
@@ -175,9 +181,18 @@ const cards = projects.map((project) => {
     );
     previews.forEach((v) => onScreen.observe(v));
 
+    /** The theme in use, an index into themeColours, and its colours. */
+    let theme = 0;
+    let palette = defaultColours;
+
     // Fill + contrasting ring so the mark reads on any tab-bar colour.
-    function setFavicon(fill: string, stroke: string) {
+    function setFavicon(mode: Mode) {
         if (!favicon) return;
+        const { pages, textColours } = palette;
+        const [fill, stroke] =
+            mode === "roles"
+                ? [pages.roles, textColours.roles.main]
+                : ["#FFFFFF", pages.roles];
         const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><circle cx="64" cy="64" r="52" fill="${fill}" stroke="${stroke}" stroke-width="8"/></svg>`;
         favicon.href = "data:image/svg+xml," + encodeURIComponent(svg);
     }
@@ -189,11 +204,15 @@ const cards = projects.map((project) => {
     function setBrowserBars(mode: Mode | null) {
         if (mode === bars) return;
         bars = mode;
-        if (mode) root.style.setProperty("--browser-bg", pages[mode]);
+        paintBrowserBars();
+    }
+    function paintBrowserBars() {
+        const { pages } = palette;
+        if (bars) root.style.setProperty("--browser-bg", pages[bars]);
         else root.style.removeProperty("--browser-bg");
         themeColor?.setAttribute(
             "content",
-            pages[mode ?? (root.dataset.theme as Mode)],
+            pages[bars ?? (root.dataset.theme as Mode)],
         );
     }
 
@@ -201,9 +220,8 @@ const cards = projects.map((project) => {
     function setChrome(mode: Mode, updateUrl: boolean) {
         root.dataset.theme = mode;
         document.title = `Jack Bush | ${LABELS[mode]}`;
-        if (!bars) themeColor?.setAttribute("content", pages[mode]);
-        if (mode === "roles") setFavicon(pages.roles, textColours.roles.main);
-        else setFavicon("#FFFFFF", pages.roles);
+        if (!bars) themeColor?.setAttribute("content", palette.pages[mode]);
+        setFavicon(mode);
         tabs.forEach((tab) => {
             const active = tab.dataset.mode === mode;
             tab.setAttribute("aria-selected", String(active));
@@ -375,6 +393,26 @@ const cards = projects.map((project) => {
             pick(next, null);
             next.focus();
         });
+    });
+
+    // On desktop, the left and right arrow keys cycle through the theme colours, at once,
+    // everywhere but the toggle (where they switch tabs) and text fields.
+    function cycleTheme(step: number) {
+        theme = (theme + step + themeColours.length) % themeColours.length;
+        palette = colours(themeColours[theme]);
+        for (const [k, v] of Object.entries(palette.vars))
+            root.style.setProperty(k, v);
+        backdrop?.setPages(palette.pages);
+        paintBrowserBars();
+        setFavicon(root.dataset.theme as Mode);
+    }
+    document.addEventListener("keydown", (e) => {
+        if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+        if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+        const t = e.target as HTMLElement;
+        if (t.closest('[role="tablist"], input, textarea, [contenteditable]'))
+            return;
+        cycleTheme(e.key === "ArrowRight" ? 1 : -1);
     });
 
     const initial: Mode =

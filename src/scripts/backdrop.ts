@@ -10,7 +10,7 @@
 
 import {
     MODES,
-    pages,
+    defaultColours,
     rgb,
     switchMotion,
     switchShape,
@@ -99,6 +99,8 @@ export interface Backdrop {
     start(mode: Mode, x: number, y: number): void;
     /** Switch to `mode` at once. */
     jump(mode: Mode): void;
+    /** Draw with these page colours from now on (another theme). */
+    setPages(pages: Record<Mode, string>): void;
     /** Whether a switch is under way. */
     readonly running: boolean;
     /** The page drawn right along the top edge, `switchMotion.barsLead` early, for the browser's bars. */
@@ -143,6 +145,7 @@ export function createBackdrop(
     let clock = 0;
     let nextId = 0;
     let newestReach = -1;
+    let pages = defaultColours.pages;
     const ring = new Float32Array(MAX_SWITCHES * MAX_POINTS);
     const switches = new Float32Array(MAX_SWITCHES * 4);
 
@@ -161,6 +164,9 @@ export function createBackdrop(
             (1 + switchShape.speedJitter * (hash(k, 2) * 2 - 1));
         return amp * Math.sin(TAU * (freq * tau + hash(k, 3)));
     }
+
+    const sendPages = () =>
+        gl!.uniform3fv(u.uPage, [...rgb(pages.projects), ...rgb(pages.roles)]);
 
     // ── GL ─────────────────────────────────────────────────────
     let prog: WebGLProgram | null = null;
@@ -197,7 +203,7 @@ export function createBackdrop(
                 "uRing",
             ].map((n) => [n, gl!.getUniformLocation(p, n)]),
         );
-        gl!.uniform3fv(u.uPage, [...rgb(pages.projects), ...rgb(pages.roles)]);
+        sendPages();
         gl!.uniform1i(u.uPoints, switchShape.points);
         prog = p;
     }
@@ -296,6 +302,11 @@ export function createBackdrop(
             base = theme(mode);
             live.length = 0;
             newestReach = -1;
+            draw();
+        },
+        setPages(next) {
+            pages = next;
+            if (prog) sendPages();
             draw();
         },
         get running() {

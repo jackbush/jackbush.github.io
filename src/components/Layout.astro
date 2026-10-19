@@ -1,11 +1,8 @@
 ---
 import "../styles/global.css";
 import {
-    MODES,
-    cardWash,
+    defaultColours,
     inkGreys,
-    pages,
-    textColours,
     textOpacity,
     type Mode,
 } from "../data/theme";
@@ -17,21 +14,13 @@ interface Props {
 
 const { title = "Jack Bush", theme = "projects" } = Astro.props;
 
-// The theme's colours as CSS variables (global.css maps them per data-theme), the backdrop's
-// ink greys (see inkGreys in theme.ts) and the cards' wash, all from src/data/theme.ts.
-const vars: Record<string, string> = {};
-for (const mode of MODES) {
-    vars[`--${mode}-bg`] = pages[mode];
-    for (const [kind, colour] of Object.entries(textColours[mode]))
-        vars[`--${mode}-${kind}`] = colour;
-}
+// The default theme's colours as CSS variables (the page script swaps them for another theme)
+// and the backdrop's ink greys (see inkGreys), all from src/data/theme.ts.
+const vars: Record<string, string> = { ...defaultColours.vars };
 for (const [kind, opacity] of Object.entries(textOpacity)) {
     for (const [layer, grey] of Object.entries(inkGreys(opacity)))
         vars[`--ink-${layer}-${kind}`] = `color(srgb ${grey} ${grey} ${grey})`;
 }
-vars["--card-wash"] = cardWash.colour;
-vars["--card-wash-blend"] = cardWash.blend;
-vars["--card-wash-flat"] = cardWash.flat;
 const style = Object.entries(vars)
     .map(([k, v]) => `${k}: ${v}`)
     .join("; ");
@@ -67,7 +56,7 @@ const style = Object.entries(vars)
 
         <meta name="twitter:card" content="summary_large_image" />
 
-        <meta name="theme-color" content={pages[theme]} />
+        <meta name="theme-color" content={defaultColours.pages[theme]} />
     </head>
     <body>
         <canvas class="backdrop" aria-hidden="true"></canvas>

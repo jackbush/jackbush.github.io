@@ -2,14 +2,7 @@
 
 About me, some projects and roles. There's a [live-editable version of the interactions here](https://jackbush.github.io/glimmers/homepage/#settings).
 
-### Fav theme colours
-
-```
-[•] #dce9c0 [pistachio | deep purple]
-[ ] #f3decc [paper | slate]
-[ ] #f6dcdb [dusty pink | forest green]
-[ ] #e6dcd6 [putty | dark teal]
-```
+The theme colours are in `src/data/theme.ts`; putty is the default, and on desktop the left and right arrow keys cycle through them.
 
 ## How it works
 
@@ -25,7 +18,7 @@ npm run preview   # Preview production build
 
 - `src/pages/index.astro` the only page: intro, toggle, both panels, and the switch between them
 - `src/data/` content for intro, projects and roles
-- `src/data/theme.ts` the page colours, text opacities, and how the switch moves
+- `src/data/theme.ts` the theme colours, text opacities, and how the switch moves
 - `src/scripts/backdrop.ts` the canvas behind the page that draws each switch
 
 The toggle updates `?mode=roles` in the URL, so roles mode is shareable (`/?mode=roles`).
