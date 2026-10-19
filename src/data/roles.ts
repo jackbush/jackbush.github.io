@@ -29,7 +29,7 @@ export const roles: Role[] = [
             "Rebuilt the platform API-first on AWS and open source, with a data lake and full API parity, cutting running costs 25%",
             "Addressed scaling bottlenecks: Cut back-of-house config time 70%, shipped self-serve API setup tool with AI assistant",
         ],
-        caseStudies: [{ label: "Unifying a legacy platform" }],
+        caseStudies: [{ label: "Rebuilding traceability for batteries" }],
     },
     {
         organisation: "OVO Energy",
@@ -56,7 +56,7 @@ export const roles: Role[] = [
             "Scaled from four local pilot users to a 1000+ engineer UK-wide network completing 200k jobs/year",
             "Implemented ride-alongs, with every colleague spending a day in the field",
         ],
-        caseStudies: [{ label: "Designing tools in the field" }],
+        caseStudies: [{ label: "Designing trade tools in the field" }],
     },
     {
         organisation: "Rocket Lawyer",
