@@ -1,6 +1,6 @@
 # Homepage
 
-About me, some projects and roles.
+About me, some projects and roles. (There's a live-editable version of the interactions here.)[https://jackbush.github.io/glimmers/homepage/#settings]
 
 ### Fav theme colours
 
