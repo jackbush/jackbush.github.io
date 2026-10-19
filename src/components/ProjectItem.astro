@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import type { Project } from "../data/projects";
+import Chevron from "./Chevron.astro";
 
 interface Props {
     project: Project;
@@ -88,9 +89,7 @@ const NARROW = {
         {more && (
             <a class="more" href={more.url} {...newTab}>
                 <span class="text-body">{more.label}</span>
-                <svg viewBox="0 0 16 16" aria-hidden="true">
-                    <path d="M6 3l5 5-5 5" />
-                </svg>
+                <Chevron />
             </a>
         )}
     </div>
@@ -136,15 +135,6 @@ const NARROW = {
     .more .text-body {
         margin: 0;
         color: var(--color-text-primary);
-    }
-
-    .more svg {
-        flex: none;
-        width: 1rem;
-        height: 1rem;
-        fill: none;
-        stroke: var(--color-text-primary);
-        stroke-width: 1.5;
     }
 
     /* Every card but a phone one is a box in the toggle's colour, with a line between its

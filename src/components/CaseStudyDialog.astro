@@ -1,0 +1,137 @@
+---
+// Asks for a password before a case study that has no url (see Roles.astro). It's a
+// placeholder: no password is right yet. Lives outside the page, so the ink copies don't
+// draw it and its text keeps its colour.
+---
+
+<dialog class="case-study-dialog" aria-labelledby="case-study-title">
+    <form class="inner">
+        <h3 id="case-study-title"></h3>
+        <p>This case study is password protected.</p>
+        <label class="text-body" for="case-study-password">
+            Password
+        </label>
+        <input
+            id="case-study-password"
+            type="password"
+            autocomplete="current-password"
+            aria-describedby="case-study-error"
+            required
+            autofocus
+        />
+        <p id="case-study-error" class="error" aria-live="polite"></p>
+        <div class="actions">
+            <button type="button" class="cancel">
+                Cancel
+            </button>
+            <button type="submit">Continue</button>
+        </div>
+    </form>
+</dialog>
+
+<script>
+    const dialog =
+        document.querySelector<HTMLDialogElement>(".case-study-dialog")!;
+    const form = dialog.querySelector("form")!;
+    const title = dialog.querySelector("h3")!;
+    const input = dialog.querySelector("input")!;
+    const error = dialog.querySelector(".error")!;
+
+    // Only the real page's buttons: the ink copies' are inert anyway.
+    for (const button of document.querySelectorAll<HTMLButtonElement>(
+        "main [data-case-study]",
+    )) {
+        button.addEventListener("click", () => {
+            form.reset();
+            error.textContent = "";
+            input.removeAttribute("aria-invalid");
+            title.textContent = button.dataset.caseStudy ?? "";
+            dialog.showModal();
+        });
+    }
+
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        error.textContent = "That password isn’t right.";
+        input.setAttribute("aria-invalid", "true");
+        input.select();
+    });
+
+    dialog
+        .querySelector(".cancel")!
+        .addEventListener("click", () => dialog.close());
+
+    // The form fills the dialog, so a click on the dialog itself is on the dimmed page.
+    dialog.addEventListener("click", (e) => {
+        if (e.target === dialog) dialog.close();
+    });
+</script>
+
+<style>
+    dialog {
+        width: min(100% - 2 * var(--gutter), 26rem);
+        padding: 0;
+        border: 1px solid var(--color-text-primary);
+        border-radius: var(--radius);
+        background: var(--color-bg);
+        color: var(--color-text-primary);
+    }
+
+    dialog::backdrop {
+        background: color-mix(in srgb, var(--color-bg) 70%, transparent);
+    }
+
+    .inner {
+        padding: 1.5rem;
+    }
+
+    h3 {
+        margin: 0 0 0.25rem;
+    }
+
+    label {
+        display: block;
+        margin: 1.25rem 0 0.25rem;
+        color: var(--color-text-primary);
+    }
+
+    input,
+    button {
+        min-height: 2.75rem;
+        font-family: inherit;
+        font-size: 1rem;
+        color: var(--color-text-primary);
+        border: 1px solid var(--color-text-primary);
+        border-radius: var(--radius);
+        background: transparent;
+    }
+
+    input {
+        display: block;
+        width: 100%;
+        padding: 0.5rem 0.75rem;
+    }
+
+    .error {
+        min-height: 1.6em;
+        margin: 0.25rem 0 0;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.75rem;
+        margin-top: 0.75rem;
+    }
+
+    button {
+        padding: 0.6rem 1rem;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    button[type="submit"] {
+        background: var(--color-text-primary);
+        color: var(--color-bg);
+    }
+</style>

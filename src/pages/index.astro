@@ -1,4 +1,5 @@
 ---
+import CaseStudyDialog from "../components/CaseStudyDialog.astro";
 import Layout from "../components/Layout.astro";
 import ProjectItem from "../components/ProjectItem.astro";
 import Roles from "../components/Roles.astro";
@@ -92,6 +93,7 @@ const cards = projects.map((project) => {
             </div>
         </main>
     </div>
+    <CaseStudyDialog />
 </Layout>
 
 <script>
@@ -139,9 +141,11 @@ const cards = projects.map((project) => {
         ...page.querySelectorAll<HTMLElement>("section[data-mode]"),
     ];
 
-    // Link hover lives on the real page, whose text is transparent under the backdrop, so
-    // mirror it onto the copies.
-    const links = [main, ...inks].map((m) => [...m.querySelectorAll("a")]);
+    // Link and button hover lives on the real page, whose text is transparent under the
+    // backdrop, so mirror it onto the copies.
+    const links = [main, ...inks].map((m) => [
+        ...m.querySelectorAll("a, button"),
+    ]);
     links[0].forEach((a, i) => {
         const mark = (on: boolean) =>
             links.slice(1).forEach((l) => l[i].classList.toggle("hover", on));

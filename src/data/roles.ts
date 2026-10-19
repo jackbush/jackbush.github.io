@@ -1,3 +1,9 @@
+/** A case study's link; without a `url`, it asks for a password instead. */
+export interface CaseStudy {
+    label: string;
+    url?: string;
+}
+
 export interface Role {
     organisation: string;
     role: string;
@@ -6,6 +12,7 @@ export interface Role {
     end: string;
     description: string;
     listItems?: string[];
+    caseStudies?: CaseStudy[];
 }
 
 export const roles: Role[] = [
@@ -22,6 +29,7 @@ export const roles: Role[] = [
             "Rebuilt the platform API-first on AWS and open source, with a data lake and full API parity, cutting running costs 25%",
             "Addressed scaling bottlenecks: Cut back-of-house config time 70%, shipped self-serve API setup tool with AI assistant",
         ],
+        caseStudies: [{ label: "Unifying a legacy platform" }],
     },
     {
         organisation: "OVO Energy",
@@ -34,6 +42,7 @@ export const roles: Role[] = [
             "Rebuilt the customer app from information architecture up, based on mental model research, growing users from 200k to 500k and doubling engagement",
             "Brought every customer product onto one design system at WCAG 2.2 AA, with open clinics and team-wide training",
         ],
+        caseStudies: [{ label: "Redesigning energy for 4m households" }],
     },
     {
         organisation: "Kantan",
@@ -47,6 +56,7 @@ export const roles: Role[] = [
             "Scaled from four local pilot users to a 1000+ engineer UK-wide network completing 200k jobs/year",
             "Implemented ride-alongs, with every colleague spending a day in the field",
         ],
+        caseStudies: [{ label: "Designing tools in the field" }],
     },
     {
         organisation: "Rocket Lawyer",
@@ -67,7 +77,7 @@ export const roles: Role[] = [
         description:
             "Set up the product and design function at an accelerator-stage start-up, leading it through growth to a $10.4m Series A.",
         listItems: [
-            "Built the first decentralised platform for tracing provenance data across supply chains, securing over two million diamonds",
+            "Built the first decentralised platform for tracing provenance data across supply chains, securing 2m+ diamonds",
             "Used it to digitally track the first diamond across mining, cutting, polishing and certification, to a ring in a shop",
         ],
     },
@@ -78,9 +88,7 @@ export const roles: Role[] = [
         end: "2016-08",
         description:
             "Full-spectrum product consultancy covering research, propositions, prototyping, user testing and engineering. Projects included B2B platforms, marketing websites and experiences (VR, game, exhibition).",
-        listItems: [
-            "Won: Best Exhibition Design at London Design Week (2015)",
-        ],
+        listItems: ["Won: Best Exhibition Design at London Design Week (2015)"],
     },
     {
         organisation: "Ponoko",
