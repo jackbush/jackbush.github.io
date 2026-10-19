@@ -64,7 +64,7 @@ export const projects: Project[] = [
     {
         name: "Zola",
         description:
-            "Build more accessible products. Each card describes a real person's experience and needs, which your design should accommodate.",
+            "Build more accessible products. Each card describes a person's experience and the needs a design should accommodate.",
         url: "https://jackbush.github.io/zola/",
         cover: { format: "landscape", image: zolaCover },
     },
