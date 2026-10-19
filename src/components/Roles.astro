@@ -28,7 +28,7 @@ const newTab = { target: "_blank", rel: "noopener noreferrer" };
             {r.caseStudies && (
                 <ul class="case-studies">
                     {r.caseStudies.map(({ label, url }) => {
-                        const text = `Case study: ${label}`;
+                        const text = `Story: ${label}`;
                         const Tag = url ? "a" : "button";
                         const attrs = url
                             ? { href: url, ...newTab }
