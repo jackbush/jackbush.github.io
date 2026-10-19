@@ -5,10 +5,10 @@ About me, some projects and roles. There's a [live-editable version of the inter
 ### Fav theme colours
 
 ```
-[ ] #dce9c0 [pistachio | deep purple]
+[•] #dce9c0 [pistachio | deep purple]
 [ ] #f3decc [paper | slate]
 [ ] #f6dcdb [dusty pink | forest green]
-[•] #e6dcd6 [putty | dark teal]
+[ ] #e6dcd6 [putty | dark teal]
 ```
 
 ## How it works

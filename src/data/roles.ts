@@ -32,7 +32,7 @@ export const roles: Role[] = [
             "Led design of OVO’s consumer app and digital experience for 4m UK households, also owning the design system and accessibility.",
         listItems: [
             "Rebuilt the customer app from information architecture up, based on mental model research, growing users from 200k to 500k and doubling engagement",
-            "Brought every customer product onto one design system at WCAG AA, with open clinics and team-wide training",
+            "Brought every customer product onto one design system at WCAG 2.2 AA, with open clinics and team-wide training",
         ],
     },
     {

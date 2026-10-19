@@ -11,7 +11,7 @@ export type Mode = "projects" | "roles";
 export const MODES: Mode[] = ["projects", "roles"];
 
 /** The Projects page; the Roles page is its inverse. */
-export const themeColour = "#E6DCD6";
+export const themeColour = "#DCE9C0";
 
 /** Text: the page's inverse at these opacities over it. */
 export const textOpacity = {

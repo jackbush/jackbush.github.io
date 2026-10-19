@@ -82,7 +82,7 @@ export const projects: Project[] = [
     {
         name: "Atlas Nights",
         description:
-            "Spend a night star-gazing in the High Atlas. Choose constellation maps from a selection of regional sky cultures.",
+            "Spend a night star-gazing in the High Atlas. Choose constellation maps from regional sky cultures.",
         url: "https://jackbush.github.io/glimmers/atlas-nights/",
         cover: {
             format: "landscape",
@@ -93,7 +93,7 @@ export const projects: Project[] = [
     {
         name: "Chromist",
         description:
-            "Get your colours right. Build palettes for modern devices, see how they appear on old screens, audit accessibility against the next standards.",
+            "Get your colours right. Build palettes for modern devices, see how they appear on old screens, audit accessibility against the next standards (WCAG 3.0).",
         url: "https://jackbush.github.io/chromist/",
         cover: { format: "square", image: chromistCover },
     },
@@ -118,7 +118,7 @@ export const projects: Project[] = [
     {
         name: "Albums",
         description:
-            "Nice, old-fashioned photo albums. Because social media is a dumpster fire, but it's nice to show your mum what you've been up to.",
+            "Nice, old-fashioned photo albums. Because social media is a mess, but it's nice to show your mum what you've been up to.",
         url: "https://jackbush.github.io/albums/",
         cover: { format: "landscape", image: albumsCover },
     },
