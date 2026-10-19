@@ -118,7 +118,7 @@ export const projects: Project[] = [
     {
         name: "Albums",
         description:
-            "Nice, old-fashioned photo albums. Because social media is a mess, but it's nice to show your mum what you've been up to.",
+            "Old-fashioned photo albums. Because social media is a mess, but it's nice to show your mum what you've been doing.",
         url: "https://jackbush.github.io/albums/",
         cover: { format: "landscape", image: albumsCover },
     },
