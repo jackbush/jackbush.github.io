@@ -1,0 +1,487 @@
+---
+// The CV as A4 pages, previewed on screen; the build prints one PDF per location
+// (?location=nz|uk, see src/data/cv.ts) for the download button. The content comes from the
+// same data as the home page (minus case studies and the intro's body), plus skills and education. It's
+// set on paper, not the site's themes, so it stands alone and prints the same everywhere.
+import { cvSkills, cvVersions } from "../data/cv";
+import { education } from "../data/education";
+import { intro } from "../data/intro";
+import { formatMonth, roles } from "../data/roles";
+
+const site = Astro.site!;
+
+// Phosphor's regular envelope, LinkedIn logo, house and map pin, on its 256 grid. The
+// location isn't a link; the script swaps it for the version asked for.
+const contacts: {
+    label: string;
+    href?: string;
+    icon: string;
+    id?: string;
+}[] = [
+    {
+        label: "jack.bush@me.com",
+        href: "mailto:jack.bush@me.com",
+        icon: '<path d="M32,56H224V192a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V56Z"/><polyline points="224 56 128 144 32 56"/>',
+    },
+    {
+        label: "bushjack",
+        href: "https://www.linkedin.com/in/bushjack",
+        icon: '<rect x="32" y="32" width="192" height="192" rx="8"/><line x1="120" y1="112" x2="120" y2="176"/><line x1="88" y1="112" x2="88" y2="176"/><path d="M120,140a28,28,0,0,1,56,0v36"/><circle cx="88" cy="84" r="12" fill="currentColor" stroke="none"/>',
+    },
+    {
+        label: site.host,
+        href: site.href,
+        icon: '<path d="M152,208V160a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v48a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V115.54a8,8,0,0,1,2.62-5.92l80-75.54a8,8,0,0,1,10.77,0l80,75.54a8,8,0,0,1,2.62,5.92V208a8,8,0,0,1-8,8H160A8,8,0,0,1,152,208Z"/>',
+    },
+    {
+        label: cvVersions[0].location,
+        id: "location",
+        icon: '<circle cx="128" cy="104" r="32"/><path d="M208,104c0,72-80,128-80,128S48,176,48,104a80,80,0,0,1,160,0Z"/>',
+    },
+];
+---
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="icon" href="/favicon.ico" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Jack Bush CV</title>
+        <meta name="description" content={intro.lead} />
+        <meta name="theme-color" content="#E6DECD" />
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+        />
+    </head>
+    <body>
+        <header class="toolbar">
+            <a href="/">← {site.host}</a>
+            <button type="button" id="download">
+                Download PDFs
+            </button>
+        </header>
+
+        <main class="sheets flowing" id="sheets">
+            <!-- One sheet holds everything until the script splits it into pages, a block at a time. -->
+            <article class="sheet">
+                <header class="block intro">
+                    <h1>{intro.title}</h1>
+                    <p class="tagline">{intro.lead}</p>
+                    <ul class="contact meta">
+                        {contacts.map(({ label, href, icon, id }) => {
+                            const Tag = href ? "a" : "span";
+                            return (
+                                <li>
+                                    <Tag href={href}>
+                                        <svg
+                                            viewBox="0 0 256 256"
+                                            aria-hidden="true"
+                                            set:html={icon}
+                                        />
+                                        <span id={id}>{label}</span>
+                                    </Tag>
+                                </li>
+                            );
+                        })}
+                    </ul>
+                </header>
+
+                <h2 class="block" data-keep-with-next>
+                    Skills
+                </h2>
+                <p class="block item">
+                    {cvSkills.map(({ group, skills }) => (
+                        <Fragment>
+                            <strong>{group}:</strong> {skills.join(", ")}.{" "}
+                        </Fragment>
+                    ))}
+                </p>
+
+                <h2 class="block" data-keep-with-next>
+                    Experience
+                </h2>
+                {roles.map((r) => (
+                    <section class="block item">
+                        <h3>{r.organisation}</h3>
+                        <p class="role">
+                            <strong>{r.role}</strong>
+                        </p>
+                        <p class="meta dates">
+                            <time datetime={r.start}>
+                                {formatMonth(r.start)}
+                            </time>{" "}
+                            – <time datetime={r.end}>{formatMonth(r.end)}</time>
+                        </p>
+                        <p>{r.description}</p>
+                        {r.listItems && (
+                            <ul class="highlights">
+                                {r.listItems.map((item) => (
+                                    <li>{item}</li>
+                                ))}
+                            </ul>
+                        )}
+                    </section>
+                ))}
+
+                <h2 class="block" data-keep-with-next>
+                    Education
+                </h2>
+                {education.map((e) => (
+                    <section class="block item">
+                        <h3>{e.institution}</h3>
+                        <p class="role">
+                            <strong>
+                                {e.qualification} ({e.start} – {e.end})
+                            </strong>
+                        </p>
+                    </section>
+                ))}
+            </article>
+        </main>
+
+        <script>
+            import { cvSkills, cvVersions } from "../data/cv";
+
+            // The version in the URL (the build prints each), else the first.
+            const key = new URLSearchParams(location.search).get("location");
+            const version = cvVersions.find((v) => v.key === key);
+            if (version)
+                document.getElementById("location")!.textContent =
+                    version.location;
+
+            const sheets = document.getElementById("sheets")!;
+            const first = sheets.querySelector<HTMLElement>(".sheet")!;
+
+            const overflows = (sheet: HTMLElement) =>
+                sheet.scrollHeight > sheet.clientHeight;
+
+            /** Deal the blocks out onto A4 sheets: each goes on the current sheet if it fits,
+             *  else starts the next, taking a heading it should stay with. Safe to run again:
+             *  it gathers the blocks back from every sheet first. */
+            function paginate() {
+                sheets.classList.remove("flowing");
+                const blocks = [
+                    ...sheets.querySelectorAll<HTMLElement>(".block"),
+                ];
+                first.replaceChildren();
+                sheets.replaceChildren(first);
+                let sheet = first;
+                for (const block of blocks) {
+                    sheet.append(block);
+                    if (!overflows(sheet) || sheet.children.length === 1)
+                        continue;
+                    const prev =
+                        block.previousElementSibling as HTMLElement | null;
+                    const next = first.cloneNode(false) as HTMLElement;
+                    sheets.append(next);
+                    if (prev?.hasAttribute("data-keep-with-next"))
+                        next.append(prev);
+                    next.append(block);
+                    sheet = next;
+                }
+            }
+
+            /** On screens narrower than a sheet, shrink the pages to fit. */
+            function fit() {
+                const gutter = 16;
+                const width = first.offsetWidth;
+                const scale = Math.min(1, (innerWidth - 2 * gutter) / width);
+                sheets.style.setProperty("zoom", String(scale));
+            }
+
+            function layout() {
+                paginate();
+                fit();
+            }
+
+            // Lay out once the fonts are in, and again whenever another face arrives:
+            // fonts.ready can settle before Inter's stylesheet has loaded (Firefox), and
+            // pages measured in a fallback font break in the wrong places.
+            document.fonts.ready.then(layout);
+            document.fonts.addEventListener("loadingdone", layout);
+            addEventListener("resize", fit);
+
+            // Download every version's PDF. Browsers may ask once to allow several downloads.
+            document
+                .getElementById("download")!
+                .addEventListener("click", () => {
+                    for (const { path, filename } of cvVersions) {
+                        const a = document.createElement("a");
+                        a.href = `/${path}`;
+                        a.download = filename;
+                        a.click();
+                    }
+                });
+        </script>
+    </body>
+</html>
+
+<style is:global>
+    /* Paper: a warm cream page, navy headings, slate text and dark grey small print,
+       each ≥5.7:1 on the paper. */
+    :root {
+        --paper: #f7f1e4;
+        --desk: #e6decd;
+        --navy: #1b2a47;
+        --slate: #36414f;
+        --grey: #565c66;
+        --radius: 0.5rem;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+    html {
+        background: var(--desk);
+    }
+
+    body {
+        margin: 0;
+        font-family: "Inter", sans-serif;
+        color: var(--slate);
+        -webkit-font-smoothing: antialiased;
+    }
+
+    :focus-visible {
+        outline: 3px solid var(--navy);
+        outline-offset: 3px;
+    }
+
+    a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    /* ── Screen: a toolbar over the pages, laid out like a print preview ── */
+
+    .toolbar {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.75rem 1rem;
+        background: var(--desk);
+        font-size: 0.9375rem;
+        font-weight: 600;
+        color: var(--navy);
+    }
+
+    .toolbar a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 2.75rem;
+    }
+
+    #download {
+        min-height: 2.75rem;
+        padding: 0 1.25rem;
+        border: 1px solid var(--navy);
+        border-radius: var(--radius);
+        background: var(--navy);
+        color: var(--paper);
+        font: inherit;
+        cursor: pointer;
+    }
+
+    #download:hover {
+        background: var(--slate);
+    }
+
+    .sheets {
+        display: grid;
+        justify-content: center;
+        gap: 1.5rem;
+        padding: 0.5rem 1rem 3rem;
+    }
+
+    .sheet {
+        box-sizing: border-box;
+        width: 210mm;
+        height: 297mm;
+        padding: 19mm 20mm 20mm;
+        overflow: hidden;
+        background: var(--paper);
+        box-shadow:
+            0 1px 2px rgb(27 42 71 / 0.12),
+            0 8px 24px rgb(27 42 71 / 0.1);
+    }
+
+    /* Until the script has split it into pages, the one sheet grows to fit everything. */
+    .flowing .sheet {
+        height: auto;
+        min-height: 297mm;
+    }
+
+    /* ── Print: just the sheets, edge to edge, one per page ── */
+
+    @page {
+        size: A4;
+        margin: 0;
+    }
+
+    @media print {
+        html {
+            background: var(--paper);
+        }
+
+        .toolbar {
+            display: none;
+        }
+
+        .sheets {
+            display: block;
+            padding: 0;
+            zoom: 1 !important;
+        }
+
+        .sheet {
+            box-shadow: none;
+            break-after: page;
+        }
+
+        .sheet:last-child {
+            break-after: auto;
+        }
+    }
+
+    /* ── Type: the site's set, scaled for paper ── */
+
+    .sheet h1 {
+        margin: 0;
+        font-size: 2.75rem;
+        font-weight: 900;
+        line-height: 1.02;
+        letter-spacing: -0.03em;
+        color: var(--navy);
+    }
+
+    /* Section heading: Skills, Experience, Education. */
+    .sheet h2 {
+        margin: 1.25rem 0 0;
+        font-size: 1.375rem;
+        font-weight: 800;
+        line-height: 1.1;
+        letter-spacing: -0.015em;
+        color: var(--navy);
+    }
+
+    .sheet h3 {
+        margin: 0;
+        font-size: 1.0625rem;
+        font-weight: 800;
+        line-height: 1.2;
+        letter-spacing: -0.015em;
+        color: var(--navy);
+    }
+
+    .sheet p,
+    .highlights li {
+        margin: 0;
+        font-size: 0.8125rem;
+        line-height: 1.4;
+    }
+
+    .sheet strong {
+        font-weight: 600;
+        color: var(--navy);
+    }
+
+    /* Small print: dates and contact details. Capitals set close, with
+       tabular figures so the years line up. */
+    .meta {
+        font-size: 0.6875rem;
+        font-weight: 500;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        font-variant-numeric: tabular-nums;
+        color: var(--grey);
+    }
+
+    .contact {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.25rem 1rem;
+        margin: 0.75rem 0 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .contact :is(a, span) {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.375rem;
+    }
+
+    .contact svg {
+        width: 1.1em;
+        height: 1.1em;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 16;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    /* The intro's lead line, under the name. */
+    .sheet .tagline {
+        margin: 0.5rem 0 0;
+        font-size: 1.25rem;
+        font-weight: 500;
+        line-height: 1.3;
+        letter-spacing: -0.01em;
+        color: var(--navy);
+    }
+
+    .sheet .item {
+        margin-top: 0.875rem;
+    }
+
+    /* A page's first block starts at the top margin. */
+    .sheet > .block:first-child {
+        margin-top: 0;
+    }
+
+    /* As on the site: the organisation, then the role and its dates set close as one unit. */
+    .sheet .role {
+        margin: 0.125rem 0 0;
+        font-size: 1rem;
+        line-height: 1.25;
+    }
+
+    .sheet .dates {
+        margin: 0 0 0.25rem;
+    }
+
+    .highlights {
+        margin: 0.375rem 0 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    /* Each highlight hangs off a short dash, as on the site. */
+    .highlights li {
+        position: relative;
+        padding-left: 1.125rem;
+    }
+
+    .highlights li + li {
+        margin-top: 0.1875rem;
+    }
+
+    .highlights li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.75em;
+        width: 0.5rem;
+        border-top: 1px solid var(--grey);
+    }
+</style>
