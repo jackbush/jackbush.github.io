@@ -6,6 +6,8 @@ export interface CaseStudy {
 
 export interface Role {
     organisation: string;
+    /** The organisation's name on the CV, if it differs from the site's. */
+    cvOrganisation?: string;
     role: string;
     /** First and last month in the role, as "YYYY-MM". */
     start: string;
@@ -104,6 +106,7 @@ export const roles: Role[] = [
     },
     {
         organisation: "Victoria University",
+        cvOrganisation: "Victoria University of Wellington",
         role: "Research Assistant",
         start: "2011-11",
         end: "2012-02",

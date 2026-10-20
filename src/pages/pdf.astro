@@ -104,7 +104,7 @@ const contacts: {
                 </h2>
                 {roles.map((r) => (
                     <section class="block item">
-                        <h3>{r.organisation}</h3>
+                        <h3>{r.cvOrganisation ?? r.organisation}</h3>
                         <p class="role">
                             <strong>{r.role}</strong>
                         </p>
