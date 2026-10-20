@@ -111,8 +111,16 @@ const contacts: {
                         <p class="meta dates">
                             <time datetime={r.start}>
                                 {formatMonth(r.start)}
-                            </time>{" "}
-                            – <time datetime={r.end}>{formatMonth(r.end)}</time>
+                            </time>
+                            {r.end !== r.start && (
+                                <>
+                                    {" "}
+                                    –{" "}
+                                    <time datetime={r.end}>
+                                        {formatMonth(r.end)}
+                                    </time>
+                                </>
+                            )}
                         </p>
                         <p>{r.description}</p>
                         {r.listItems && (
@@ -133,7 +141,7 @@ const contacts: {
                         <h3>{e.institution}</h3>
                         <p class="role">
                             <strong>
-                                {e.qualification} ({e.start} – {e.end})
+                                {`${e.qualification} (${e.start === e.end ? e.start : `${e.start} – ${e.end}`})`}
                             </strong>
                         </p>
                     </section>
