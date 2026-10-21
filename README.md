@@ -2,7 +2,7 @@
 
 About me, some projects and roles. There's a [live-editable version of the interactions here](https://jackbush.github.io/glimmers/homepage/#settings).
 
-The theme colours are in `src/data/theme.ts`; putty is the default, and on desktop the left and right arrow keys cycle through them.
+The theme colours are in `src/data/theme.ts`; putty is the default, and the left and right arrow keys, or a sideways swipe, cycle through them.
 
 ## How it works
 

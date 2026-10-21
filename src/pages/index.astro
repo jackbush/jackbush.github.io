@@ -395,7 +395,7 @@ const cards = projects.map((project) => {
         });
     });
 
-    // On desktop, the left and right arrow keys cycle through the theme colours, at once,
+    // The left and right arrow keys cycle through the theme colours, at once,
     // everywhere but the toggle (where they switch tabs) and text fields.
     function cycleTheme(step: number) {
         theme = (theme + step + themeColours.length) % themeColours.length;
@@ -414,6 +414,32 @@ const cards = projects.map((project) => {
             return;
         cycleTheme(e.key === "ArrowRight" ? 1 : -1);
     });
+
+    // On touch screens, a quick sideways swipe does the same: left for the next, as the
+    // right arrow. One finger, mostly sideways, so scrolls and pinches don't count.
+    let swipe: { x: number; y: number; t: number } | null = null;
+    document.addEventListener(
+        "touchstart",
+        (e) => {
+            const [t] = e.touches;
+            swipe =
+                e.touches.length === 1
+                    ? { x: t.clientX, y: t.clientY, t: e.timeStamp }
+                    : null;
+        },
+        { passive: true },
+    );
+    document.addEventListener("touchend", (e) => {
+        if (!swipe || e.touches.length > 0) return;
+        const [t] = e.changedTouches;
+        const dx = t.clientX - swipe.x;
+        const dy = t.clientY - swipe.y;
+        const quick = e.timeStamp - swipe.t < 600;
+        swipe = null;
+        if (quick && Math.abs(dx) > 50 && Math.abs(dx) > 2 * Math.abs(dy))
+            cycleTheme(dx < 0 ? 1 : -1);
+    });
+    document.addEventListener("touchcancel", () => (swipe = null));
 
     const initial: Mode =
         new URLSearchParams(location.search).get("mode") === "roles"

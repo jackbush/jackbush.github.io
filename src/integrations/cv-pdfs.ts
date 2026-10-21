@@ -1,7 +1,8 @@
 // Prints each version of the CV page to its PDF with headless Chrome, so the page's download
-// button has files to fetch: after a build into dist/, and on request under `astro dev`. The
-// page lays itself out in the browser (fonts, then pagination), so Chrome loads it from a
-// server rather than as a file.
+// button has files to fetch: after a build into dist/, and on request under `astro dev`, with
+// any design settings edited in the page's sidebar (passed on in the PDF's query). The page
+// lays itself out in the browser (fonts, then pagination), so Chrome loads it from a server
+// rather than as a file.
 
 import type { AstroIntegration } from "astro";
 import { execFile } from "node:child_process";
@@ -32,8 +33,9 @@ const TYPES: Record<string, string> = {
     ".png": "image/png",
 };
 
-/** Prints the CV's version `key`, served from `origin`, to the PDF at `out`. */
-async function print(origin: string, key: string, out: string) {
+/** Prints the CV page, served from `origin`, with `query` (its version and any edits), to the
+ *  PDF at `out`. */
+async function print(origin: string, query: URLSearchParams, out: string) {
     const chrome = CHROMES.find((c) => c && existsSync(c));
     if (!chrome)
         throw new Error(
@@ -46,10 +48,12 @@ async function print(origin: string, key: string, out: string) {
         // Ubuntu's runners don't allow Chrome's sandbox; this only prints our own page.
         "--no-sandbox",
         "--no-pdf-header-footer",
+        // Wide enough for the page's editor: narrower, it hides the sheets it paginates.
+        "--window-size=1440,1000",
         // Time for the fonts to load and the page to paginate.
         "--virtual-time-budget=10000",
         `--print-to-pdf=${out}`,
-        `${origin}${CV_PAGE}?location=${key}`,
+        `${origin}${CV_PAGE}?${query}`,
     ]);
     if (!existsSync(out))
         throw new Error(`cv-pdfs: Chrome didn't write ${out}`);
@@ -82,11 +86,12 @@ export default function cvPdfs(): AstroIntegration {
             // server itself, so the download always matches the code.
             "astro:server:setup": ({ server, logger }) => {
                 server.middlewares.use(async (req, res, next) => {
-                    const path = req.url?.split("?")[0];
+                    const url = new URL(req.url!, "http://x");
                     const version = cvVersions.find(
-                        (v) => path === `/${v.path}`,
+                        (v) => url.pathname === `/${v.path}`,
                     );
                     if (!version) return next();
+                    url.searchParams.set("location", version.key);
                     const { port } =
                         server.httpServer!.address() as AddressInfo;
                     const dir = await mkdtemp(join(tmpdir(), "cv-pdfs-"));
@@ -94,7 +99,7 @@ export default function cvPdfs(): AstroIntegration {
                         const out = join(dir, "cv.pdf");
                         await print(
                             `http://localhost:${port}`,
-                            version.key,
+                            url.searchParams,
                             out,
                         );
                         res.setHeader("Content-Type", "application/pdf");
@@ -116,7 +121,7 @@ export default function cvPdfs(): AstroIntegration {
                     for (const { key, path } of cvVersions) {
                         await print(
                             `http://127.0.0.1:${port}`,
-                            key,
+                            new URLSearchParams({ location: key }),
                             join(root, path),
                         );
                         logger.info(path);

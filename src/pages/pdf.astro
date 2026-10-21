@@ -1,19 +1,40 @@
 ---
-// The CV as A4 pages, previewed on screen; the build prints one PDF per location
-// (?location=nz|uk, see src/data/cv.ts) for the download button. The content comes from the
-// same data as the home page (minus case studies and the intro's body), plus skills and education. It's
-// set on paper, not the site's themes, so it stands alone and prints the same everywhere.
-import { cvSkills, cvVersions } from "../data/cv";
+// The CV as A4 pages, previewed on screen beside a sidebar of its design settings; the
+// build prints one PDF per location (?location=nz|uk, see src/data/cv.ts) for the download
+// button. The content comes from the same data as the home page (minus case studies and the
+// intro's body), plus skills and education. It's set on paper, not the site's themes, so it
+// stands alone and prints the same everywhere.
+import { cssValue, cvDesign, cvSkills, cvVersions } from "../data/cv";
 import { education } from "../data/education";
 import { intro } from "../data/intro";
 import { formatMonth, roles } from "../data/roles";
 
 const site = Astro.site!;
 
+/** Narrower than this, the page is just a way to download the PDFs. Screen only: a printed
+ *  A4 page is narrower. */
+const minWidth = 1024;
+const narrow = `screen and (width < ${minWidth}px)`;
+
+// The settings' defaults as CSS vars, and the narrow screen's swap (under :root, to outrank
+// the page's styles, which come after it). Edits go on <html>'s own style, over these.
+const pageStyle = `
+:root { ${cvDesign
+    .flatMap((g) => g.settings)
+    .map((s) => `--${s.name}: ${cssValue(s, s.value)};`)
+    .join(" ")} }
+@media ${narrow} {
+    :root body { grid-template-columns: 1fr; }
+    :root :is(.sheets, .panel) { display: none; }
+    :root .narrow { display: flex; }
+}`;
+
 // Phosphor's regular envelope, LinkedIn logo, house and map pin, on its 256 grid. The
 // location isn't a link; the script swaps it for the version asked for.
 const contacts: {
     label: string;
+    /** The whole address, when the label is only part of it: unseen, but in the PDF's text. */
+    full?: string;
     href?: string;
     icon: string;
     id?: string;
@@ -25,6 +46,7 @@ const contacts: {
     },
     {
         label: "bushjack",
+        full: "linkedin.com/in/bushjack",
         href: "https://www.linkedin.com/in/bushjack",
         icon: '<rect x="32" y="32" width="192" height="192" rx="8"/><line x1="120" y1="112" x2="120" y2="176"/><line x1="88" y1="112" x2="88" y2="176"/><path d="M120,140a28,28,0,0,1,56,0v36"/><circle cx="88" cy="84" r="12" fill="currentColor" stroke="none"/>',
     },
@@ -54,111 +76,180 @@ const contacts: {
             rel="stylesheet"
             href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
         />
+        <style is:inline set:html={pageStyle}></style>
     </head>
     <body>
-        <header class="toolbar">
-            <a href="/">← {site.host}</a>
-            <button type="button" id="download">
-                Download PDFs
-            </button>
-        </header>
+        <div class="preview" id="preview" data-narrow={narrow}>
+            <header class="toolbar">
+                <a href="/">← {site.host}</a>
+            </header>
 
-        <main class="sheets flowing" id="sheets">
-            <!-- One sheet holds everything until the script splits it into pages, a block at a time. -->
-            <article class="sheet">
-                <header class="block intro">
-                    <h1>{intro.title}</h1>
-                    <p class="tagline">{intro.lead}</p>
-                    <ul class="contact meta">
-                        {contacts.map(({ label, href, icon, id }) => {
-                            const Tag = href ? "a" : "span";
-                            return (
-                                <li>
-                                    <Tag href={href}>
-                                        <svg
-                                            viewBox="0 0 256 256"
-                                            aria-hidden="true"
-                                            set:html={icon}
-                                        />
-                                        <span id={id}>{label}</span>
-                                    </Tag>
-                                </li>
-                            );
-                        })}
-                    </ul>
-                </header>
-
-                <h2 class="block" data-keep-with-next>
-                    Skills
-                </h2>
-                <p class="block item">
-                    {cvSkills.map(({ group, skills }) => (
-                        <Fragment>
-                            <strong>{group}:</strong> {skills.join(", ")}.{" "}
-                        </Fragment>
-                    ))}
+            <div class="narrow">
+                <p>
+                    This editor only works on screens wider than {minWidth}px.
                 </p>
+                <button type="button" class="download">
+                    Download PDFs
+                </button>
+            </div>
 
-                <h2 class="block" data-keep-with-next>
-                    Experience
-                </h2>
-                {roles.map((r) => (
-                    <section class="block item">
-                        <h3>{r.cvOrganisation ?? r.organisation}</h3>
-                        <p class="role">
-                            <strong>{r.role}</strong>
+            <!-- One sheet holds everything until the script splits it into pages, a block at a
+                 time. The sheets are only boxes: the CV reads as one document, top to bottom. -->
+            <main class="sheets flowing" id="sheets">
+                <div class="sheet">
+                    <header class="block intro">
+                        <h1>{intro.title}</h1>
+                        <p class="tagline">{intro.lead}</p>
+                        <ul class="contact meta">
+                            {contacts.map(({ label, href, icon, id }) => {
+                                const Tag = href ? "a" : "span";
+                                return (
+                                    <li>
+                                        <Tag href={href}>
+                                            <svg
+                                                viewBox="0 0 256 256"
+                                                aria-hidden="true"
+                                                set:html={icon}
+                                            />
+                                            <span id={id}>{label}</span>
+                                        </Tag>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                        <p class="unseen" aria-hidden="true">
+                            {contacts.flatMap((c) => c.full ?? []).join(" ")}
                         </p>
-                        <p class="meta dates">
-                            <time datetime={r.start}>
-                                {formatMonth(r.start)}
-                            </time>
-                            {r.end !== r.start && (
-                                <>
-                                    {" "}
-                                    –{" "}
-                                    <time datetime={r.end}>
-                                        {formatMonth(r.end)}
-                                    </time>
-                                </>
+                    </header>
+
+                    <h2 class="block" data-keep-with-next>
+                        Skills
+                    </h2>
+                    <p class="block item">
+                        {cvSkills.map(({ group, skills }) => (
+                            <Fragment>
+                                <strong>{group}:</strong>{" "}
+                                {`${skills.join(", ")}. `}
+                            </Fragment>
+                        ))}
+                    </p>
+
+                    <h2 class="block" data-keep-with-next>
+                        Experience
+                    </h2>
+                    {roles.map((r) => (
+                        <section class="block item">
+                            <h3>{r.cvOrganisation ?? r.organisation}</h3>
+                            <p class="role">
+                                <strong>{r.role}</strong>
+                            </p>
+                            <p class="meta dates">
+                                <time datetime={r.start}>
+                                    {formatMonth(r.start)}
+                                </time>
+                                {r.end !== r.start && (
+                                    <>
+                                        {" "}
+                                        –{" "}
+                                        <time datetime={r.end}>
+                                            {formatMonth(r.end)}
+                                        </time>
+                                    </>
+                                )}
+                            </p>
+                            <p>{r.description}</p>
+                            {r.listItems && (
+                                <ul class="highlights">
+                                    {r.listItems.map((item) => (
+                                        <li>{item}</li>
+                                    ))}
+                                </ul>
                             )}
-                        </p>
-                        <p>{r.description}</p>
-                        {r.listItems && (
-                            <ul class="highlights">
-                                {r.listItems.map((item) => (
-                                    <li>{item}</li>
-                                ))}
-                            </ul>
-                        )}
-                    </section>
-                ))}
+                        </section>
+                    ))}
 
-                <h2 class="block" data-keep-with-next>
-                    Education
-                </h2>
-                {education.map((e) => (
-                    <section class="block item">
-                        <h3>{e.institution}</h3>
-                        <p class="role">
-                            <strong>
-                                {`${e.qualification} (${e.start === e.end ? e.start : `${e.start} – ${e.end}`})`}
-                            </strong>
-                        </p>
-                    </section>
+                    <h2 class="block" data-keep-with-next>
+                        Education
+                    </h2>
+                    {education.map((e) => (
+                        <section class="block item">
+                            <h3>{e.institution}</h3>
+                            <p class="role">
+                                <strong>
+                                    {`${e.qualification} (${e.start === e.end ? e.start : `${e.start} – ${e.end}`})`}
+                                </strong>
+                            </p>
+                        </section>
+                    ))}
+                </div>
+            </main>
+        </div>
+
+        <aside class="panel" aria-labelledby="design">
+            <div class="panel-head">
+                <h2 id="design">Design</h2>
+                <button type="button" id="reset">
+                    Reset
+                </button>
+            </div>
+            <form class="settings" id="settings">
+                {cvDesign.map(({ group, settings }) => (
+                    <fieldset>
+                        <legend>{group}</legend>
+                        {settings.map((s) => (
+                            <label>
+                                <span>
+                                    {s.label}
+                                    {"unit" in s && s.unit && (
+                                        <span class="unit"> {s.unit}</span>
+                                    )}
+                                </span>
+                                {"unit" in s ? (
+                                    <input
+                                        type="number"
+                                        name={s.name}
+                                        value={s.value}
+                                        step={s.step}
+                                    />
+                                ) : (
+                                    <input
+                                        type="color"
+                                        name={s.name}
+                                        value={s.value}
+                                    />
+                                )}
+                            </label>
+                        ))}
+                    </fieldset>
                 ))}
-            </article>
-        </main>
+            </form>
+            <div class="panel-foot">
+                {!import.meta.env.DEV && (
+                    <p>
+                        Edits only change this preview: the PDFs are printed
+                        from the saved design.
+                    </p>
+                )}
+                <button type="button" class="download">
+                    Download PDFs
+                </button>
+            </div>
+        </aside>
 
         <script>
-            import { cvSkills, cvVersions } from "../data/cv";
+            import { cssValue, cvDesign, cvVersions } from "../data/cv";
+
+            const root = document.documentElement;
+            const params = new URLSearchParams(location.search);
 
             // The version in the URL (the build prints each), else the first.
-            const key = new URLSearchParams(location.search).get("location");
+            const key = params.get("location");
             const version = cvVersions.find((v) => v.key === key);
             if (version)
                 document.getElementById("location")!.textContent =
                     version.location;
 
+            const preview = document.getElementById("preview")!;
             const sheets = document.getElementById("sheets")!;
             const first = sheets.querySelector<HTMLElement>(".sheet")!;
 
@@ -191,11 +282,14 @@ const contacts: {
                 }
             }
 
-            /** On screens narrower than a sheet, shrink the pages to fit. */
+            /** In a preview narrower than a sheet, shrink the pages to fit. */
             function fit() {
                 const gutter = 16;
                 const width = first.offsetWidth;
-                const scale = Math.min(1, (innerWidth - 2 * gutter) / width);
+                const scale = Math.min(
+                    1,
+                    (preview.clientWidth - 2 * gutter) / width,
+                );
                 sheets.style.setProperty("zoom", String(scale));
             }
 
@@ -210,14 +304,76 @@ const contacts: {
             document.fonts.ready.then(layout);
             document.fonts.addEventListener("loadingdone", layout);
             addEventListener("resize", fit);
+            // Hidden on a narrow screen, the blocks all pile onto one sheet; deal them again
+            // once there's room.
+            matchMedia(preview.dataset.narrow!).addEventListener(
+                "change",
+                layout,
+            );
+
+            // The design settings. An edit sets its var on <html> and its value in the URL,
+            // which the downloads pass on: under `astro dev`, the PDFs are printed with it.
+            const settings = cvDesign.flatMap((g) => g.settings);
+            const form = document.getElementById("settings") as HTMLFormElement;
+
+            /** Sets a setting to `value`, its default if null. */
+            function apply(name: string, value: string | null) {
+                const s = settings.find((s) => s.name === name)!;
+                const input = form.elements.namedItem(name) as HTMLInputElement;
+                if (value === null || value === String(s.value)) {
+                    root.style.removeProperty(`--${name}`);
+                    params.delete(name);
+                    input.value = String(s.value);
+                } else {
+                    root.style.setProperty(`--${name}`, cssValue(s, value));
+                    params.set(name, value);
+                    input.value = value;
+                }
+            }
+
+            /** The URL's edits, without the location. */
+            function edits() {
+                const e = new URLSearchParams(params);
+                e.delete("location");
+                return e;
+            }
+
+            for (const s of settings) {
+                const value = params.get(s.name);
+                if (value !== null) apply(s.name, value);
+            }
+
+            const save = () =>
+                history.replaceState(
+                    null,
+                    "",
+                    location.pathname + (params.size ? `?${params}` : ""),
+                );
+
+            form.addEventListener("submit", (e) => e.preventDefault());
+
+            form.addEventListener("input", (e) => {
+                const input = e.target as HTMLInputElement;
+                // A number field mid-edit ("", "-") isn't a value yet.
+                if (input.value === "") return;
+                apply(input.name, input.value);
+                save();
+                if (input.type === "number") layout();
+            });
+
+            document.getElementById("reset")!.addEventListener("click", () => {
+                for (const s of settings) apply(s.name, null);
+                save();
+                layout();
+            });
 
             // Download every version's PDF. Browsers may ask once to allow several downloads.
-            document
-                .getElementById("download")!
-                .addEventListener("click", () => {
+            for (const button of document.querySelectorAll(".download"))
+                button.addEventListener("click", () => {
+                    const query = `${edits()}`;
                     for (const { path, filename } of cvVersions) {
                         const a = document.createElement("a");
-                        a.href = `/${path}`;
+                        a.href = `/${path}${query && `?${query}`}`;
                         a.download = filename;
                         a.click();
                     }
@@ -227,14 +383,14 @@ const contacts: {
 </html>
 
 <style is:global>
-    /* Paper: a warm cream page, navy headings, slate text and dark grey small print,
-       each ≥5.7:1 on the paper. */
+    /* The paper's colours, sizes and spacing are the design settings (src/data/cv.ts),
+       written as vars in the head. The editor around the sheets keeps its own colours, so
+       editing the paper doesn't restyle it. */
     :root {
-        --paper: #f7f1e4;
-        --desk: #e6decd;
-        --navy: #1b2a47;
-        --slate: #36414f;
-        --grey: #565c66;
+        --ui-bg: #fbf9f4;
+        --ui-text: #1b2a47;
+        --ui-minor: #4f5866;
+        --ui-line: rgb(27 42 71 / 0.18);
         --radius: 0.5rem;
         print-color-adjust: exact;
         -webkit-print-color-adjust: exact;
@@ -252,7 +408,7 @@ const contacts: {
     }
 
     :focus-visible {
-        outline: 3px solid var(--navy);
+        outline: 3px solid var(--ui-text);
         outline-offset: 3px;
     }
 
@@ -265,21 +421,22 @@ const contacts: {
         text-decoration: underline;
     }
 
-    /* ── Screen: a toolbar over the pages, laid out like a print preview ── */
+    /* ── Screen: the pages, laid out like a print preview, beside the settings ── */
+
+    body {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 18rem;
+    }
 
     .toolbar {
         position: sticky;
         top: 0;
         z-index: 1;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 1rem;
         padding: 0.75rem 1rem;
         background: var(--desk);
         font-size: 0.9375rem;
         font-weight: 600;
-        color: var(--navy);
+        color: var(--ui-text);
     }
 
     .toolbar a {
@@ -288,19 +445,144 @@ const contacts: {
         min-height: 2.75rem;
     }
 
-    #download {
+    button {
         min-height: 2.75rem;
         padding: 0 1.25rem;
-        border: 1px solid var(--navy);
+        border: 1px solid var(--ui-text);
         border-radius: var(--radius);
-        background: var(--navy);
-        color: var(--paper);
+        background: var(--ui-bg);
+        color: var(--ui-text);
         font: inherit;
+        font-weight: 600;
         cursor: pointer;
     }
 
-    #download:hover {
-        background: var(--slate);
+    .download {
+        background: var(--ui-text);
+        color: var(--ui-bg);
+    }
+
+    button:hover {
+        background: var(--ui-line);
+    }
+
+    .download:hover {
+        background: var(--ui-minor);
+    }
+
+    /* Shown instead of the sheets and settings on a narrow screen. */
+    .narrow {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1.25rem;
+        min-height: calc(100dvh - 4.25rem);
+        padding: 0 1rem 4.25rem;
+        text-align: center;
+        font-size: 1rem;
+        line-height: 1.4;
+        color: var(--ui-text);
+    }
+
+    .narrow p {
+        margin: 0;
+        max-width: 20rem;
+    }
+
+    /* The settings, the height of the screen, with the download button on its bottom edge. */
+    .panel {
+        position: sticky;
+        top: 0;
+        display: flex;
+        flex-direction: column;
+        height: 100dvh;
+        border-left: 1px solid var(--ui-line);
+        background: var(--ui-bg);
+        color: var(--ui-text);
+        font-size: 0.8125rem;
+    }
+
+    .panel-head,
+    .panel-foot {
+        display: flex;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem;
+    }
+
+    .panel-head {
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--ui-line);
+    }
+
+    .panel-head h2 {
+        margin: 0;
+        font-size: 0.9375rem;
+        font-weight: 700;
+    }
+
+    .panel-foot {
+        flex-direction: column;
+        border-top: 1px solid var(--ui-line);
+    }
+
+    .panel-foot p {
+        margin: 0;
+        line-height: 1.4;
+        color: var(--ui-minor);
+    }
+
+    .settings {
+        flex: 1;
+        overflow-y: auto;
+        padding: 0 1rem 1rem;
+    }
+
+    .settings fieldset {
+        display: grid;
+        gap: 0.25rem;
+        margin: 0;
+        padding: 0;
+        border: 0;
+    }
+
+    .settings legend {
+        padding: 1rem 0 0.375rem;
+        font-weight: 700;
+    }
+
+    .settings label {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        min-height: 2.75rem;
+    }
+
+    .unit {
+        color: var(--ui-minor);
+    }
+
+    .settings input {
+        box-sizing: border-box;
+        width: 5.5rem;
+        height: 2.25rem;
+        border: 1px solid var(--ui-line);
+        border-radius: calc(var(--radius) / 2);
+        background: #fff;
+        color: inherit;
+        font: inherit;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .settings input[type="number"] {
+        padding: 0 0.5rem;
+    }
+
+    .settings input[type="color"] {
+        padding: 0.125rem;
+        cursor: pointer;
     }
 
     .sheets {
@@ -314,7 +596,7 @@ const contacts: {
         box-sizing: border-box;
         width: 210mm;
         height: 297mm;
-        padding: 19mm 20mm 20mm;
+        padding: var(--margin-top) var(--margin-side) var(--margin-bottom);
         overflow: hidden;
         background: var(--paper);
         box-shadow:
@@ -340,7 +622,13 @@ const contacts: {
             background: var(--paper);
         }
 
-        .toolbar {
+        body {
+            display: block;
+        }
+
+        .toolbar,
+        .narrow,
+        .panel {
             display: none;
         }
 
@@ -364,8 +652,8 @@ const contacts: {
 
     .sheet h1 {
         margin: 0;
-        font-size: 2.75rem;
-        font-weight: 900;
+        font-size: var(--name-size);
+        font-weight: var(--name-weight);
         line-height: 1.02;
         letter-spacing: -0.03em;
         color: var(--navy);
@@ -373,9 +661,9 @@ const contacts: {
 
     /* Section heading: Skills, Experience, Education. */
     .sheet h2 {
-        margin: 1.25rem 0 0;
-        font-size: 1.375rem;
-        font-weight: 800;
+        margin: var(--section-gap) 0 0;
+        font-size: var(--section-size);
+        font-weight: var(--section-weight);
         line-height: 1.1;
         letter-spacing: -0.015em;
         color: var(--navy);
@@ -383,8 +671,8 @@ const contacts: {
 
     .sheet h3 {
         margin: 0;
-        font-size: 1.0625rem;
-        font-weight: 800;
+        font-size: var(--organisation-size);
+        font-weight: var(--organisation-weight);
         line-height: 1.2;
         letter-spacing: -0.015em;
         color: var(--navy);
@@ -393,21 +681,21 @@ const contacts: {
     .sheet p,
     .highlights li {
         margin: 0;
-        font-size: 0.8125rem;
-        line-height: 1.4;
+        font-size: var(--body-size);
+        line-height: var(--body-leading);
     }
 
     .sheet strong {
-        font-weight: 600;
+        font-weight: var(--strong-weight);
         color: var(--navy);
     }
 
     /* Small print: dates and contact details. Capitals set close, with
        tabular figures so the years line up. */
     .meta {
-        font-size: 0.6875rem;
-        font-weight: 500;
-        letter-spacing: 0.06em;
+        font-size: var(--meta-size);
+        font-weight: var(--meta-weight);
+        letter-spacing: var(--meta-tracking);
         text-transform: uppercase;
         font-variant-numeric: tabular-nums;
         color: var(--grey);
@@ -428,6 +716,15 @@ const contacts: {
         gap: 0.375rem;
     }
 
+    /* Full addresses for ATSs, which only read the PDF's text: transparent, on a line of no
+       height in the gap under the contact line, at full size so extractors read it as words. */
+    .sheet .unseen {
+        height: 0;
+        margin: 0.75rem 0 -0.75rem;
+        line-height: 0;
+        color: transparent;
+    }
+
     .contact svg {
         width: 1.1em;
         height: 1.1em;
@@ -441,15 +738,15 @@ const contacts: {
     /* The intro's lead line, under the name. */
     .sheet .tagline {
         margin: 0.5rem 0 0;
-        font-size: 1.25rem;
-        font-weight: 500;
+        font-size: var(--tagline-size);
+        font-weight: var(--tagline-weight);
         line-height: 1.3;
         letter-spacing: -0.01em;
         color: var(--navy);
     }
 
     .sheet .item {
-        margin-top: 0.875rem;
+        margin-top: var(--item-gap);
     }
 
     /* A page's first block starts at the top margin. */
@@ -460,7 +757,7 @@ const contacts: {
     /* As on the site: the organisation, then the role and its dates set close as one unit. */
     .sheet .role {
         margin: 0.125rem 0 0;
-        font-size: 1rem;
+        font-size: var(--role-size);
         line-height: 1.25;
     }
 
@@ -474,22 +771,16 @@ const contacts: {
         list-style: none;
     }
 
-    /* Each highlight hangs off a short dash, as on the site. */
+    /* Each highlight hangs off a short dash, as on the site. It's a background, not a
+       positioned mark: Chrome paints positioned boxes after the rest of the page, so the
+       PDF would list every bullet after its page's other text, and ATSs read it that way. */
     .highlights li {
-        position: relative;
         padding-left: 1.125rem;
+        background: linear-gradient(var(--grey) 0 0) 0 0.75em / 0.5rem 1px
+            no-repeat;
     }
 
     .highlights li + li {
-        margin-top: 0.1875rem;
-    }
-
-    .highlights li::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 0.75em;
-        width: 0.5rem;
-        border-top: 1px solid var(--grey);
+        margin-top: var(--highlight-gap);
     }
 </style>

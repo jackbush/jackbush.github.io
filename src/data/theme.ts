@@ -12,7 +12,7 @@ export const MODES: Mode[] = ["projects", "roles"];
 
 /**
  * Theme colours, each the Projects page (the Roles page is its inverse). The first is the
- * default; on desktop the left and right arrow keys cycle through them.
+ * default; the left and right arrow keys, or a sideways swipe, cycle through them.
  */
 export const themeColours = [
     "#E6DCD6", // putty | dark teal

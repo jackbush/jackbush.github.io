@@ -9,7 +9,7 @@ export interface Education {
 export const education: Education[] = [
     {
         institution: "General Assembly",
-        qualification: "Web Development Immersive, React.js + Node.js",
+        qualification: "Web Development Immersive, React + Node",
         start: 2015,
         end: 2015,
     },
