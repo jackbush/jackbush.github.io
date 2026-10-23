@@ -16,10 +16,18 @@ const info = "name" in project ? project : null;
 const vimeo = "vimeo" in project ? project.vimeo : null;
 const cover = "cover" in project ? project.cover : null;
 const side = cover?.format === "phone" || cover?.format === "square";
-// A video plays in place, so its card isn't a link. Links always open in a new tab.
+// A video plays in place, so its card isn't a link.
 const Tag = vimeo ? "div" : "a";
-const newTab = { target: "_blank", rel: "noopener noreferrer" };
-const link = "url" in project ? { href: project.url, ...newTab } : {};
+// My other sites (glimmers, albums…) open in this tab, so Back returns here, and carry
+// ?from=home so their own back button can come here too. Anything else opens a new tab.
+function linkTo(href: string) {
+    const url = new URL(href);
+    if (url.origin !== Astro.site?.origin)
+        return { href, target: "_blank", rel: "noopener noreferrer" };
+    url.searchParams.set("from", "home");
+    return { href: url.href };
+}
+const link = "url" in project ? linkTo(project.url) : {};
 
 // The container is 740px less its gutters; a side cover is a third of that, or full width
 // once stacked (narrow cards).
@@ -87,7 +95,7 @@ const NARROW = {
             </Tag>
         )}
         {more && (
-            <a class="more" href={more.url} {...newTab}>
+            <a class="more" {...linkTo(more.url)}>
                 <span class="text-body">{more.label}</span>
                 <Chevron />
             </a>
