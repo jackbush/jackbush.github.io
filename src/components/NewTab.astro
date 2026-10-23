@@ -1,0 +1,43 @@
+---
+// The mark on a link that opens in a new tab: an arrow out (↗), and the same said for screen
+// readers. With `text`, the arrow follows its last word, so a line never breaks before it.
+interface Props {
+    text?: string;
+}
+
+const { text } = Astro.props;
+const words = text?.split(" ") ?? [];
+const last = words.pop();
+---
+
+{words.length > 0 && `${words.join(" ")} `}
+<span class="mark">
+    {last}
+    <svg viewBox="3 3 10 10" aria-hidden="true">
+        <path d="M5 11l6-6M6 5h5v5"></path>
+    </svg>
+    <span class="hidden">(opens in a new tab)</span>
+</span>
+
+<style>
+    .mark {
+        white-space: nowrap;
+    }
+
+    svg {
+        width: 0.625em;
+        height: 0.625em;
+        fill: none;
+        stroke: var(--color-text-primary);
+        stroke-width: 1.5;
+    }
+
+    .hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+    }
+</style>

@@ -2,9 +2,9 @@
 // Every role, divided by lines: organisation, then the role and its dates set close as one
 // unit, then the description, any highlights and any case studies. A case study without a
 // url opens the password dialog (CaseStudyDialog.astro).
+import { linkTo } from "../data/links";
 import { formatMonth, roles } from "../data/roles";
-
-const newTab = { target: "_blank", rel: "noopener noreferrer" };
+import NewTab from "./NewTab.astro";
 ---
 
 <ul class="roles">
@@ -28,8 +28,9 @@ const newTab = { target: "_blank", rel: "noopener noreferrer" };
                 <ul class="case-studies">
                     {r.caseStudies.map(({ label, url }) => {
                         const Tag = url ? "a" : "button";
-                        const attrs = url
-                            ? { href: url, ...newTab }
+                        const link = url ? linkTo(url) : null;
+                        const attrs = link
+                            ? link.attrs
                             : {
                                   type: "button",
                                   "aria-haspopup": "dialog",
@@ -38,7 +39,13 @@ const newTab = { target: "_blank", rel: "noopener noreferrer" };
                         return (
                             <li>
                                 <Tag class="case-study text-body" {...attrs}>
-                                    <span class="label">{label}</span>
+                                    <span class="label">
+                                        {link?.newTab ? (
+                                            <NewTab text={label} />
+                                        ) : (
+                                            label
+                                        )}
+                                    </span>
                                 </Tag>
                             </li>
                         );
