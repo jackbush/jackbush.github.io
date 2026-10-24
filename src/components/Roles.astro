@@ -36,16 +36,15 @@ import NewTab from "./NewTab.astro";
                                   "aria-haspopup": "dialog",
                                   "data-case-study": label,
                               };
+                        const text = link?.newTab ? (
+                            <NewTab text={label} />
+                        ) : (
+                            label
+                        );
                         return (
                             <li>
                                 <Tag class="case-study text-body" {...attrs}>
-                                    <span class="label">
-                                        {link?.newTab ? (
-                                            <NewTab text={label} />
-                                        ) : (
-                                            label
-                                        )}
-                                    </span>
+                                    <span class="label">{text}</span>
                                 </Tag>
                             </li>
                         );
