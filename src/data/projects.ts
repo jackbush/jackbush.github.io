@@ -91,18 +91,11 @@ export const projects: Project[] = [
         },
     },
     {
-        name: "Chromist",
+        name: "Carver",
         description:
-            "Get your colours right. Build palettes for modern devices, see how they appear on old screens, audit accessibility against the next standards (WCAG 3.0).",
-        url: "https://jackbush.github.io/chromist/",
-        cover: { format: "square", image: chromistCover },
-    },
-    {
-        name: "Metty",
-        description:
-            "Interface prototype for a robotic meditation timer, styled like a record player. Hardware build in progress.",
-        url: "https://jackbush.github.io/metty/",
-        cover: { format: "square", image: mettyCover },
+            "Write in convenient markdown, export as beautiful PDF. Minimal by design, private by default, delightful by nature.",
+        url: "https://jackbush.github.io/carver/",
+        cover: { format: "landscape", image: carverCover },
     },
     {
         name: "Blackstar",
@@ -123,11 +116,18 @@ export const projects: Project[] = [
         cover: { format: "landscape", image: albumsCover },
     },
     {
-        name: "Carver",
+        name: "Chromist",
         description:
-            "Write in convenient markdown, export as beautiful PDF. Minimal by design, private by default, delightful by nature.",
-        url: "https://jackbush.github.io/carver/",
-        cover: { format: "landscape", image: carverCover },
+            "Get your colours right. Build palettes for modern devices, see how they appear on old screens, audit accessibility against the next standards (WCAG 3.0).",
+        url: "https://jackbush.github.io/chromist/",
+        cover: { format: "square", image: chromistCover },
+    },
+    {
+        name: "Metty",
+        description:
+            "Interface prototype for a robotic meditation timer, styled like a record player. Hardware build in progress.",
+        url: "https://jackbush.github.io/metty/",
+        cover: { format: "square", image: mettyCover },
     },
     {
         name: "Zen and the Art of Bikepacking Maintenance",
