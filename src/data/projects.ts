@@ -75,8 +75,8 @@ export const projects: Project[] = [
         url: "https://jackbush.github.io/risolino/",
         cover: { format: "landscape", image: risolinoCover },
         link: {
-            label: "Try a guided tutorial",
-            url: "https://jackbush.github.io/risolino/guide/",
+            label: "Recreate the cover graphic in a guided tutorial",
+            url: "https://jackbush.github.io/risolino/guides/#graphic",
         },
     },
     {
