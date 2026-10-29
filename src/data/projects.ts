@@ -74,10 +74,10 @@ export const projects: Project[] = [
             "Make riso-style prints. Customise the ink blending, shading mode and registration for some analogue charm.",
         url: "https://jackbush.github.io/risolino/",
         cover: { format: "landscape", image: risolinoCover },
-        // link: {
-        //     label: "Learn how to use it",
-        //     url: "https://jackbush.github.io/albums/risolino-guide/",
-        // },
+        link: {
+            label: "Try a guided tutorial",
+            url: "https://jackbush.github.io/risolino/guide/",
+        },
     },
     {
         name: "Atlas Nights",
