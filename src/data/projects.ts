@@ -9,6 +9,7 @@ import carverCover from "../assets/covers/carver.jpg";
 import chromistCover from "../assets/covers/chromist.jpg";
 import geodePoster from "../assets/covers/geode.jpg";
 import geodeVideo from "../assets/covers/geode.mp4?url";
+import lolaCover from "../assets/covers/lola.jpg";
 import mettyCover from "../assets/covers/metty.jpg";
 import quadraCover from "../assets/covers/quadra.jpg";
 import risolinoCover from "../assets/covers/risolino.jpg";
@@ -80,6 +81,19 @@ export const projects: Project[] = [
         },
     },
     {
+        name: "Lola",
+        description: "After an extended bike tour led to daydreaming about nomadic life, we decided to build a home in a van.",
+        url: "https://jackbush.github.io/albums/lola/",
+        cover: { format: "landscape", image: lolaCover },
+    },
+    {
+        name: "Carver",
+        description:
+            "Write in convenient markdown, export as beautiful PDF. Minimal by design, private by default, delightful by nature.",
+        url: "https://jackbush.github.io/carver/",
+        cover: { format: "landscape", image: carverCover },
+    },
+    {
         name: "Atlas Nights",
         description:
             "Spend a night star-gazing in the High Atlas. Choose constellation maps from regional sky cultures.",
@@ -91,11 +105,11 @@ export const projects: Project[] = [
         },
     },
     {
-        name: "Carver",
+        name: "Albums",
         description:
-            "Write in convenient markdown, export as beautiful PDF. Minimal by design, private by default, delightful by nature.",
-        url: "https://jackbush.github.io/carver/",
-        cover: { format: "landscape", image: carverCover },
+            "Old-fashioned photo albums. Because social media is a mess, but it's nice to show your mum what you've been doing.",
+        url: "https://jackbush.github.io/albums/",
+        cover: { format: "landscape", image: albumsCover },
     },
     {
         name: "Blackstar",
@@ -107,13 +121,6 @@ export const projects: Project[] = [
             image: blackstarPoster,
             video: blackstarVideo,
         },
-    },
-    {
-        name: "Albums",
-        description:
-            "Old-fashioned photo albums. Because social media is a mess, but it's nice to show your mum what you've been doing.",
-        url: "https://jackbush.github.io/albums/",
-        cover: { format: "landscape", image: albumsCover },
     },
     {
         name: "Chromist",
