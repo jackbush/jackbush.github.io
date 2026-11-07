@@ -1,7 +1,6 @@
-/** A case study's link; without a `url`, it asks for a password instead. */
 export interface CaseStudy {
     label: string;
-    url?: string;
+    url: string;
 }
 
 export interface Role {
@@ -31,7 +30,12 @@ export const roles: Role[] = [
             "Addressed scaling bottlenecks: Cut back-of-house config time 70%, shipped self-serve API setup tool with AI assistant",
             "Restructured product and engineering into cross-functional, stream-aligned teams",
         ],
-        caseStudies: [{ label: "Rebuilding traceability for batteries" }],
+        caseStudies: [
+            {
+                label: "Rebuilding traceability for batteries",
+                url: "https://www.figma.com/deck/DTAaz6XofhHianDYViPV5q",
+            },
+        ],
     },
     {
         organisation: "OVO Energy",
@@ -44,7 +48,12 @@ export const roles: Role[] = [
             "Rebuilt the customer app from information architecture up, based on mental model research, growing users from 200k to 500k and doubling engagement",
             "Brought every customer product onto one design system at WCAG 2.2 AA, with open clinics and team-wide training",
         ],
-        caseStudies: [{ label: "Redesigning energy for 4m households" }],
+        caseStudies: [
+            {
+                label: "Redesigning energy for 4m households",
+                url: "https://www.figma.com/deck/rDp7uF8cwm4iFXHcfVefWf",
+            },
+        ],
     },
     {
         organisation: "Kantan",
@@ -58,7 +67,12 @@ export const roles: Role[] = [
             "Scaled from four local pilot users to a 1000+ engineer UK-wide network completing 200k jobs/year",
             "Implemented ride-alongs, with every colleague spending a day in the field",
         ],
-        caseStudies: [{ label: "Designing trade tools in the field" }],
+        caseStudies: [
+            {
+                label: "Designing trade tools in the field",
+                url: "https://www.figma.com/deck/R5Ea1GzT2QZ3qja2XfgUpU",
+            },
+        ],
     },
     {
         organisation: "Rocket Lawyer",

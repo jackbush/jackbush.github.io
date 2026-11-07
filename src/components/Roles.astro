@@ -1,7 +1,6 @@
 ---
 // Every role, divided by lines: organisation, then the role and its dates set close as one
-// unit, then the description, any highlights and any case studies. A case study without a
-// url opens the password dialog (CaseStudyDialog.astro).
+// unit, then the description, any highlights and any case studies.
 import { linkTo } from "../data/links";
 import { formatMonth, roles } from "../data/roles";
 import NewTab from "./NewTab.astro";
@@ -27,25 +26,18 @@ import NewTab from "./NewTab.astro";
             {r.caseStudies && (
                 <ul class="case-studies">
                     {r.caseStudies.map(({ label, url }) => {
-                        const Tag = url ? "a" : "button";
-                        const link = url ? linkTo(url) : null;
-                        const attrs = link
-                            ? link.attrs
-                            : {
-                                  type: "button",
-                                  "aria-haspopup": "dialog",
-                                  "data-case-study": label,
-                              };
-                        const text = link?.newTab ? (
-                            <NewTab text={label} />
-                        ) : (
-                            label
-                        );
+                        const link = linkTo(url);
                         return (
                             <li>
-                                <Tag class="case-study text-body" {...attrs}>
-                                    <span class="label">{text}</span>
-                                </Tag>
+                                <a class="case-study text-body" {...link.attrs}>
+                                    <span class="label">
+                                        {link.newTab ? (
+                                            <NewTab text={label} />
+                                        ) : (
+                                            label
+                                        )}
+                                    </span>
+                                </a>
                             </li>
                         );
                     })}
@@ -114,16 +106,9 @@ import NewTab from "./NewTab.astro";
         display: inline-flex;
         align-items: center;
         min-height: 2.75rem;
-        margin: 0;
-        padding: 0;
-        border: 0;
-        background: none;
-        font-family: inherit;
         font-weight: 600;
-        text-align: left;
         text-decoration: none;
         color: var(--color-text-primary);
-        cursor: pointer;
     }
 
     .label {
