@@ -9,7 +9,8 @@ import carverCover from "../assets/covers/carver.jpg";
 import chromistCover from "../assets/covers/chromist.jpg";
 import geodePoster from "../assets/covers/geode.jpg";
 import geodeVideo from "../assets/covers/geode.mp4?url";
-import insteadCover from "../assets/covers/instead.jpg";
+import insteadPoster from "../assets/covers/instead.jpg";
+import insteadVideo from "../assets/covers/instead.mp4?url";
 import lolaCover from "../assets/covers/lola.jpg";
 import mettyCover from "../assets/covers/metty.jpg";
 import quadraCover from "../assets/covers/quadra.jpg";
@@ -23,7 +24,8 @@ import zolaCover from "../assets/covers/zola.png";
 /**
  * A project's cover, which sets its card's layout:
  * - `landscape`: a 3:2 header, cropped to fill; with `video`, a looping preview over `image`
- *   as its poster (the glimmers' own covers, from their sketch folders).
+ *   as its poster (the glimmers' come from their sketch folders, Instead's from `npm run images`
+ *   in its repo).
  * - `phone`: a phone screenshot beside the text, a third of the width.
  * - `square`: a square beside the text, a third of the width, stretched to the card's height
  *   and cropped from the centre.
@@ -89,7 +91,7 @@ export const projects: Project[] = [
         description:
             "Instead of scrolling... A browser extension to suggest more fulfilling activities when visiting time-hole websites, with fresh colours every time.",
         url: "https://jackbush.github.io/instead/",
-        cover: { format: "landscape", image: insteadCover },
+        cover: { format: "landscape", image: insteadPoster, video: insteadVideo },
         link: {
             label: "Install in Chrome",
             url: "https://chromewebstore.google.com/detail/instead/pjlabllieiaoigjcolbkjafijbgomeoh",
