@@ -1,6 +1,8 @@
 // The theme colours, the text, and how a switch between the two pages moves. Every
-// tunable value for the theme and the backdrop lives here. They're tuned live in the
-// "homepage" sketch in the glimmers repo (its settings pane has the same names).
+// tunable value for the theme and the backdrop lives here. They're tuned live in the home
+// page's settings pane (the brush; src/data/settings.ts), which edits the objects here in place
+// (the page and the backdrop read them as they draw), and `npm run tweak` writes what it
+// copies back into this file.
 //
 // One theme colour decides both pages: it's the Projects page and the Roles text, and its
 // inverse is the Projects text and the Roles page. Each page's text is that page's
@@ -71,8 +73,11 @@ const hex = (c: Rgb) =>
 const text = (page: Rgb, opacity: number): Rgb =>
     page.map((v) => v + (1 - 2 * v) * opacity) as Rgb;
 
-/** Everything a theme colour decides: both pages, their text, and the cards' wash. */
-export function colours(themeColour: string) {
+/**
+ * Everything a theme colour decides: both pages, their text, the cards' wash and the
+ * backdrop's ink greys. (The settings pane passes its own card opacity.)
+ */
+export function colours(themeColour: string, card = cardOpacity) {
     const c = rgb(themeColour);
     const pages: Record<Mode, string> = {
         projects: themeColour,
@@ -90,7 +95,7 @@ export function colours(themeColour: string) {
         ]),
     ) as Record<Mode, Record<keyof typeof textOpacity, string>>;
 
-    // The wash behind a project card's text: the theme colour at `cardOpacity`, blended over
+    // The wash behind a project card's text: the theme colour at `card` opacity, blended over
     // the page. Screen lightens a bright theme and multiply deepens a dark one (bright = HSB
     // brightness, the max channel, from 50%). Blending the colour with itself keeps its hue
     // and adds saturation, where a white or black wash would grey it. With the backdrop on,
@@ -99,9 +104,9 @@ export function colours(themeColour: string) {
     const screen = Math.max(...c) >= 0.5;
     const blended = c.map((v) => (screen ? 1 - (1 - v) * (1 - v) : v * v));
     const cardWash = {
-        colour: `rgba(${c.map((v) => Math.round(v * 255)).join(", ")}, ${cardOpacity})`,
+        colour: `rgba(${c.map((v) => Math.round(v * 255)).join(", ")}, ${card})`,
         blend: screen ? "screen" : "multiply",
-        flat: hex(c.map((v, i) => v + (blended[i] - v) * cardOpacity) as Rgb),
+        flat: hex(c.map((v, i) => v + (blended[i] - v) * card) as Rgb),
     };
 
     // As CSS variables, set on <html> (global.css maps them per data-theme).
@@ -114,6 +119,11 @@ export function colours(themeColour: string) {
         vars[`--${mode}-bg`] = pages[mode];
         for (const [kind, colour] of Object.entries(textColours[mode]))
             vars[`--${mode}-${kind}`] = colour;
+    }
+    for (const [kind, opacity] of Object.entries(textOpacity)) {
+        for (const [layer, grey] of Object.entries(inkGreys(opacity)))
+            vars[`--ink-${layer}-${kind}`] =
+                `color(srgb ${grey} ${grey} ${grey})`;
     }
 
     return { pages, textColours, vars };
@@ -131,7 +141,7 @@ export const defaultColours = colours(themeColours[0]);
  *   o ≥ ½: |o − (2o − 1)·bg|      o < ½: (1 − 2o)·bg + o
  * so every glyph is the inverse of whatever page is under it, mid-switch included.
  */
-export function inkGreys(opacity: number) {
+function inkGreys(opacity: number) {
     return opacity >= 0.5
         ? { m: 2 * opacity - 1, d: opacity, k: 0 }
         : { m: 1 - 2 * opacity, d: 0, k: opacity };
@@ -152,17 +162,27 @@ function contrast(a: Rgb, b: Rgb) {
     return (hi + 0.05) / (lo + 0.05);
 }
 
-for (const themeColour of themeColours) {
+/**
+ * Where a theme colour's text falls below the floor: one line each, empty when it all
+ * passes. The build fails on any; the settings pane shows them.
+ */
+export function contrastProblems(themeColour: string) {
     const { pages } = colours(themeColour);
+    const problems: string[] = [];
     for (const mode of MODES) {
         for (const kind of ["main", "minor"] as const) {
             const page = rgb(pages[mode]);
             const ratio = contrast(page, text(page, textOpacity[kind]));
-            if (ratio < MIN_CONTRAST) {
-                throw new Error(
-                    `src/data/theme.ts: ${kind} text on the ${mode} page of ${themeColour} is ${ratio.toFixed(2)}:1, below ${MIN_CONTRAST}:1.`,
+            if (ratio < MIN_CONTRAST)
+                problems.push(
+                    `${kind} text on the ${mode} page of ${themeColour} is ${ratio.toFixed(2)}:1, below ${MIN_CONTRAST}:1.`,
                 );
-            }
         }
     }
+    return problems;
+}
+
+for (const themeColour of themeColours) {
+    const [problem] = contrastProblems(themeColour);
+    if (problem) throw new Error(`src/data/theme.ts: ${problem}`);
 }

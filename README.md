@@ -1,6 +1,6 @@
 # Homepage
 
-About me, some projects and roles. There's a [live-editable version of the interactions here](https://jackbush.github.io/glimmers/homepage/#settings).
+About me, some projects and roles.
 
 The theme colours are in `src/data/theme.ts`; putty is the default, and the left and right arrow keys, or a sideways swipe, cycle through them.
 

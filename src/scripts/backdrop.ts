@@ -7,6 +7,8 @@
 // gives the same one to the page, which clips the new list to it (index.astro).
 //
 // It only draws when something changes: a switch under way, a resize. Time is real seconds.
+// switchMotion and switchShape are read every frame, so the settings pane's edits apply to
+// the next switch (or the one under way).
 
 import {
     MODES,
@@ -19,8 +21,9 @@ import {
 
 /** Switches that can be in flight at once; a third folds the oldest into the base. */
 const MAX_SWITCHES = 2;
-/** Most outline points (switchShape.points must not exceed it). */
+/** Most outline points: more in switchShape.points are ignored. */
 const MAX_POINTS = 12;
+const points = () => Math.min(switchShape.points, MAX_POINTS);
 const MAX_DPR = 2;
 const TAU = Math.PI * 2;
 
@@ -204,7 +207,6 @@ export function createBackdrop(
             ].map((n) => [n, gl!.getUniformLocation(p, n)]),
         );
         sendPages();
-        gl!.uniform1i(u.uPoints, switchShape.points);
         prog = p;
     }
 
@@ -250,7 +252,7 @@ export function createBackdrop(
         live.forEach((sp, s) => {
             const tau = clock - sp.t0;
             switches.set([sp.x, sp.y, reach(tau, short), sp.theme], s * 4);
-            for (let i = 0; i < switchShape.points; i++)
+            for (let i = 0; i < points(); i++)
                 ring[s * MAX_POINTS + i] = point(sp.id, i, tau);
         });
         newestReach = live.length ? switches[(live.length - 1) * 4 + 2] : -1;
@@ -260,6 +262,7 @@ export function createBackdrop(
         gl!.uniform1f(u.uPx, cw / w);
         gl!.uniform1f(u.uBase, base);
         gl!.uniform1i(u.uCount, live.length);
+        gl!.uniform1i(u.uPoints, points());
         gl!.uniform4fv(u.uSwitch, switches);
         gl!.uniform1fv(u.uRing, ring);
         gl!.drawArrays(gl!.TRIANGLES, 0, 3);
@@ -316,7 +319,7 @@ export function createBackdrop(
             return MODES[top];
         },
         radiusAt(a) {
-            const n = switchShape.points;
+            const n = points();
             const b = (live.length - 1) * MAX_POINTS;
             const s = ((((a / TAU) % 1) + 1) % 1) * n;
             const k = Math.floor(s);

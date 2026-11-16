@@ -1,0 +1,521 @@
+---
+// The home page's settings pane and its brush button (Phosphor's paint-brush, regular, MIT). The brush floats in
+// the bottom right corner; the pane slides in from the right (on phones, up from the bottom as
+// a sheet over the lower half) and the brush moves to sit just outside it. The rows are built
+// from src/data/settings.ts by src/scripts/settings/panel.ts.
+---
+
+<button
+    id="settings-brush"
+    aria-label="Settings"
+    aria-expanded="false"
+    aria-controls="settings"
+>
+    <svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+        <path d="M232,32a8,8,0,0,0-8-8c-44.08,0-89.31,49.71-114.43,82.63A60,60,0,0,0,32,164c0,30.88-19.54,44.73-20.47,45.37A8,8,0,0,0,16,224H92a60,60,0,0,0,57.37-77.57C182.3,121.31,232,76.08,232,32ZM92,208H34.63C41.38,198.41,48,183.92,48,164a44,44,0,1,1,44,44Zm32.42-94.45q5.14-6.66,10.09-12.55A76.23,76.23,0,0,1,155,121.49q-5.9,4.94-12.55,10.09A60.54,60.54,0,0,0,124.42,113.55Zm42.7-2.68a92.57,92.57,0,0,0-22-22c31.78-34.53,55.75-45,69.9-47.91C212.17,55.12,201.65,79.09,167.12,110.87Z"></path>
+    </svg>
+</button>
+
+<aside id="settings" aria-hidden="true" aria-label="Settings" inert>
+    <div id="settings-controls"></div>
+    <div class="state">
+        <p id="settings-warning" aria-live="polite"></p>
+        <div class="changes">
+            <input
+                type="checkbox"
+                id="settings-show-changes"
+                checked
+                hidden
+                title="Show the changes. Untick to compare with the defaults."
+                aria-label="Show the changes"
+            />
+            <span id="settings-status"></span>
+            <button id="settings-reset">[reset]</button>
+        </div>
+        <button id="settings-copy">Copy changes</button>
+    </div>
+</aside>
+
+<style is:global>
+    :root {
+        /* How much of the screen the open pane takes: a strip down the right, or on phones a
+           sheet along the bottom. */
+        --pane-right: min(410px, 100vw);
+        --pane-bottom: 0px;
+        --pane-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+
+    @media (max-width: 699px) {
+        :root {
+            --pane-right: 0px;
+            --pane-bottom: 50dvh;
+        }
+    }
+
+    /* ── The brush ── */
+    #settings-brush {
+        position: fixed;
+        right: calc(
+            max(var(--brush-inset), env(safe-area-inset-right)) +
+                var(--pane-open-right, 0px)
+        );
+        bottom: calc(
+            max(var(--brush-inset), env(safe-area-inset-bottom)) +
+                var(--pane-open-bottom, 0px)
+        );
+        z-index: 21;
+        width: var(--brush-size);
+        height: var(--brush-size);
+        padding: 0.55rem;
+        border: 0;
+        border-radius: 50%;
+        cursor: pointer;
+        background: var(--color-text-primary);
+        color: var(--color-bg);
+        opacity: 0.35;
+        transition:
+            opacity 0.2s,
+            right 0.28s var(--pane-ease),
+            bottom 0.28s var(--pane-ease);
+    }
+    #settings-brush svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+    #settings-brush:focus-visible,
+    #settings-brush[aria-expanded="true"] {
+        opacity: 1;
+    }
+    /* Hover only where there's a real pointer: touch browsers keep :hover after a tap. */
+    @media (hover: hover) {
+        #settings-brush:hover {
+            opacity: 1;
+        }
+    }
+    html[data-settings="open"] {
+        --pane-open-right: var(--pane-right);
+        --pane-open-bottom: var(--pane-bottom);
+    }
+    /* With the pane open on a wide screen, the page centres in what's left of it. */
+    @media (min-width: 700px) {
+        html[data-settings="open"] body {
+            padding-right: var(--pane-right);
+        }
+    }
+
+    /* ── The pane ── */
+    #settings,
+    .picker {
+        --ink: #f4f4f4;
+        --ink-dim: rgba(255, 255, 255, 0.5);
+        --line: rgba(255, 255, 255, 0.12);
+        --accent: #fff;
+        --panel: #000;
+        --mono:
+            ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    /* The page's colour fades and focus rings don't belong in here. */
+    #settings *,
+    .picker * {
+        transition: none;
+    }
+    #settings :focus-visible,
+    .picker :focus-visible {
+        outline: 1px solid var(--accent);
+        outline-offset: 1px;
+    }
+
+    #settings {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 20;
+        width: var(--pane-right);
+        display: flex;
+        flex-direction: column;
+        color: var(--ink);
+        background: var(--panel);
+        border-left: 1px solid var(--line);
+        font: 11px/1.4 var(--mono);
+        transform: translateX(102%);
+        /* Closed, it's hidden once it has slid out, not just moved off screen: iOS Safari
+           tints its toolbar from what's drawn behind it. Opening shows it at once, then it
+           slides in. */
+        visibility: hidden;
+        transition:
+            transform 0.28s var(--pane-ease),
+            visibility 0s linear 0.28s;
+    }
+    html[data-settings="open"] #settings {
+        transform: none;
+        visibility: visible;
+        transition:
+            transform 0.28s var(--pane-ease),
+            visibility 0s;
+    }
+    @media (max-width: 699px) {
+        #settings {
+            top: auto;
+            left: 0;
+            width: 100%;
+            height: var(--pane-bottom);
+            border-left: 0;
+            border-top: 1px solid var(--line);
+            transform: translateY(102%);
+        }
+    }
+
+    #settings-controls {
+        flex: 1;
+        overflow-y: auto;
+        padding: max(4px, env(safe-area-inset-top)) 0 10px;
+        overscroll-behavior: contain;
+    }
+    /* Rows are 3px apart top and bottom, so 3px more under the last row matches the gap
+       between rows. */
+    #settings .group {
+        border-bottom: 1px solid var(--line);
+    }
+    #settings .group[open] {
+        padding-bottom: 3px;
+    }
+    #settings .group summary {
+        cursor: pointer;
+        padding: 10px 14px;
+        list-style: none;
+        user-select: none;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--ink);
+        font-size: 10px;
+    }
+    #settings .group summary::-webkit-details-marker {
+        display: none;
+    }
+    #settings .group summary::before {
+        content: "▸ ";
+        display: inline-block;
+        width: 1.2em;
+    }
+    #settings .group[open] summary::before {
+        content: "▾ ";
+    }
+
+    #settings .row {
+        display: grid;
+        grid-template-columns: 124px 1fr 84px;
+        align-items: center;
+        gap: 8px;
+        padding: 3px 14px;
+    }
+    /* A checkbox keeps the three columns and sits in the last, lined up with the number boxes. */
+    #settings .row-bool input[type="checkbox"] {
+        grid-column: 3;
+    }
+    /* A dependent setting whose parent's value makes it irrelevant (`when` in settings.ts). */
+    #settings .row[hidden] {
+        display: none;
+    }
+    #settings .lbl {
+        color: var(--ink-dim);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        cursor: default;
+        user-select: none;
+    }
+    #settings .row.changed .lbl {
+        color: var(--ink);
+    }
+
+    #settings .track {
+        position: relative;
+        display: block;
+    }
+    #settings .track .home {
+        position: absolute;
+        top: 4px;
+        width: 1px;
+        height: 10px;
+        margin-left: -0.5px;
+        background: var(--ink-dim);
+        opacity: 0.6;
+        pointer-events: none;
+    }
+    #settings .track .home[hidden],
+    #settings .track .rerange[hidden] {
+        display: none;
+    }
+    #settings .rerange {
+        position: absolute;
+        right: 0;
+        top: -9px;
+        padding: 0 2px;
+        border: 0;
+        background: none;
+        color: var(--ink-dim);
+        font: 10px/1 var(--mono);
+        cursor: pointer;
+    }
+    #settings .rerange.at-min {
+        right: auto;
+        left: 0;
+    }
+    #settings .rerange:hover {
+        color: var(--ink);
+    }
+    #settings-controls.bypassed {
+        opacity: 0.45;
+        pointer-events: none;
+    }
+    #settings-show-changes {
+        margin: 0 4px 0 0;
+        vertical-align: -2px;
+        accent-color: var(--accent);
+    }
+    #settings input[type="range"] {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 100%;
+        height: 18px;
+        background: transparent;
+        margin: 0;
+    }
+    #settings input[type="range"]::-webkit-slider-runnable-track {
+        height: 2px;
+        background: rgba(255, 255, 255, 0.2);
+    }
+    #settings input[type="range"]::-moz-range-track {
+        height: 2px;
+        background: rgba(255, 255, 255, 0.2);
+    }
+    #settings input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 10px;
+        height: 10px;
+        margin-top: -4px;
+        border-radius: 50%;
+        background: var(--ink-dim);
+    }
+    #settings input[type="range"]::-moz-range-thumb {
+        width: 10px;
+        height: 10px;
+        border: 0;
+        border-radius: 50%;
+        background: var(--ink-dim);
+    }
+    #settings .row.changed input[type="range"]::-webkit-slider-thumb {
+        background: var(--accent);
+    }
+    #settings .row.changed input[type="range"]::-moz-range-thumb {
+        background: var(--accent);
+    }
+
+    #settings .num {
+        width: 100%;
+        padding: 2px 4px;
+        border: 1px solid var(--line);
+        border-radius: 2px;
+        background: #0d0d0d;
+        color: var(--ink);
+        font: 11px var(--mono);
+    }
+    /* No spinner arrows on number boxes — the sliders do the stepping. */
+    #settings .num::-webkit-outer-spin-button,
+    #settings .num::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    #settings .num[type="number"] {
+        -moz-appearance: textfield;
+        appearance: textfield;
+    }
+    #settings .swatch {
+        width: 100%;
+        height: 18px;
+        padding: 0;
+        border: 1px solid var(--line);
+        cursor: pointer;
+    }
+    #settings input[type="checkbox"] {
+        justify-self: start;
+        accent-color: var(--accent);
+        margin: 0;
+    }
+
+    #settings .state {
+        padding: 12px 14px max(14px, env(safe-area-inset-bottom));
+        border-top: 1px solid var(--line);
+        display: grid;
+        gap: 8px;
+    }
+    #settings-warning {
+        margin: 0;
+        font: inherit;
+        color: #ffb199;
+        white-space: pre-line;
+    }
+    #settings-warning:empty {
+        display: none;
+    }
+    #settings .changes {
+        color: var(--ink-dim);
+    }
+    #settings-reset {
+        background: none;
+        border: 0;
+        padding: 0;
+        color: var(--ink);
+        font: inherit;
+        cursor: pointer;
+    }
+    #settings-reset:hover {
+        text-decoration: underline;
+    }
+    #settings-reset[hidden] {
+        display: none;
+    }
+    #settings-copy {
+        width: 100%;
+        padding: 9px;
+        border: 0;
+        border-radius: 2px;
+        cursor: pointer;
+        background: var(--ink);
+        color: #000;
+        font: 600 11px var(--mono);
+        letter-spacing: 0.06em;
+    }
+    #settings-copy:hover {
+        background: #fff;
+    }
+
+    /* The colour picker (src/scripts/settings/colour-picker.ts): a window over the pane on
+       desktop; on phones it takes the sheet's place exactly. */
+    .picker {
+        position: fixed;
+        z-index: 22;
+        display: flex;
+        flex-direction: column;
+        background: var(--panel);
+        color: var(--ink);
+        font: 11px/1.4 var(--mono);
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        overflow: hidden;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+    }
+    .picker[hidden] {
+        display: none;
+    }
+    .picker-bar {
+        cursor: move;
+        touch-action: none;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 6px 6px 6px 10px;
+        border-bottom: 1px solid var(--line);
+    }
+    .picker-title {
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        font-size: 10px;
+        user-select: none;
+    }
+    .picker-close {
+        width: 22px;
+        height: 22px;
+        padding: 4px;
+        border: 0;
+        border-radius: 2px;
+        background: none;
+        color: var(--ink-dim);
+        cursor: pointer;
+    }
+    .picker-close:hover,
+    .picker-close:focus-visible {
+        color: var(--ink);
+        background: rgba(255, 255, 255, 0.1);
+        outline: none;
+    }
+    .picker-close svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.6;
+        stroke-linecap: round;
+    }
+    /* A black hairline: the square's top row is white at every hue, so this always
+       separates the two. */
+    .picker-swatch {
+        height: 48px;
+        flex: none;
+        border-bottom: 1px solid #000;
+    }
+    .picker-square {
+        position: relative;
+        aspect-ratio: 4 / 3;
+        touch-action: none;
+        cursor: crosshair;
+        outline: none;
+    }
+    .picker-canvas {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+    .picker-hue {
+        position: relative;
+        height: 24px;
+        flex: none;
+        border-top: 1px solid var(--line);
+        touch-action: none;
+        cursor: ew-resize;
+        outline: none;
+    }
+    .picker-dot {
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        margin: -7px 0 0 -7px;
+        border: 2px solid #fff;
+        border-radius: 50%;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+        pointer-events: none;
+    }
+    .picker-hue .picker-dot {
+        top: 50%;
+    }
+    .picker[data-keys] .picker-square:focus .picker-dot,
+    .picker[data-keys] .picker-hue:focus .picker-dot {
+        box-shadow:
+            0 0 0 1px rgba(0, 0, 0, 0.5),
+            0 0 0 3px var(--accent);
+    }
+    @media (max-width: 699px) {
+        .picker {
+            inset: auto 0 0 0;
+            width: auto;
+            height: var(--pane-bottom);
+            border: 0;
+            border-top: 1px solid var(--line);
+            border-radius: 0;
+            box-shadow: none;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        .picker-square {
+            flex: 1;
+            aspect-ratio: auto;
+        }
+        .picker-bar {
+            cursor: default;
+        }
+    }
+</style>

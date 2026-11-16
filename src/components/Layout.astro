@@ -1,11 +1,6 @@
 ---
 import "../styles/global.css";
-import {
-    defaultColours,
-    inkGreys,
-    textOpacity,
-    type Mode,
-} from "../data/theme";
+import { defaultColours, type Mode } from "../data/theme";
 
 interface Props {
     title?: string;
@@ -14,14 +9,9 @@ interface Props {
 
 const { title = "Jack Bush", theme = "projects" } = Astro.props;
 
-// The default theme's colours as CSS variables (the page script swaps them for another theme)
-// and the backdrop's ink greys (see inkGreys), all from src/data/theme.ts.
-const vars: Record<string, string> = { ...defaultColours.vars };
-for (const [kind, opacity] of Object.entries(textOpacity)) {
-    for (const [layer, grey] of Object.entries(inkGreys(opacity)))
-        vars[`--ink-${layer}-${kind}`] = `color(srgb ${grey} ${grey} ${grey})`;
-}
-const style = Object.entries(vars)
+// The default theme's colours and the backdrop's ink greys as CSS variables, from
+// src/data/theme.ts (the page script swaps them for another theme).
+const style = Object.entries(defaultColours.vars)
     .map(([k, v]) => `${k}: ${v}`)
     .join("; ");
 ---

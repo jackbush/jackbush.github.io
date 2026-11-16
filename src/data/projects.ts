@@ -9,6 +9,7 @@ import carverCover from "../assets/covers/carver.jpg";
 import chromistCover from "../assets/covers/chromist.jpg";
 import geodePoster from "../assets/covers/geode.jpg";
 import geodeVideo from "../assets/covers/geode.mp4?url";
+import insteadCover from "../assets/covers/instead.jpg";
 import lolaCover from "../assets/covers/lola.jpg";
 import mettyCover from "../assets/covers/metty.jpg";
 import quadraCover from "../assets/covers/quadra.jpg";
@@ -46,13 +47,9 @@ interface Base {
     link?: Link;
 }
 
-/**
- * A card links to `url`, or plays a Vimeo video in place (a 16:9 header) instead. A card with
- * only a `link` is just the bar, and isn't in content.json.
- */
-export type Project =
-    | (Base & ({ url: string; cover?: Cover } | { vimeo: string }))
-    | { link: Link };
+/** A card links to `url`, or plays a Vimeo video in place (a 16:9 header) instead. */
+export type Project = Base &
+    ({ url: string; cover?: Cover } | { vimeo: string });
 
 export const projects: Project[] = [
     {
@@ -82,9 +79,21 @@ export const projects: Project[] = [
     },
     {
         name: "Lola",
-        description: "After an extended bike tour led to daydreaming about nomadic life, we decided to build a home in a van.",
+        description:
+            "After an extended bike tour led to daydreaming about nomadic life, we decided to build a home in a van.",
         url: "https://jackbush.github.io/albums/lola/",
         cover: { format: "landscape", image: lolaCover },
+    },
+    {
+        name: "Instead",
+        description:
+            "Instead of going for a scroll... A browser extension for to swap time-hole websites for more fulfilling activities, with different colours every time.",
+        url: "https://jackbush.github.io/instead/",
+        cover: { format: "landscape", image: insteadCover },
+        link: {
+            label: "Install in Chrome",
+            url: "https://chromewebstore.google.com/detail/instead/pjlabllieiaoigjcolbkjafijbgomeoh",
+        },
     },
     {
         name: "Carver",
@@ -125,7 +134,7 @@ export const projects: Project[] = [
     {
         name: "Chromist",
         description:
-            "Get your colours right. Build palettes for modern devices, see how they appear on old screens, audit accessibility against the next standards (WCAG 3.0).",
+            "Get your colours right. Build palettes for modern devices, see how they appear on old screens, audit accessibility against any standards.",
         url: "https://jackbush.github.io/chromist/",
         cover: { format: "square", image: chromistCover },
     },
@@ -173,13 +182,6 @@ export const projects: Project[] = [
             "An experiment in browser-based ray tracing. Open the settings to grow your own crystals.",
         url: "https://jackbush.github.io/glimmers/geode/",
         cover: { format: "landscape", image: geodePoster, video: geodeVideo },
-    },
-    {
-        link: {
-            label: "Explore this site's theme and transition",
-            // The homepage sketch draws this page's copy; #settings opens its pane.
-            url: "https://jackbush.github.io/glimmers/homepage/#settings",
-        },
     },
 ];
 

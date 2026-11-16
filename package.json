@@ -10,6 +10,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "tweak": "node scripts/tweak.ts",
     "format": "prettier --write ."
   },
   "dependencies": {

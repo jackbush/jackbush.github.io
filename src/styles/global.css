@@ -12,6 +12,8 @@
     --radius: 0.5rem; /* corners of the toggle and the project cards */
     --gutter: 1.5rem; /* the page's side margins, and the space between project cards */
     --card-padding: 1rem; /* around a project card's text */
+    --brush-size: 2.75rem; /* the settings brush, floating in the bottom right corner */
+    --brush-inset: 1rem; /* its gap from the screen's edges */
 }
 
 @media (max-width: 30rem) {

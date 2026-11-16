@@ -13,8 +13,6 @@ interface Props {
 
 const { project, flip = false } = Astro.props;
 const { link: more } = project;
-// A card with no name is just its link bar.
-const info = "name" in project ? project : null;
 const vimeo = "vimeo" in project ? project.vimeo : null;
 const cover = "cover" in project ? project.cover : null;
 const side = cover?.format === "phone" || cover?.format === "square";
@@ -43,53 +41,55 @@ const NARROW = {
             { flip: side && flip },
         ]}
     >
-        {info && (
-            <Tag class="main" {...link?.attrs}>
-                {vimeo && (
-                    <div class="cover">
-                        <iframe
-                            src={`https://player.vimeo.com/video/${vimeo}?dnt=1&title=0&byline=0&portrait=0`}
-                            title={`${info.name} video`}
-                            loading="lazy"
-                            allow="autoplay; fullscreen; picture-in-picture"
-                            referrerpolicy="strict-origin-when-cross-origin"
-                        />
-                    </div>
-                )}
-                {cover && (
-                    <div
-                        class="cover"
-                        style={
-                            cover.format === "phone"
-                                ? `aspect-ratio: ${cover.image.width} / ${cover.image.height}`
-                                : undefined
-                        }
-                    >
-                        <Image
-                            src={cover.image}
-                            alt=""
-                            {...(side ? NARROW : WIDE)}
-                        />
-                        {cover.format === "landscape" && cover.video && (
-                            <video
-                                src={cover.video}
-                                muted
-                                loop
-                                playsinline
-                                preload="none"
-                                aria-hidden="true"
-                            />
-                        )}
-                    </div>
-                )}
-                <div class="text">
-                    <h3 class="name">
-                        {link?.newTab ? <NewTab text={info.name} /> : info.name}
-                    </h3>
-                    <p class="description">{info.description}</p>
+        <Tag class="main" {...link?.attrs}>
+            {vimeo && (
+                <div class="cover">
+                    <iframe
+                        src={`https://player.vimeo.com/video/${vimeo}?dnt=1&title=0&byline=0&portrait=0`}
+                        title={`${project.name} video`}
+                        loading="lazy"
+                        allow="autoplay; fullscreen; picture-in-picture"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                    />
                 </div>
-            </Tag>
-        )}
+            )}
+            {cover && (
+                <div
+                    class="cover"
+                    style={
+                        cover.format === "phone"
+                            ? `aspect-ratio: ${cover.image.width} / ${cover.image.height}`
+                            : undefined
+                    }
+                >
+                    <Image
+                        src={cover.image}
+                        alt=""
+                        {...(side ? NARROW : WIDE)}
+                    />
+                    {cover.format === "landscape" && cover.video && (
+                        <video
+                            src={cover.video}
+                            muted
+                            loop
+                            playsinline
+                            preload="none"
+                            aria-hidden="true"
+                        />
+                    )}
+                </div>
+            )}
+            <div class="text">
+                <h3 class="name">
+                    {link?.newTab ? (
+                        <NewTab text={project.name} />
+                    ) : (
+                        project.name
+                    )}
+                </h3>
+                <p class="description">{project.description}</p>
+            </div>
+        </Tag>
         {more && moreLink && (
             <a class="more" {...moreLink.attrs}>
                 <span class="text-body">{more.label}</span>
@@ -129,11 +129,6 @@ const NARROW = {
         gap: 1rem;
         padding: 0.75rem var(--card-padding);
         border-top: 1px solid var(--color-text-primary);
-    }
-
-    /* On its own, the card's box is its frame. */
-    .more:first-child {
-        border-top: 0;
     }
 
     .more .text-body {
