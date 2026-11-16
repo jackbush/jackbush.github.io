@@ -87,7 +87,7 @@ export const projects: Project[] = [
     {
         name: "Instead",
         description:
-            "Instead of going for a scroll... A browser extension for to swap time-hole websites for more fulfilling activities, with different colours every time.",
+            "Instead of scrolling... A browser extension to suggest more fulfilling activities when visiting time-hole websites, with fresh colours every time.",
         url: "https://jackbush.github.io/instead/",
         cover: { format: "landscape", image: insteadCover },
         link: {
