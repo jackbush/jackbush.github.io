@@ -30,6 +30,9 @@ import NewTab from "./NewTab.astro";
                         return (
                             <li>
                                 <a class="case-study text-body" {...link.attrs}>
+                                    <svg class="icon" viewBox="20 12 216 222" aria-hidden="true">
+                                        <path d="M216,36H140V24a12,12,0,0,0-24,0V36H40A20,20,0,0,0,20,56V176a20,20,0,0,0,20,20H71l-16.4,20.5a12,12,0,0,0,18.74,15l28.4-35.5h52.46l28.4,35.5a12,12,0,0,0,18.74-15L185,196h31a20,20,0,0,0,20-20V56A20,20,0,0,0,216,36Zm-4,136H44V60H212Z" />
+                                    </svg>
                                     <span class="label">
                                         {link.newTab ? (
                                             <NewTab text={label} />
@@ -48,9 +51,7 @@ import NewTab from "./NewTab.astro";
 </ul>
 
 <style>
-    /* Where highlights' and case studies' text starts. */
     .roles {
-        --mark-indent: 1.5rem;
         padding-top: var(--card-padding);
     }
 
@@ -80,7 +81,7 @@ import NewTab from "./NewTab.astro";
     .highlights li {
         position: relative;
         margin: 0;
-        padding-left: var(--mark-indent);
+        padding-left: 1.5rem;
     }
 
     .highlights li + li {
@@ -100,15 +101,24 @@ import NewTab from "./NewTab.astro";
         margin: 0.5rem 0 0;
     }
 
-    /* A plain underlined line of text, a step heavier than the body, led by an article icon
-       (Phosphor's). Hover fades it a little; a tap only for as long as the finger is down. */
+    /* A plain underlined line of text, a step heavier than the body, led by Phosphor's
+       presentation (bold). Hover fades it a little; a tap only for as long as the finger is
+       down. */
     .case-study {
         display: inline-flex;
         align-items: center;
+        gap: 0.5rem;
         min-height: 2.75rem;
         font-weight: 600;
         text-decoration: none;
         color: var(--color-text-primary);
+    }
+
+    .icon {
+        flex: none;
+        width: 1rem;
+        height: 1rem;
+        fill: currentColor;
     }
 
     .label {
@@ -116,20 +126,9 @@ import NewTab from "./NewTab.astro";
         text-underline-offset: 2px;
     }
 
-    /* Phosphor's article, redrawn narrower and taller, in pixels at its size. It sits in the
-       line like a letter, so it wraps with the label, and the underline skips it. The gap
-       makes up the rest of a highlight's indent, so the label starts where a highlight's text
-       does. */
-    .label::before {
-        --width: 0.875rem;
-        content: "";
-        display: inline-block;
-        width: var(--width);
-        aspect-ratio: 14 / 17.5;
-        margin-right: calc(var(--mark-indent) - var(--width));
-        vertical-align: middle;
-        background: currentColor;
-        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 17.5' fill='none' stroke='%23000' stroke-width='1.25' stroke-linecap='round'%3E%3Crect x='0.625' y='0.625' width='12.75' height='16.25' rx='0.625'/%3E%3Cpath d='M4.375 5h5.25M4.375 7.5h5.25M4.375 10h5.25M4.375 12.5h5.25'/%3E%3C/svg%3E");
+    /* The new-tab mark only shows while the link is hovered or focused. */
+    .label :global(.mark svg) {
+        opacity: 0;
     }
 
     /* Touch screens never get :hover, which would stick after a tap. On them :active, and the
@@ -139,6 +138,15 @@ import NewTab from "./NewTab.astro";
         .case-study:hover {
             opacity: 0.8;
         }
+
+        .case-study:hover .label :global(.mark svg) {
+            opacity: 1;
+        }
+    }
+
+    .case-study:focus-visible .label :global(.mark svg),
+    .case-study.hover .label :global(.mark svg) {
+        opacity: 1;
     }
 
     .case-study:active,
@@ -147,7 +155,8 @@ import NewTab from "./NewTab.astro";
     }
 
     @media (prefers-reduced-motion: no-preference) {
-        .case-study {
+        .case-study,
+        .label :global(.mark svg) {
             transition: opacity 150ms ease;
         }
     }

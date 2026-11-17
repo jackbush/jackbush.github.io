@@ -32,7 +32,7 @@ export const roles: Role[] = [
         ],
         caseStudies: [
             {
-                label: "Rebuilding traceability for batteries",
+                label: "Turning a consultancy into a product company",
                 url: "https://www.figma.com/deck/DTAaz6XofhHianDYViPV5q",
             },
         ],
@@ -50,7 +50,7 @@ export const roles: Role[] = [
         ],
         caseStudies: [
             {
-                label: "Redesigning energy for 4m households",
+                label: "Rebuilding an app around how customers think",
                 url: "https://www.figma.com/deck/rDp7uF8cwm4iFXHcfVefWf",
             },
         ],
