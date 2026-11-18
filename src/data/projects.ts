@@ -1,4 +1,5 @@
 import type { ImageMetadata } from "astro";
+import type { Browser } from "./links";
 
 import albumsCover from "../assets/covers/albums-norway.jpg";
 import atlasNightsPoster from "../assets/covers/atlas-nights.jpg";
@@ -40,7 +41,11 @@ export type Cover =
       }
     | { format: "phone" | "square"; image: ImageMetadata };
 
-type Link = { label: string; url: string };
+/**
+ * With a URL per browser, the bar goes to the visitor's browser's, and doesn't show in any
+ * other (see `currentBrowser` in links.ts).
+ */
+type Link = { label: string; url: string | Record<Browser, string> };
 
 interface Base {
     name: string;
@@ -91,10 +96,18 @@ export const projects: Project[] = [
         description:
             "Instead of scrolling... A browser extension to suggest more fulfilling activities when visiting time-hole websites, with fresh colours every time.",
         url: "https://jackbush.github.io/instead/",
-        cover: { format: "landscape", image: insteadPoster, video: insteadVideo },
+        cover: {
+            format: "landscape",
+            image: insteadPoster,
+            video: insteadVideo,
+        },
         link: {
-            label: "Install in Chrome",
-            url: "https://chromewebstore.google.com/detail/instead/pjlabllieiaoigjcolbkjafijbgomeoh",
+            label: "Add it to your browser",
+            url: {
+                chrome: "https://chromewebstore.google.com/detail/instead/pjlabllieiaoigjcolbkjafijbgomeoh",
+                firefox:
+                    "https://addons.mozilla.org/firefox/addon/instead-do-this/",
+            },
         },
     },
     {

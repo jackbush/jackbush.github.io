@@ -13,13 +13,28 @@ interface Props {
 
 const { project, flip = false } = Astro.props;
 const { link: more } = project;
+// A link per browser starts with none: the page script picks the visitor's (data-chrome,
+// data-firefox) or leaves the bar hidden.
+const perBrowser = more && typeof more.url !== "string" ? more.url : null;
+const moreLink =
+    more &&
+    linkTo(perBrowser ? Object.values(perBrowser)[0] : (more.url as string));
+const moreAttrs = perBrowser
+    ? {
+          ...moreLink!.attrs,
+          href: undefined,
+          hidden: true,
+          ...Object.fromEntries(
+              Object.entries(perBrowser).map(([b, url]) => [`data-${b}`, url]),
+          ),
+      }
+    : moreLink?.attrs;
 const vimeo = "vimeo" in project ? project.vimeo : null;
 const cover = "cover" in project ? project.cover : null;
 const side = cover?.format === "phone" || cover?.format === "square";
 // A video plays in place, so its card isn't a link.
 const Tag = vimeo ? "div" : "a";
 const link = "url" in project ? linkTo(project.url) : null;
-const moreLink = more && linkTo(more.url);
 
 // The container is 740px less its gutters; a side cover is a third of that, or full width
 // once stacked (narrow cards).
@@ -91,7 +106,7 @@ const NARROW = {
             </div>
         </Tag>
         {more && moreLink && (
-            <a class="more" {...moreLink.attrs}>
+            <a class="more" {...moreAttrs}>
                 <span class="text-body">{more.label}</span>
                 {moreLink.newTab ? <NewTab /> : <Chevron />}
             </a>
@@ -129,6 +144,11 @@ const NARROW = {
         gap: 1rem;
         padding: 0.75rem var(--card-padding);
         border-top: 1px solid var(--color-text-primary);
+    }
+
+    /* A bar with a link per browser stays hidden unless the page script finds one. */
+    .more[hidden] {
+        display: none;
     }
 
     .more .text-body {

@@ -97,6 +97,7 @@ const cards = projects.map((project) => {
 </Layout>
 
 <script>
+    import { currentBrowser } from "../data/links";
     import { createBackdrop } from "../scripts/backdrop";
     import { setupSettings } from "../scripts/settings";
     import {
@@ -125,6 +126,17 @@ const cards = projects.map((project) => {
         projects: "Projects",
         roles: "Roles",
     };
+
+    // Before the ink copies, so they show the same bars.
+    const browser = currentBrowser();
+    for (const bar of main.querySelectorAll<HTMLAnchorElement>(
+        "a.more[hidden]",
+    )) {
+        const url = browser && bar.dataset[browser];
+        if (!url) continue;
+        bar.href = url;
+        bar.hidden = false;
+    }
 
     // The ink copies (see Backdrop in global.css): the page again, three times, drawing only.
     // No ids (they'd clash), hidden from assistive tech, never focusable. Shown only once the
